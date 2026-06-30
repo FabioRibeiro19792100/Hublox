@@ -122,6 +122,8 @@ function App() {
   const [qSty, setQSty] = useState(null);
   const [tab, setTab] = useState("sobre");
   const [sub, setSub] = useState("main");
+  const [journeyDevice, setJourneyDevice] = useState(null);
+  const [journeyView, setJourneyView] = useState("inline");
   const [ecoOpen, setEcoOpen] = useState(null);
   const [ecoSubOpen, setEcoSubOpen] = useState(null);
   const [modal, setModal] = useState(null);
@@ -152,6 +154,11 @@ function App() {
     });
   }, [sub, tab]);
 
+  useEffect(() => {
+    if (sub === "mob") setJourneyDevice("mobile");
+    if (sub === "bilde" || sub === "tut") setJourneyDevice("computer");
+  }, [sub]);
+
   const runLoading = (cb, duration = 900) => {
     setLoading(true);
     cb();
@@ -173,11 +180,17 @@ function App() {
     { key: "pais", label: "Para pais", subtitle: "Guia para responsáveis" },
   ];
 
-  const toHub = (nextTab, nextSub = "main") =>
+  const toHub = (nextTab, nextSub = "main", nextJourneyView = "inline") =>
     runLoading(() => {
       setScreen("hub");
       setTab(nextTab);
       setSub(nextSub);
+      setJourneyView(nextJourneyView);
+      if (nextTab === "jornada") {
+        setJourneyDevice(
+          nextSub === "mob" ? "mobile" : nextSub === "bilde" || nextSub === "tut" ? "computer" : null,
+        );
+      }
     });
 
   const icon = (name, color = "currentColor") => <Icon name={name} color={color} />;
@@ -272,7 +285,7 @@ function App() {
                 title="Criar no Celular"
                 body="Studio mobile — app de criação da Mastertech para celular."
                 button="Ir para o Studio mobile →"
-                onClick={() => toHub("jornada", "mob")}
+                onClick={() => toHub("jornada", "mob", "detail")}
               />
             )}
             {qResult === "bilde" && (
@@ -282,7 +295,7 @@ function App() {
                 title="Criar com IA"
                 body="Bilde — conversa com você por perguntas e monta o jogo junto."
                 button="Ir para o Bilde →"
-                onClick={() => toHub("jornada", "bilde")}
+                onClick={() => toHub("jornada", "bilde", "detail")}
               />
             )}
             {qResult === "tut" && (
@@ -292,7 +305,7 @@ function App() {
                 title="Aprender com Tutoriais"
                 body="Você constrói cada parte do jogo com a própria mão."
                 button="Ir para os Tutoriais →"
-                onClick={() => toHub("jornada", "tut")}
+                onClick={() => toHub("jornada", "tut", "detail")}
               />
             )}
 
@@ -315,7 +328,7 @@ function App() {
                   <button
                     key={item.key}
                     className={`side-link ${tab === item.key ? "active" : ""}`}
-                    onClick={() => runLoading(() => { setTab(item.key); setSub("main"); })}
+                    onClick={() => runLoading(() => { setTab(item.key); setSub("main"); setJourneyView("inline"); setJourneyDevice(null); })}
                   >
                     <span className="side-icon">{icon(navIcon(item.key), "rgba(255,255,255,.75)")}</span>
                     <span className="side-copy">
@@ -343,7 +356,7 @@ function App() {
                       <button
                         key={item.key}
                         className={`mobile-tab ${tab === item.key ? "active" : ""}`}
-                        onClick={() => runLoading(() => { setTab(item.key); setSub("main"); })}
+                        onClick={() => runLoading(() => { setTab(item.key); setSub("main"); setJourneyView("inline"); setJourneyDevice(null); })}
                       >
                         {item.label}
                       </button>
@@ -354,121 +367,233 @@ function App() {
             )}
 
             <div className="content-shell">
-              {tab === "jornada" && (
+              {tab === "jornada" && journeyView === "detail" && sub !== "main" && (
+                <section>
+                  {sub === "mob" && (
+                    <DetailScreen
+                      accent={palette.yellowText}
+                      kicker="Studio mobile"
+                      title="Criar no Celular"
+                      subline="app · Mastertech · celular"
+                      videoStub
+                      cards={[
+                        "App da Mastertech para criar no celular, com interface pensada para tela pequena.",
+                        "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar.",
+                        "No Studio mobile, no celular. App separado do Roblox Studio.",
+                      ]}
+                      slides={mobShots}
+                      slide={mobSlide}
+                      setSlide={setMobSlide}
+                      action="Abrir o Studio mobile →"
+                      actionTheme="yellow"
+                      onAction={() => setModal({ label: "Studio mobile" })}
+                      onBack={() => {
+                        setJourneyView("inline");
+                        setSub("main");
+                      }}
+                    />
+                  )}
+                  {sub === "bilde" && (
+                    <DetailScreen
+                      accent={palette.red}
+                      kicker="Bilde"
+                      title="Criar com IA"
+                      subline="plugin · Roblox Studio · computador"
+                      videoStub
+                      cards={[
+                        "Plugin que entrevista você sobre o jogo que quer criar e vai construindo junto com as respostas.",
+                        "Você responde perguntas sobre personagem, cenário e objetivo. O Bilde monta o projeto.",
+                        "No Roblox Studio, no computador.",
+                      ]}
+                      slides={bildeShots}
+                      slide={bildeSlide}
+                      setSlide={setBildeSlide}
+                      action="Abrir no Roblox Studio →"
+                      onAction={() => setModal({ label: "Roblox Studio" })}
+                      onBack={() => {
+                        setJourneyView("inline");
+                        setSub("main");
+                      }}
+                    />
+                  )}
+                  {sub === "tut" && (
+                    <DetailScreen
+                      accent={palette.blue}
+                      kicker="Tutoriais"
+                      title="Aprender com Tutoriais"
+                      subline="plugin · Roblox Studio · computador"
+                      videoStub
+                      cards={[
+                        "Plugin que conduz por etapas — em cada etapa você constrói uma parte do jogo com a própria mão.",
+                        "Segue o passo a passo e ao terminar já tem um jogo publicável. Aprende fazendo.",
+                        "No Roblox Studio, no computador.",
+                      ]}
+                      slides={tutShots}
+                      slide={tutSlide}
+                      setSlide={setTutSlide}
+                      action="Abrir no Roblox Studio →"
+                      onAction={() => setModal({ label: "Roblox Studio" })}
+                      onBack={() => {
+                        setJourneyView("inline");
+                        setSub("main");
+                      }}
+                    />
+                  )}
+                </section>
+              )}
+
+              {tab === "jornada" && journeyView === "inline" && (
                 <section>
                   <h2 className="page-title">Sua jornada</h2>
                   <p className="page-subtitle">Três caminhos para criar. Um destino: seu jogo no ar.</p>
 
-                  <div className="section-label yellow">No celular</div>
-                  <JourneyCard
-                    accent="yellow"
-                    kicker="Studio mobile · App Mastertech"
-                    title="Criar no Celular"
-                    body="Cria e publica sem computador"
-                    note="Só o celular basta. Cria e publica tudo pelo telefone."
-                    onClick={() => setSub(sub === "mob" ? "main" : "mob")}
-                  />
-                  {sub === "mob" && (
-                    <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                      <DetailScreen
-                        accent={palette.yellowText}
-                        kicker="Studio mobile"
-                        title="Criar no Celular"
-                        subline="app · Mastertech · celular"
-                        videoStub
-                        cards={[
-                          "App da Mastertech para criar no celular, com interface pensada para tela pequena.",
-                          "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar.",
-                          "No Studio mobile, no celular. App separado do Roblox Studio.",
-                        ]}
-                        slides={mobShots}
-                        slide={mobSlide}
-                        setSlide={setMobSlide}
-                        action="Abrir o Studio mobile →"
-                        actionTheme="yellow"
-                        onAction={() => setModal({ label: "Studio mobile" })}
-                        onBack={() => setSub("main")}
-                        inline
-                      />
-                    </InlineJourneyDetail>
-                  )}
-
-                  <div className="split-line">
-                    <div />
-                    <span>celular como ponto de partida para o computador</span>
-                    <div />
+                  <div className="device-switch" role="tablist" aria-label="Escolha o dispositivo">
+                    <button
+                      className={`device-switch-option ${journeyDevice === "mobile" ? "active yellow" : ""}`}
+                      onClick={() => {
+                        setJourneyDevice("mobile");
+                        if (sub === "bilde" || sub === "tut") setSub("main");
+                      }}
+                    >
+                      <span className="device-switch-icon">{icon("mobile", journeyDevice === "mobile" ? palette.yellowText : "#8A8A8A")}</span>
+                      <span className="device-switch-copy">
+                        <strong>No celular</strong>
+                        <small>Studio mobile</small>
+                      </span>
+                    </button>
+                    <button
+                      className={`device-switch-option ${journeyDevice === "computer" ? "active dark" : ""}`}
+                      onClick={() => {
+                        setJourneyDevice("computer");
+                        if (sub === "mob") setSub("main");
+                      }}
+                    >
+                      <span className="device-switch-icon">{icon("laptop", journeyDevice === "computer" ? palette.text : "#8A8A8A")}</span>
+                      <span className="device-switch-copy">
+                        <strong>No computador</strong>
+                        <small>Bilde e Tutoriais</small>
+                      </span>
+                    </button>
                   </div>
 
-                  <div className="section-label gray">No computador</div>
-                  <JourneyCard
-                    accent="red"
-                    kicker="Bilde · Roblox Studio · plugin"
-                    title="Criar com IA"
-                    body="Conversa com você, monta o jogo"
-                    note="Guiado por perguntas. Ideal para quem quer começar sem saber o que fazer."
-                    onClick={() => setSub(sub === "bilde" ? "main" : "bilde")}
-                  />
-                  {sub === "bilde" && (
-                    <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                      <DetailScreen
-                        accent={palette.red}
-                        kicker="Bilde"
+                  {!journeyDevice && (
+                    <div className="journey-choice-empty">
+                      Escolha primeiro onde você vai criar para revelar os caminhos da jornada.
+                    </div>
+                  )}
+
+                  {journeyDevice === "mobile" && (
+                    <>
+                      <div className="section-label yellow">No celular</div>
+                      <JourneyCard
+                        accent="yellow"
+                        kicker="Studio mobile · App Mastertech"
+                        title="Criar no Celular"
+                        body="Cria e publica sem computador"
+                        note="Só o celular basta. Cria e publica tudo pelo telefone."
+                        onClick={() => setSub(sub === "mob" ? "main" : "mob")}
+                      />
+                      {sub === "mob" && (
+                        <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                          <DetailScreen
+                            accent={palette.yellowText}
+                            kicker="Studio mobile"
+                            title="Criar no Celular"
+                            subline="app · Mastertech · celular"
+                            videoStub
+                            cards={[
+                              "App da Mastertech para criar no celular, com interface pensada para tela pequena.",
+                              "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar.",
+                              "No Studio mobile, no celular. App separado do Roblox Studio.",
+                            ]}
+                            slides={mobShots}
+                            slide={mobSlide}
+                            setSlide={setMobSlide}
+                            action="Abrir o Studio mobile →"
+                            actionTheme="yellow"
+                            onAction={() => setModal({ label: "Studio mobile" })}
+                            onBack={() => setSub("main")}
+                            inline
+                          />
+                        </InlineJourneyDetail>
+                      )}
+                    </>
+                  )}
+
+                  {journeyDevice === "computer" && (
+                    <>
+                      <div className="section-label gray">No computador</div>
+                      <JourneyCard
+                        accent="red"
+                        kicker="Bilde · Roblox Studio · plugin"
                         title="Criar com IA"
-                        subline="plugin · Roblox Studio · computador"
-                        videoStub
-                        cards={[
-                          "Plugin que entrevista você sobre o jogo que quer criar e vai construindo junto com as respostas.",
-                          "Você responde perguntas sobre personagem, cenário e objetivo. O Bilde monta o projeto.",
-                          "No Roblox Studio, no computador.",
-                        ]}
-                        slides={bildeShots}
-                        slide={bildeSlide}
-                        setSlide={setBildeSlide}
-                        action="Abrir no Roblox Studio →"
-                        onAction={() => setModal({ label: "Roblox Studio" })}
-                        onBack={() => setSub("main")}
-                        inline
+                        body="Conversa com você, monta o jogo"
+                        note="Guiado por perguntas. Ideal para quem quer começar sem saber o que fazer."
+                        onClick={() => setSub(sub === "bilde" ? "main" : "bilde")}
                       />
-                    </InlineJourneyDetail>
-                  )}
+                      {sub === "bilde" && (
+                        <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                          <DetailScreen
+                            accent={palette.red}
+                            kicker="Bilde"
+                            title="Criar com IA"
+                            subline="plugin · Roblox Studio · computador"
+                            videoStub
+                            cards={[
+                              "Plugin que entrevista você sobre o jogo que quer criar e vai construindo junto com as respostas.",
+                              "Você responde perguntas sobre personagem, cenário e objetivo. O Bilde monta o projeto.",
+                              "No Roblox Studio, no computador.",
+                            ]}
+                            slides={bildeShots}
+                            slide={bildeSlide}
+                            setSlide={setBildeSlide}
+                            action="Abrir no Roblox Studio →"
+                            onAction={() => setModal({ label: "Roblox Studio" })}
+                            onBack={() => setSub("main")}
+                            inline
+                          />
+                        </InlineJourneyDetail>
+                      )}
 
-                  <div className="or-separator"><span>OU</span></div>
+                      <div className="or-separator"><span>OU</span></div>
 
-                  <JourneyCard
-                    accent="blue"
-                    kicker="Tutoriais · Roblox Studio · plugin"
-                    title="Aprender com Tutoriais"
-                    body="Passo a passo, mão na massa"
-                    note="Cada etapa, uma parte do jogo construída com a própria mão."
-                    onClick={() => setSub(sub === "tut" ? "main" : "tut")}
-                  />
-                  {sub === "tut" && (
-                    <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                      <DetailScreen
-                        accent={palette.blue}
-                        kicker="Tutoriais"
+                      <JourneyCard
+                        accent="blue"
+                        kicker="Tutoriais · Roblox Studio · plugin"
                         title="Aprender com Tutoriais"
-                        subline="plugin · Roblox Studio · computador"
-                        videoStub
-                        cards={[
-                          "Plugin que conduz por etapas — em cada etapa você constrói uma parte do jogo com a própria mão.",
-                          "Segue o passo a passo e ao terminar já tem um jogo publicável. Aprende fazendo.",
-                          "No Roblox Studio, no computador.",
-                        ]}
-                        slides={tutShots}
-                        slide={tutSlide}
-                        setSlide={setTutSlide}
-                        action="Abrir no Roblox Studio →"
-                        onAction={() => setModal({ label: "Roblox Studio" })}
-                        onBack={() => setSub("main")}
-                        inline
+                        body="Passo a passo, mão na massa"
+                        note="Cada etapa, uma parte do jogo construída com a própria mão."
+                        onClick={() => setSub(sub === "tut" ? "main" : "tut")}
                       />
-                    </InlineJourneyDetail>
+                      {sub === "tut" && (
+                        <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                          <DetailScreen
+                            accent={palette.blue}
+                            kicker="Tutoriais"
+                            title="Aprender com Tutoriais"
+                            subline="plugin · Roblox Studio · computador"
+                            videoStub
+                            cards={[
+                              "Plugin que conduz por etapas — em cada etapa você constrói uma parte do jogo com a própria mão.",
+                              "Segue o passo a passo e ao terminar já tem um jogo publicável. Aprende fazendo.",
+                              "No Roblox Studio, no computador.",
+                            ]}
+                            slides={tutShots}
+                            slide={tutSlide}
+                            setSlide={setTutSlide}
+                            action="Abrir no Roblox Studio →"
+                            onAction={() => setModal({ label: "Roblox Studio" })}
+                            onBack={() => setSub("main")}
+                            inline
+                          />
+                        </InlineJourneyDetail>
+                      )}
+                    </>
                   )}
 
-                  <PublishJourneyCard onClick={() => setModal({ label: "Roblox" })} />
+                  {journeyDevice && <PublishJourneyCard onClick={() => setModal({ label: "Roblox" })} />}
 
-                  <CommunityJourneyCard onClick={() => setModal({ label: "Comunidade no Discord" })} />
+                  {journeyDevice && <CommunityJourneyCard onClick={() => setModal({ label: "Comunidade no Discord" })} />}
                 </section>
               )}
 
@@ -476,8 +601,6 @@ function App() {
                 <section>
                   <h2 className="page-title">O ecossistema</h2>
                   <p className="page-subtitle">Toque em cada espaço para entender o que é e o que você faz lá.</p>
-
-                  <div className="eco-label">Onde você cria</div>
 
                   <AccordionCard
                     accent="yellow"
@@ -488,15 +611,19 @@ function App() {
                     onToggle={() => setEcoOpen(ecoOpen === "studiomob" ? null : "studiomob")}
                   >
                     <InfoRows
+                      accent="yellow"
                       rows={[
                         ["O que é", "O app da Mastertech para criar no celular. Uma alternativa ao Roblox Studio para quem não tem computador."],
                         ["O que você faz aqui", "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar."],
                         ["Quem fez", "Mastertech — parte da Expedição Roblox."],
                       ]}
                     />
-                    <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); setModal({ label: "Studio mobile" }); }}>
-                      Abrir o Studio mobile →
-                    </button>
+                    <div className="ecosystem-cta-area">
+                      <div className="ecosystem-cta-copy">Entre direto no app de criação para celular da Expedição.</div>
+                      <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); setModal({ label: "Studio mobile" }); }}>
+                        Abrir o Studio mobile →
+                      </button>
+                    </div>
                   </AccordionCard>
 
                   <AccordionCard
@@ -507,26 +634,56 @@ function App() {
                     open={ecoOpen === "rstudio"}
                     onToggle={() => setEcoOpen(ecoOpen === "rstudio" ? null : "rstudio")}
                   >
-                    <InfoRows rows={[["O que é", "Software oficial da Roblox onde os jogos são construídos no computador."], ["O que você faz aqui", "Cria, testa e ajusta a experiência antes de publicar."], ["Plataforma", "Gratuito, da Roblox."]]}/>
+                    <InfoRows
+                      accent="dark"
+                      rows={[["O que é", "Software oficial da Roblox onde os jogos são construídos no computador."], ["O que você faz aqui", "Cria, testa e ajusta a experiência antes de publicar."], ["Plataforma", "Gratuito, da Roblox."]]}
+                    />
                     <div className="nested-cards">
                       <SubToolCard
                         accent="red"
                         title="Bilde"
                         open={ecoSubOpen === "bilde"}
                         onToggle={(e) => { e.stopPropagation(); setEcoSubOpen(ecoSubOpen === "bilde" ? null : "bilde"); }}
-                        text="Plugin que entrevista o creator e monta o jogo a partir das respostas."
+                        body="Criação guiada por perguntas, com ajuda de IA."
+                        rows={[
+                          ["O que é", "Plugin que entrevista o creator e vai montando o jogo a partir das respostas."],
+                          ["O que você faz aqui", "Descreve a ideia, responde às perguntas e ajusta o projeto no Roblox Studio."],
+                          ["Plataforma", "Plugin dentro do Roblox Studio, no computador."],
+                        ]}
+                        cta="Ver Bilde →"
+                        onAction={(e) => {
+                          e.stopPropagation();
+                          runLoading(() => {
+                            setTab("jornada");
+                            setJourneyDevice("computer");
+                            setJourneyView("detail");
+                            setSub("bilde");
+                          });
+                        }}
                       />
                       <SubToolCard
                         accent="blue"
                         title="Tutoriais"
                         open={ecoSubOpen === "tutoriais"}
                         onToggle={(e) => { e.stopPropagation(); setEcoSubOpen(ecoSubOpen === "tutoriais" ? null : "tutoriais"); }}
-                        text="Plugin que conduz por etapas. O creator constrói cada parte do jogo com a própria mão."
+                        body="Passo a passo mão na massa, etapa por etapa."
+                        rows={[
+                          ["O que é", "Plugin com trilhas guiadas em que cada etapa ensina uma parte concreta do jogo."],
+                          ["O que você faz aqui", "Constrói cenário, lógica e mecânicas com a própria mão dentro do Roblox Studio."],
+                          ["Plataforma", "Plugin dentro do Roblox Studio, no computador."],
+                        ]}
+                        cta="Ver Tutoriais →"
+                        onAction={(e) => {
+                          e.stopPropagation();
+                          runLoading(() => {
+                            setTab("jornada");
+                            setJourneyDevice("computer");
+                            setJourneyView("detail");
+                            setSub("tut");
+                          });
+                        }}
                       />
                     </div>
-                    <button className="small-action dark" onClick={(e) => { e.stopPropagation(); setModal({ label: "Roblox Studio" }); }}>
-                      Abrir no Roblox Studio →
-                    </button>
                   </AccordionCard>
 
                   <AccordionCard
@@ -537,10 +694,16 @@ function App() {
                     open={ecoOpen === "roblox"}
                     onToggle={() => setEcoOpen(ecoOpen === "roblox" ? null : "roblox")}
                   >
-                    <InfoRows rows={[["O que é", "A plataforma onde os jogos são publicados e jogados por outras pessoas."], ["O que você faz aqui", "Publica o jogo pronto e acompanha sua experiência no ar."], ["Plataforma", "Roblox — gratuita, com conta própria."]]}/>
-                    <button className="small-action red" onClick={(e) => { e.stopPropagation(); setModal({ label: "Roblox" }); }}>
-                      Publicar no Roblox →
-                    </button>
+                    <InfoRows
+                      accent="red"
+                      rows={[["O que é", "A plataforma onde os jogos são publicados e jogados por outras pessoas."], ["O que você faz aqui", "Publica o jogo pronto e acompanha sua experiência no ar."], ["Plataforma", "Roblox — gratuita, com conta própria."]]}
+                    />
+                    <div className="ecosystem-cta-area">
+                      <div className="ecosystem-cta-copy">Quando o jogo estiver pronto, é aqui que ele entra no ar.</div>
+                      <button className="small-action red" onClick={(e) => { e.stopPropagation(); setModal({ label: "Roblox" }); }}>
+                        Publicar no Roblox →
+                      </button>
+                    </div>
                   </AccordionCard>
 
                   <AccordionCard
@@ -551,10 +714,16 @@ function App() {
                     open={ecoOpen === "comunidade"}
                     onToggle={() => setEcoOpen(ecoOpen === "comunidade" ? null : "comunidade")}
                   >
-                    <InfoRows rows={[["O que é", "O servidor da Expedição no Discord. Acompanha por fora — um espaço paralelo, não uma fase da jornada."], ["O que você faz aqui", "Encontra outros creators, tira dúvidas, compartilha o jogo. Antes, durante e depois de publicar."], ["Plataforma", "Discord — gratuito, no celular e no computador."]]}/>
-                    <button className="small-action purple" onClick={(e) => { e.stopPropagation(); setModal({ label: "Comunidade no Discord" }); }}>
-                      Entrar no Discord →
-                    </button>
+                    <InfoRows
+                      accent="purple"
+                      rows={[["O que é", "O servidor da Expedição no Discord. Acompanha por fora — um espaço paralelo, não uma fase da jornada."], ["O que você faz aqui", "Encontra outros creators, tira dúvidas, compartilha o jogo. Antes, durante e depois de publicar."], ["Plataforma", "Discord — gratuito, no celular e no computador."]]}
+                    />
+                    <div className="ecosystem-cta-area">
+                      <div className="ecosystem-cta-copy">A comunidade segue junto antes, durante e depois da publicação.</div>
+                      <button className="small-action purple" onClick={(e) => { e.stopPropagation(); setModal({ label: "Comunidade no Discord" }); }}>
+                        Entrar no Discord →
+                      </button>
+                    </div>
                   </AccordionCard>
                 </section>
               )}
@@ -717,7 +886,7 @@ function App() {
                   <button
                     key={item.key}
                     className={`bottom-item ${tab === item.key ? "active" : ""}`}
-                    onClick={() => runLoading(() => { setTab(item.key); setSub("main"); })}
+                    onClick={() => runLoading(() => { setTab(item.key); setSub("main"); setJourneyView("inline"); setJourneyDevice(null); })}
                   >
                     <span>{bottomSymbol(item.key)}</span>
                     <span>{item.label}</span>
@@ -937,42 +1106,93 @@ function PublishJourneyCard({ onClick }) {
 
 function AccordionCard({ accent, title, subtitle, body, open, onToggle, children }) {
   return (
-    <div className={`accordion-card ${accent} ${open ? "open" : ""}`} onClick={onToggle}>
-      <div className={`accordion-head ${accent}`}>
-        <div>
-          <div className="accordion-subtitle">{subtitle}</div>
-          <div className="accordion-title">{title}</div>
-          <div className="accordion-body">{body}</div>
+    <div className={`accordion-card ${accent} ${open ? "open" : ""}`}>
+      <button className={`accordion-head ${accent}`} onClick={onToggle}>
+        <div className="accordion-head-main">
+          <div className="accordion-head-copy">
+            <div className="accordion-subtitle">{subtitle}</div>
+            <div className="accordion-title">{title}</div>
+            <div className="accordion-body">{body}</div>
+          </div>
+          {(title === "Studio mobile" || title === "Roblox Studio") && (
+            <div className="accordion-device-icon">
+              <Icon
+                name={title === "Studio mobile" ? "mobile" : "laptop"}
+                color={accent === "yellow" ? "#1A1A1A" : "#FFFFFF"}
+                large
+              />
+            </div>
+          )}
         </div>
         <div className="accordion-chevron">{open ? "∧" : "∨"}</div>
-      </div>
+      </button>
       {open && <div className="accordion-content">{children}</div>}
     </div>
   );
 }
 
-function InfoRows({ rows }) {
+function InfoRows({ rows, accent = "dark", compact = false }) {
   return (
-    <div className="info-rows">
+    <div className={`info-rows ${compact ? "compact" : ""}`}>
       {rows.map(([title, body]) => (
         <div key={title} className="info-row">
-          <div className="info-row-title">{title}</div>
-          <div className="info-row-body">{body}</div>
+          <div className={`info-row-icon ${accent}`}>{<RowGlyph title={title} accent={accent} />}</div>
+          <div className="info-row-copy">
+            <div className="info-row-title">{title}</div>
+            <div className="info-row-body">{body}</div>
+          </div>
         </div>
       ))}
     </div>
   );
 }
 
-function SubToolCard({ accent, title, open, onToggle, text }) {
+function RowGlyph({ title, accent }) {
+  const colorMap = {
+    yellow: "#B8860B",
+    dark: "#1A1A1A",
+    red: "#E31837",
+    purple: "#5865F2",
+    blue: "#2468B8",
+  };
+  const color = colorMap[accent] || "#1A1A1A";
+
+  if (title === "O que é") {
+    return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke={color} strokeWidth="1.9"/><path d="M12 15V11.5C12 9.7 14.8 9.7 14.8 7.9C14.8 6.4 13.5 5.5 12.1 5.5C10.6 5.5 9.3 6.4 9.3 7.9" stroke={color} strokeWidth="1.9" strokeLinecap="round"/><circle cx="12" cy="18" r="1.2" fill={color}/></svg>;
+  }
+  if (title === "O que você faz aqui") {
+    return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5.5 12.2L9.8 16.4L18.3 7.9" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 3.8V5.8M20.2 12H18.2M5.8 12H3.8M17.8 6.2L16.4 7.6" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+  }
+  if (title === "Plataforma") {
+    return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="5.5" width="15" height="9.5" rx="2.2" stroke={color} strokeWidth="1.9"/><path d="M2.5 18.5H21.5M9.2 15.8V18.5M14.8 15.8V18.5" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+  }
+  return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 4L18.5 7V12.8C18.5 16.1 15.7 18.3 12 20C8.3 18.3 5.5 16.1 5.5 12.8V7L12 4Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M9.2 12.4L11.2 14.4L14.9 10.7" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+}
+
+function SubToolCard({ accent, title, open, onToggle, body, rows, cta, onAction }) {
   return (
-    <button className={`subtool-card ${accent}`} onClick={onToggle}>
-      <div className="subtool-head">
-        <strong>{title}</strong>
-        <span>{open ? "∧" : "∨"}</span>
+    <div className={`subtool-card ${accent} ${open ? "open" : ""}`}>
+      <div className={`subtool-top ${accent}`}>
+        <button className="subtool-toggle" onClick={onToggle}>
+          <div className="subtool-meta">plugin · Roblox Studio · computador</div>
+          <div className="subtool-head">
+            <div className="subtool-head-copy">
+              <strong>{title}</strong>
+              <small>{body}</small>
+            </div>
+            <span>{open ? "∧" : "∨"}</span>
+          </div>
+        </button>
       </div>
-      {open && <p>{text}</p>}
-    </button>
+      {open && (
+        <div className="subtool-bottom">
+          <InfoRows rows={rows} accent={accent} compact />
+          <button className={`subtool-cta ${accent}`} onClick={onAction}>
+            {cta}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -1028,7 +1248,9 @@ function SafetyCard({ label, title, body }) {
   );
 }
 
-function Icon({ name, color = "currentColor" }) {
+function Icon({ name, color = "currentColor", large = false }) {
+  const size = large ? 52 : 34;
+
   if (name === "target") {
     return <svg width="52" height="52" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="32" stroke={color} strokeWidth="1.8"/><circle cx="40" cy="40" r="20" stroke={color} strokeWidth="1.8"/><circle cx="40" cy="40" r="6" fill={color}/><line x1="8" y1="40" x2="20" y2="40" stroke={color} strokeWidth="1.8"/><line x1="60" y1="40" x2="72" y2="40" stroke={color} strokeWidth="1.8"/><line x1="40" y1="8" x2="40" y2="20" stroke={color} strokeWidth="1.8"/><line x1="40" y1="60" x2="40" y2="72" stroke={color} strokeWidth="1.8"/></svg>;
   }
@@ -1049,6 +1271,12 @@ function Icon({ name, color = "currentColor" }) {
   }
   if (name === "arrow") {
     return <svg width="36" height="36" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="18" stroke={color} strokeWidth="1.5"/><path d="M16 22 L28 22 M23 16 L28 22 L23 28" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+  }
+  if (name === "mobile") {
+    return <svg width={size} height={size} viewBox="0 0 48 48" fill="none"><rect x="13" y="5" width="22" height="38" rx="5" stroke={color} strokeWidth="2.2"/><rect x="17" y="11" width="14" height="22" rx="2.5" stroke={color} strokeWidth="1.8" opacity="0.45"/><circle cx="24" cy="37.2" r="1.8" fill={color}/><line x1="20" y1="8.3" x2="28" y2="8.3" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>;
+  }
+  if (name === "laptop") {
+    return <svg width={size} height={size} viewBox="0 0 48 48" fill="none"><rect x="10" y="11" width="28" height="18" rx="3.5" stroke={color} strokeWidth="2.2"/><rect x="14" y="15" width="20" height="10" rx="1.8" stroke={color} strokeWidth="1.8" opacity="0.45"/><path d="M6 34.5H42" stroke={color} strokeWidth="2.2" strokeLinecap="round"/><path d="M18 31.5H30" stroke={color} strokeWidth="2.2" strokeLinecap="round"/></svg>;
   }
   return <svg width="28" height="28" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="18" stroke={color} strokeWidth="1.5"/></svg>;
 }
