@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { translations, langOrder, langLabels } from "./i18n";
 
 const palette = {
   red: "#E31837",
@@ -26,98 +27,67 @@ const makePlaceholder = (label, mobile = false) =>
   </svg>
 `)}`;
 
-const bildeShots = Array.from({ length: 5 }, (_, i) => makePlaceholder(`Arraste um screenshot aqui ${i + 1}`));
-const tutShots = Array.from({ length: 5 }, (_, i) => makePlaceholder(`Arraste um screenshot aqui ${i + 1}`));
-const mobShots = Array.from({ length: 5 }, (_, i) => makePlaceholder(`Screenshot ${i + 1}`, true));
+const externalLinks = {
+  "Studio mobile": "https://exproblox.studio",
+  "Roblox Studio": "https://create.roblox.com/store/asset/125743081126783/Expedio-Roblox",
+};
 
-const sobreSections = [
-  {
-    color: palette.red,
-    kicker: "A iniciativa",
-    icon: "target",
-    paragraphs: [
-      "A Expedição Roblox é uma iniciativa da Mastertech que leva adolescentes de treze a dezoito anos para dentro do processo de criação de experiências digitais na Roblox.",
-      "O participante entra como criador, alguém que projeta, testa e publica o próprio espaço dentro da plataforma.",
-      "A Mastertech estrutura o percurso, oferece o acompanhamento e organiza cada etapa para que o jovem saia da expedição com experiências de fato construídas e publicadas.",
-    ],
-  },
-  {
-    color: palette.blue,
-    kicker: "O desenvolvimento",
-    icon: "stair",
-    paragraphs: [
-      "O foco do trabalho está no desenvolvimento das habilidades do futuro.",
-      "Ao construir suas experiências, os participantes exercitam pensamento computacional, resolução de problemas, colaboração e a capacidade de transformar uma ideia em algo navegável por outras pessoas.",
-      "Esse desenvolvimento acontece em ambientes mediados, com etapas guiadas que conduzem o criador do primeiro rascunho até a publicação.",
-      "Cada fase se apoia em artefatos produzidos pela Mastertech para sustentar a criação de forma evolutiva, e esses materiais funcionam no celular e no desktop, atendendo a realidade de quem cria a partir do aparelho que tem em mãos.",
-    ],
-  },
-  {
-    color: palette.yellowText,
-    kicker: "O ambiente",
-    icon: "shield",
-    paragraphs: [
-      "Toda a expedição se apoia no lastro de uma plataforma comprometida com conteúdo, segurança e bem-estar dos mais jovens.",
-      "A Roblox opera com diretrizes voltadas a públicos infantojuvenis, recursos de controle parental, moderação de conteúdo e mecanismos de proteção alinhados às exigências de países que tratam o tema com seriedade.",
-      "Para famílias e educadores, isso significa um ambiente em que a liberdade de criar caminha ao lado de camadas de cuidado pensadas para essa faixa etária.",
-    ],
-  },
-  {
-    color: palette.purple,
-    kicker: "A continuidade",
-    icon: "infinity",
-    paragraphs: [
-      "A jornada continua depois que a atividade termina.",
-      "A Expedição Roblox se sustenta numa comunidade que prolonga o aprendizado, onde os criadores trocam, mostram o que fizeram, recebem retorno e encontram referências para o próximo passo.",
-      "Esse tecido de convivência dá continuidade ao percurso e permite que cada participante avance no próprio ritmo com apoio dos colegas e dos mediadores.",
-    ],
-  },
+const brazilStates = [
+  "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal",
+  "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul",
+  "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí",
+  "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia",
+  "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins",
 ];
 
-const parentSteps = [
-  {
-    number: "01",
-    title: "Escolhe a ferramenta",
-    body: "Bilde, Tutoriais ou Studio mobile — cada uma serve a um perfil diferente de creator e a um dispositivo diferente.",
-  },
-  {
-    number: "02",
-    title: "Cria o jogo",
-    body: "Constrói no Roblox Studio (computador) ou no Studio mobile (celular), com orientação a cada passo. O creator faz tudo com a própria mão.",
-  },
-  {
-    number: "03",
-    title: "Publica no Roblox",
-    body: "O jogo fica visível para qualquer pessoa no mundo. É o momento mais importante da jornada.",
-  },
+const usStates = [
+  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+  "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
+  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
+  "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada",
+  "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota",
+  "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+  "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
+  "West Virginia", "Wisconsin", "Wyoming",
 ];
 
-const videos = [
-  {
-    text: "Entenda em menos de 3 minutos o que é a Expedição Roblox, quem são os parceiros, qual o objetivo e o que seu filho vai criar ao longo da jornada.",
-    title: "O que é a Expedição Roblox",
-    meta: "Visão geral · 3 min",
-    color: "linear-gradient(135deg,#0D1117 0%,#1A2233 100%)",
-    accent: palette.red,
-  },
-  {
-    text: "Passo a passo para configurar a conta parental no Roblox: restrições de chat, quem pode adicionar seu filho, visível para quem, e controle de privacidade.",
-    title: "Segurança e controle parental",
-    meta: "Como proteger a conta · 4 min",
-    color: "linear-gradient(135deg,#111827 0%,#1F2D40 100%)",
-    accent: palette.blue,
-  },
-  {
-    text: "O Roblox tem uma moeda virtual chamada Robux. A Expedição não exige nenhuma compra. Saiba como funciona e como bloquear transações caso precise.",
-    title: "Microtransações e Robux",
-    meta: "Sobre compras · 2 min",
-    color: "linear-gradient(135deg,#0F1A0F 0%,#1A2E1A 100%)",
-    accent: "#1F8A5B",
-  },
+const mexicoStates = [
+  "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas",
+  "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Estado de México",
+  "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit",
+  "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí",
+  "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán",
+  "Zacatecas",
+];
+
+const statesByCountry = {
+  BR: brazilStates,
+  US: usStates,
+  MX: mexicoStates,
+};
+
+// Non-text metadata kept out of the translation dictionary, merged by index.
+const sobreMeta = [
+  { color: palette.red, icon: "target" },
+  { color: palette.blue, icon: "stair" },
+  { color: palette.yellowText, icon: "shield" },
+  { color: palette.purple, icon: "infinity" },
+];
+
+const videoMeta = [
+  { color: "linear-gradient(135deg,#0D1117 0%,#1A2233 100%)", accent: palette.red },
+  { color: "linear-gradient(135deg,#111827 0%,#1F2D40 100%)", accent: palette.blue },
+  { color: "linear-gradient(135deg,#0F1A0F 0%,#1A2E1A 100%)", accent: "#1F8A5B" },
 ];
 
 function App() {
+  const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
+  const t = translations[lang] || translations.pt;
+
   const [screen, setScreen] = useState("entry");
+  const [robloxHandle, setRobloxHandle] = useState("");
+  const [pais, setPais] = useState("");
+  const [estado, setEstado] = useState("");
   const [qDev, setQDev] = useState(null);
   const [qSty, setQSty] = useState(null);
   const [tab, setTab] = useState("sobre");
@@ -135,6 +105,23 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 880);
   const activeJourneyDetailRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem("hublox-lang", lang);
+  }, [lang]);
+
+  const bildeShots = useMemo(
+    () => Array.from({ length: 5 }, (_, i) => makePlaceholder(`${t.shots.drag} ${i + 1}`)),
+    [t],
+  );
+  const tutShots = useMemo(
+    () => Array.from({ length: 5 }, (_, i) => makePlaceholder(`${t.shots.drag} ${i + 1}`)),
+    [t],
+  );
+  const mobShots = useMemo(
+    () => Array.from({ length: 5 }, (_, i) => makePlaceholder(`${t.shots.screenshot} ${i + 1}`, true)),
+    [t],
+  );
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 880);
@@ -174,10 +161,10 @@ function App() {
   }, [qDev, qSty]);
 
   const activeNav = [
-    { key: "sobre", label: "Expedição", subtitle: "O que é o programa" },
-    { key: "jornada", label: "Jornada", subtitle: "Ferramentas e caminho" },
-    { key: "eco", label: "Ecossistema", subtitle: "Onde tudo acontece" },
-    { key: "pais", label: "Para pais", subtitle: "Guia para responsáveis" },
+    { key: "sobre", ...t.nav.sobre },
+    { key: "jornada", ...t.nav.jornada },
+    { key: "eco", ...t.nav.eco },
+    { key: "pais", ...t.nav.pais },
   ];
 
   const toHub = (nextTab, nextSub = "main", nextJourneyView = "inline") =>
@@ -195,32 +182,71 @@ function App() {
 
   const icon = (name, color = "currentColor") => <Icon name={name} color={color} />;
 
+  const detailProps = (kind) => {
+    const map = {
+      mob: { accent: palette.yellowText, dict: t.detail.mob, slides: mobShots, slide: mobSlide, setSlide: setMobSlide, actionTheme: "yellow", modalLabel: "Studio mobile" },
+      bilde: { accent: palette.red, dict: t.detail.bilde, slides: bildeShots, slide: bildeSlide, setSlide: setBildeSlide, actionTheme: "", modalLabel: "Roblox Studio" },
+      tut: { accent: palette.blue, dict: t.detail.tut, slides: tutShots, slide: tutSlide, setSlide: setTutSlide, actionTheme: "", modalLabel: "Roblox Studio" },
+    };
+    return map[kind];
+  };
+
+  const renderDetail = (kind, { inline, onBack }) => {
+    const p = detailProps(kind);
+    return (
+      <DetailScreen
+        accent={p.accent}
+        kicker={p.dict.kicker}
+        title={p.dict.title}
+        subline={p.dict.subline}
+        cards={p.dict.cards}
+        action={p.dict.action}
+        slides={p.slides}
+        slide={p.slide}
+        setSlide={p.setSlide}
+        actionTheme={p.actionTheme}
+        labels={t.detail}
+        videoStub
+        inline={inline}
+        onAction={() => setModal({ label: p.modalLabel })}
+        onBack={onBack}
+      />
+    );
+  };
+
+  const modalName = modal ? t.modal.names[modal.label] || modal.label : "";
+
   return (
     <div className="app-root">
       <LoadingOverlay loading={loading} hub={screen === "hub"} />
+      <LangSwitch lang={lang} setLang={setLang} />
 
       {screen === "entry" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" />
-            <h1 className="entry-title">Quer criar?<br />Desce pro<br />play.</h1>
-            <p className="entry-text">Este hub é seu ponto de entrada na Expedição, um projeto onde jovens aprendem a criar jogos e experiências digitais.</p>
-            <p className="entry-text strong">Entenda o programa, escolha sua jornada e participe.</p>
-            <p className="entry-text faint">Um projeto conjunto entre Mastertech e Roblox.</p>
+            <Logo usage="entry" alt={t.common.logoAlt} />
+            <h1 className="entry-title">
+              {t.entry.title.map((line, i) => (
+                <span key={i}>{i > 0 && <br />}{line}</span>
+              ))}
+            </h1>
+            <p className="entry-text">{t.entry.p1}</p>
+            <p className="entry-text strong">{t.entry.p2}</p>
+            <p className="entry-text faint">{t.entry.p3}</p>
             <button
               className="cta cta-red"
               onClick={() =>
                 runLoading(() => {
                   setQDev(null);
                   setQSty(null);
-                  setScreen("creator-q");
+                  setScreen("creator-id");
                 })
               }
             >
-              <span>Entrar na Expedição</span>
+              <span>{t.entry.cta}</span>
               <span className="cta-badge">→</span>
             </button>
-            <div className="footnote dark">Mastertech · Expedição Roblox</div>
+            <div className="footnote dark">{t.entry.footnote}</div>
           </div>
         </section>
       )}
@@ -228,23 +254,23 @@ function App() {
       {screen === "anamnese" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" />
-            <button className="back-link" onClick={() => setScreen("entry")}>← Voltar</button>
+            <Logo usage="entry" alt={t.common.logoAlt} />
+            <button className="back-link" onClick={() => setScreen("entry")}>{t.common.back}</button>
             <div className="choice-list">
               <ChoiceCard
-                title="Sou creator"
-                body="Quero criar e publicar um jogo no Roblox."
+                title={t.anamnese.creatorTitle}
+                body={t.anamnese.creatorBody}
                 icon={icon("stair", "#fff")}
                 onClick={() => {
                   setQDev(null);
                   setQSty(null);
-                  setScreen("creator-q");
+                  setScreen("creator-id");
                   window.scrollTo(0, 0);
                 }}
               />
               <ChoiceCard
-                title="Sou responsável"
-                body="Quero entender e acompanhar meu filho."
+                title={t.anamnese.parentTitle}
+                body={t.anamnese.parentBody}
                 icon={icon("shield", "#fff")}
                 onClick={() => toHub("pais")}
               />
@@ -253,65 +279,136 @@ function App() {
         </section>
       )}
 
+      {screen === "creator-id" && (
+        <section className="entry-shell dark-shell">
+          <div className="entry-card">
+            <Logo usage="entry" alt={t.common.logoAlt} />
+            <button className="back-link" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.back}</button>
+
+            <h1 className="id-heading">{t.id.heading}</h1>
+            <p className="entry-text">{t.id.intro}</p>
+
+            <div className="id-form">
+              <div className="id-field">
+                <label className="id-label" htmlFor="id-roblox">{t.id.robloxLabel}</label>
+                <div className="id-input-wrap">
+                  <span className="id-input-prefix">@</span>
+                  <input
+                    id="id-roblox"
+                    className="id-input has-prefix"
+                    type="text"
+                    autoComplete="off"
+                    placeholder={t.id.robloxPlaceholder}
+                    value={robloxHandle}
+                    onChange={(e) => setRobloxHandle(e.target.value.replace(/^@+/, ""))}
+                  />
+                </div>
+              </div>
+
+              <div className="id-field">
+                <label className="id-label" htmlFor="id-pais">{t.id.countryLabel}</label>
+                <select
+                  id="id-pais"
+                  className={`id-select ${pais ? "" : "placeholder"}`}
+                  value={pais}
+                  onChange={(e) => { setPais(e.target.value); setEstado(""); }}
+                >
+                  <option value="" disabled>{t.id.countryPlaceholder}</option>
+                  {t.id.countries.map((c) => (
+                    <option key={c.code} value={c.code}>{c.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {statesByCountry[pais] && (
+                <div className="id-field">
+                  <label className="id-label" htmlFor="id-estado">{t.id.stateLabel}</label>
+                  <select
+                    id="id-estado"
+                    className={`id-select ${estado ? "" : "placeholder"}`}
+                    value={estado}
+                    onChange={(e) => setEstado(e.target.value)}
+                  >
+                    <option value="" disabled>{t.id.statePlaceholder}</option>
+                    {statesByCountry[pais].map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+
+            <button
+              className="cta cta-red id-continue"
+              disabled={!robloxHandle.trim() || !pais || (statesByCountry[pais] && !estado)}
+              onClick={() => runLoading(() => { setScreen("creator-q"); })}
+            >
+              <span>{t.id.continue}</span>
+              <span className="cta-badge">→</span>
+            </button>
+          </div>
+        </section>
+      )}
+
       {screen === "creator-q" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" />
-            <button className="back-link" onClick={() => setScreen("entry")}>← Voltar</button>
+            <Logo usage="entry" alt={t.common.logoAlt} />
+            <button className="back-link" onClick={() => setScreen("creator-id")}>{t.common.back}</button>
 
-            <QuestionCard number="01" title="Onde você vai criar?">
+            <QuestionCard number="01" title={t.creatorQ.q1Title}>
               <div className="pill-row">
-                <QuestionPill active={qDev === "pc"} onClick={() => { setQDev("pc"); setQSty(null); }}>No computador</QuestionPill>
-                <QuestionPill active={qDev === "mob"} onClick={() => setQDev("mob")}>No celular</QuestionPill>
+                <QuestionPill active={qDev === "pc"} onClick={() => { setQDev("pc"); setQSty(null); }}>{t.creatorQ.optComputer}</QuestionPill>
+                <QuestionPill active={qDev === "mob"} onClick={() => setQDev("mob")}>{t.creatorQ.optMobile}</QuestionPill>
               </div>
             </QuestionCard>
 
             {qDev && (
-              <QuestionCard number="02" title="Como você prefere começar?" muted={qDev !== "pc"}>
+              <QuestionCard number="02" title={t.creatorQ.q2Title} muted={qDev !== "pc"}>
                 <div className="pill-row">
-                  <QuestionPill active={qSty === "guia"} disabled={qDev !== "pc"} onClick={() => setQSty("guia")}>Ser guiado por perguntas</QuestionPill>
-                  <QuestionPill active={qSty === "mao"} disabled={qDev !== "pc"} onClick={() => setQSty("mao")}>Mão na massa, construindo</QuestionPill>
+                  <QuestionPill active={qSty === "guia"} disabled={qDev !== "pc"} onClick={() => setQSty("guia")}>{t.creatorQ.optGuided}</QuestionPill>
+                  <QuestionPill active={qSty === "mao"} disabled={qDev !== "pc"} onClick={() => setQSty("mao")}>{t.creatorQ.optHands}</QuestionPill>
                 </div>
-                {qDev !== "pc" && <div className="mini-note">Vale para quem cria no computador.</div>}
+                {qDev !== "pc" && <div className="mini-note">{t.creatorQ.q2Note}</div>}
               </QuestionCard>
             )}
 
-            {!qResult && <div className="empty-result">Responda para ver o caminho ↑</div>}
+            {!qResult && <div className="empty-result">{t.creatorQ.empty}</div>}
 
             {qResult === "mobile" && (
               <ResultCard
                 theme="yellow"
-                kicker="no celular, seu caminho é"
-                title="Criar no Celular"
-                body="Studio mobile — app de criação da Mastertech para celular."
-                button="Ir para o Studio mobile →"
+                kicker={t.creatorQ.results.mobile.kicker}
+                title={t.creatorQ.results.mobile.title}
+                body={t.creatorQ.results.mobile.body}
+                button={t.creatorQ.results.mobile.button}
                 onClick={() => toHub("jornada", "mob", "detail")}
               />
             )}
             {qResult === "bilde" && (
               <ResultCard
                 theme="red"
-                kicker="no computador, guiado por IA"
-                title="Criar com IA"
-                body="Bilde — conversa com você por perguntas e monta o jogo junto."
-                button="Ir para o Bilde →"
+                kicker={t.creatorQ.results.bilde.kicker}
+                title={t.creatorQ.results.bilde.title}
+                body={t.creatorQ.results.bilde.body}
+                button={t.creatorQ.results.bilde.button}
                 onClick={() => toHub("jornada", "bilde", "detail")}
               />
             )}
             {qResult === "tut" && (
               <ResultCard
                 theme="blue"
-                kicker="no computador, mão na massa"
-                title="Aprender com Tutoriais"
-                body="Você constrói cada parte do jogo com a própria mão."
-                button="Ir para os Tutoriais →"
+                kicker={t.creatorQ.results.tut.kicker}
+                title={t.creatorQ.results.tut.title}
+                body={t.creatorQ.results.tut.body}
+                button={t.creatorQ.results.tut.button}
                 onClick={() => toHub("jornada", "tut", "detail")}
               />
             )}
 
             <div className="subtle-link-wrap">
               <button className="subtle-link" onClick={() => toHub("jornada")}>
-                ou vá direto para a Jornada ›
+                {t.creatorQ.directLink}
               </button>
             </div>
           </div>
@@ -322,7 +419,7 @@ function App() {
         <div className={`hub-shell ${isMobile ? "mobile" : ""}`}>
           {!isMobile && (
             <aside className="sidebar">
-              <div className="sidebar-logo"><Logo usage="sidebar" /></div>
+              <div className="sidebar-logo"><Logo usage="sidebar" alt={t.common.logoAlt} /></div>
               <div className="sidebar-nav">
                 {activeNav.map((item) => (
                   <button
@@ -339,7 +436,7 @@ function App() {
                   </button>
                 ))}
               </div>
-              <button className="sidebar-exit" onClick={() => runLoading(() => setScreen("entry"))}>← Sair</button>
+              <button className="sidebar-exit" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.exit}</button>
             </aside>
           )}
 
@@ -348,8 +445,8 @@ function App() {
               <>
                 <header className="mobile-topbar">
                   <div className="mobile-head">
-                    <Logo usage="topbar" />
-                    <span className="mobile-tag">creator</span>
+                    <Logo usage="topbar" alt={t.common.logoAlt} />
+                    <span className="mobile-tag">{t.common.creatorTag}</span>
                   </div>
                   <div className="mobile-tabs">
                     {activeNav.map((item) => (
@@ -369,85 +466,18 @@ function App() {
             <div className="content-shell">
               {tab === "jornada" && journeyView === "detail" && sub !== "main" && (
                 <section>
-                  {sub === "mob" && (
-                    <DetailScreen
-                      accent={palette.yellowText}
-                      kicker="Studio mobile"
-                      title="Criar no Celular"
-                      subline="app · Mastertech · celular"
-                      videoStub
-                      cards={[
-                        "App da Mastertech para criar no celular, com interface pensada para tela pequena.",
-                        "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar.",
-                        "No Studio mobile, no celular. App separado do Roblox Studio.",
-                      ]}
-                      slides={mobShots}
-                      slide={mobSlide}
-                      setSlide={setMobSlide}
-                      action="Abrir o Studio mobile →"
-                      actionTheme="yellow"
-                      onAction={() => setModal({ label: "Studio mobile" })}
-                      onBack={() => {
-                        setJourneyView("inline");
-                        setSub("main");
-                      }}
-                    />
-                  )}
-                  {sub === "bilde" && (
-                    <DetailScreen
-                      accent={palette.red}
-                      kicker="Bilde"
-                      title="Criar com IA"
-                      subline="plugin · Roblox Studio · computador"
-                      videoStub
-                      cards={[
-                        "Plugin que entrevista você sobre o jogo que quer criar e vai construindo junto com as respostas.",
-                        "Você responde perguntas sobre personagem, cenário e objetivo. O Bilde monta o projeto.",
-                        "No Roblox Studio, no computador.",
-                      ]}
-                      slides={bildeShots}
-                      slide={bildeSlide}
-                      setSlide={setBildeSlide}
-                      action="Abrir no Roblox Studio →"
-                      onAction={() => setModal({ label: "Roblox Studio" })}
-                      onBack={() => {
-                        setJourneyView("inline");
-                        setSub("main");
-                      }}
-                    />
-                  )}
-                  {sub === "tut" && (
-                    <DetailScreen
-                      accent={palette.blue}
-                      kicker="Tutoriais"
-                      title="Aprender com Tutoriais"
-                      subline="plugin · Roblox Studio · computador"
-                      videoStub
-                      cards={[
-                        "Plugin que conduz por etapas — em cada etapa você constrói uma parte do jogo com a própria mão.",
-                        "Segue o passo a passo e ao terminar já tem um jogo publicável. Aprende fazendo.",
-                        "No Roblox Studio, no computador.",
-                      ]}
-                      slides={tutShots}
-                      slide={tutSlide}
-                      setSlide={setTutSlide}
-                      action="Abrir no Roblox Studio →"
-                      onAction={() => setModal({ label: "Roblox Studio" })}
-                      onBack={() => {
-                        setJourneyView("inline");
-                        setSub("main");
-                      }}
-                    />
-                  )}
+                  {sub === "mob" && renderDetail("mob", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
+                  {sub === "bilde" && renderDetail("bilde", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
+                  {sub === "tut" && renderDetail("tut", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
                 </section>
               )}
 
               {tab === "jornada" && journeyView === "inline" && (
                 <section>
-                  <h2 className="page-title">Sua jornada</h2>
-                  <p className="page-subtitle">Três caminhos para criar. Um destino: seu jogo no ar.</p>
+                  <h2 className="page-title">{t.journey.pageTitle}</h2>
+                  <p className="page-subtitle">{t.journey.pageSubtitle}</p>
 
-                  <div className="device-switch" role="tablist" aria-label="Escolha o dispositivo">
+                  <div className="device-switch" role="tablist" aria-label={t.journey.deviceAria}>
                     <button
                       className={`device-switch-option ${journeyDevice === "mobile" ? "active yellow" : ""}`}
                       onClick={() => {
@@ -457,8 +487,8 @@ function App() {
                     >
                       <span className="device-switch-icon">{icon("mobile", journeyDevice === "mobile" ? palette.yellowText : "#8A8A8A")}</span>
                       <span className="device-switch-copy">
-                        <strong>No celular</strong>
-                        <small>Studio mobile</small>
+                        <strong>{t.journey.deviceMobileStrong}</strong>
+                        <small>{t.journey.deviceMobileSmall}</small>
                       </span>
                     </button>
                     <button
@@ -470,51 +500,32 @@ function App() {
                     >
                       <span className="device-switch-icon">{icon("laptop", journeyDevice === "computer" ? palette.text : "#8A8A8A")}</span>
                       <span className="device-switch-copy">
-                        <strong>No computador</strong>
-                        <small>Bilde e Tutoriais</small>
+                        <strong>{t.journey.deviceComputerStrong}</strong>
+                        <small>{t.journey.deviceComputerSmall}</small>
                       </span>
                     </button>
                   </div>
 
                   {!journeyDevice && (
                     <div className="journey-choice-empty">
-                      Escolha primeiro onde você vai criar para revelar os caminhos da jornada.
+                      {t.journey.chooseEmpty}
                     </div>
                   )}
 
                   {journeyDevice === "mobile" && (
                     <>
-                      <div className="section-label yellow">No celular</div>
+                      <div className="section-label yellow">{t.journey.labelMobile}</div>
                       <JourneyCard
                         accent="yellow"
-                        kicker="Studio mobile · App Mastertech"
-                        title="Criar no Celular"
-                        body="Cria e publica sem computador"
-                        note="Só o celular basta. Cria e publica tudo pelo telefone."
+                        kicker={t.journey.cardMobile.kicker}
+                        title={t.journey.cardMobile.title}
+                        body={t.journey.cardMobile.body}
+                        note={t.journey.cardMobile.note}
                         onClick={() => setSub(sub === "mob" ? "main" : "mob")}
                       />
                       {sub === "mob" && (
                         <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                          <DetailScreen
-                            accent={palette.yellowText}
-                            kicker="Studio mobile"
-                            title="Criar no Celular"
-                            subline="app · Mastertech · celular"
-                            videoStub
-                            cards={[
-                              "App da Mastertech para criar no celular, com interface pensada para tela pequena.",
-                              "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar.",
-                              "No Studio mobile, no celular. App separado do Roblox Studio.",
-                            ]}
-                            slides={mobShots}
-                            slide={mobSlide}
-                            setSlide={setMobSlide}
-                            action="Abrir o Studio mobile →"
-                            actionTheme="yellow"
-                            onAction={() => setModal({ label: "Studio mobile" })}
-                            onBack={() => setSub("main")}
-                            inline
-                          />
+                          {renderDetail("mob", { inline: true, onBack: () => setSub("main") })}
                         </InlineJourneyDetail>
                       )}
                     </>
@@ -522,135 +533,88 @@ function App() {
 
                   {journeyDevice === "computer" && (
                     <>
-                      <div className="section-label gray">No computador</div>
+                      <div className="section-label gray">{t.journey.labelComputer}</div>
                       <JourneyCard
                         accent="red"
-                        kicker="Bilde · Roblox Studio · plugin"
-                        title="Criar com IA"
-                        body="Conversa com você, monta o jogo"
-                        note="Guiado por perguntas. Ideal para quem quer começar sem saber o que fazer."
+                        kicker={t.journey.cardBilde.kicker}
+                        title={t.journey.cardBilde.title}
+                        body={t.journey.cardBilde.body}
+                        note={t.journey.cardBilde.note}
                         onClick={() => setSub(sub === "bilde" ? "main" : "bilde")}
                       />
                       {sub === "bilde" && (
                         <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                          <DetailScreen
-                            accent={palette.red}
-                            kicker="Bilde"
-                            title="Criar com IA"
-                            subline="plugin · Roblox Studio · computador"
-                            videoStub
-                            cards={[
-                              "Plugin que entrevista você sobre o jogo que quer criar e vai construindo junto com as respostas.",
-                              "Você responde perguntas sobre personagem, cenário e objetivo. O Bilde monta o projeto.",
-                              "No Roblox Studio, no computador.",
-                            ]}
-                            slides={bildeShots}
-                            slide={bildeSlide}
-                            setSlide={setBildeSlide}
-                            action="Abrir no Roblox Studio →"
-                            onAction={() => setModal({ label: "Roblox Studio" })}
-                            onBack={() => setSub("main")}
-                            inline
-                          />
+                          {renderDetail("bilde", { inline: true, onBack: () => setSub("main") })}
                         </InlineJourneyDetail>
                       )}
 
-                      <div className="or-separator"><span>OU</span></div>
+                      <div className="or-separator"><span>{t.journey.or}</span></div>
 
                       <JourneyCard
                         accent="blue"
-                        kicker="Tutoriais · Roblox Studio · plugin"
-                        title="Aprender com Tutoriais"
-                        body="Passo a passo, mão na massa"
-                        note="Cada etapa, uma parte do jogo construída com a própria mão."
+                        kicker={t.journey.cardTut.kicker}
+                        title={t.journey.cardTut.title}
+                        body={t.journey.cardTut.body}
+                        note={t.journey.cardTut.note}
                         onClick={() => setSub(sub === "tut" ? "main" : "tut")}
                       />
                       {sub === "tut" && (
                         <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                          <DetailScreen
-                            accent={palette.blue}
-                            kicker="Tutoriais"
-                            title="Aprender com Tutoriais"
-                            subline="plugin · Roblox Studio · computador"
-                            videoStub
-                            cards={[
-                              "Plugin que conduz por etapas — em cada etapa você constrói uma parte do jogo com a própria mão.",
-                              "Segue o passo a passo e ao terminar já tem um jogo publicável. Aprende fazendo.",
-                              "No Roblox Studio, no computador.",
-                            ]}
-                            slides={tutShots}
-                            slide={tutSlide}
-                            setSlide={setTutSlide}
-                            action="Abrir no Roblox Studio →"
-                            onAction={() => setModal({ label: "Roblox Studio" })}
-                            onBack={() => setSub("main")}
-                            inline
-                          />
+                          {renderDetail("tut", { inline: true, onBack: () => setSub("main") })}
                         </InlineJourneyDetail>
                       )}
                     </>
                   )}
 
-                  {journeyDevice && <PublishJourneyCard onClick={() => setModal({ label: "Roblox" })} />}
+                  {journeyDevice && <PublishJourneyCard dict={t.publish} onClick={() => setModal({ label: "Roblox" })} />}
 
-                  {journeyDevice && <CommunityJourneyCard onClick={() => setModal({ label: "Comunidade no Discord" })} />}
+                  {journeyDevice && <CommunityJourneyCard dict={t.community} onClick={() => setModal({ label: "Comunidade no Discord" })} />}
                 </section>
               )}
 
               {tab === "eco" && (
                 <section>
-                  <h2 className="page-title">O ecossistema</h2>
-                  <p className="page-subtitle">Toque em cada espaço para entender o que é e o que você faz lá.</p>
+                  <h2 className="page-title">{t.eco.pageTitle}</h2>
+                  <p className="page-subtitle">{t.eco.pageSubtitle}</p>
 
                   <AccordionCard
                     accent="yellow"
-                    title="Studio mobile"
-                    subtitle="App Mastertech · celular"
-                    body="Cria e publica só com o celular"
+                    deviceIcon="mobile"
+                    title={t.eco.studiomob.title}
+                    subtitle={t.eco.studiomob.subtitle}
+                    body={t.eco.studiomob.body}
                     open={ecoOpen === "studiomob"}
                     onToggle={() => setEcoOpen(ecoOpen === "studiomob" ? null : "studiomob")}
                   >
-                    <InfoRows
-                      accent="yellow"
-                      rows={[
-                        ["O que é", "O app da Mastertech para criar no celular. Uma alternativa ao Roblox Studio para quem não tem computador."],
-                        ["O que você faz aqui", "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar."],
-                        ["Quem fez", "Mastertech — parte da Expedição Roblox."],
-                      ]}
-                    />
+                    <InfoRows accent="yellow" rows={t.eco.studiomob.rows} />
                     <div className="ecosystem-cta-area">
-                      <div className="ecosystem-cta-copy">Entre direto no app de criação para celular da Expedição.</div>
+                      <div className="ecosystem-cta-copy">{t.eco.studiomob.ctaCopy}</div>
                       <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); setModal({ label: "Studio mobile" }); }}>
-                        Abrir o Studio mobile →
+                        {t.eco.studiomob.cta}
                       </button>
                     </div>
                   </AccordionCard>
 
                   <AccordionCard
                     accent="dark"
-                    title="Roblox Studio"
-                    subtitle="Roblox · computador"
-                    body="Onde os jogos são construídos"
+                    deviceIcon="laptop"
+                    title={t.eco.rstudio.title}
+                    subtitle={t.eco.rstudio.subtitle}
+                    body={t.eco.rstudio.body}
                     open={ecoOpen === "rstudio"}
                     onToggle={() => setEcoOpen(ecoOpen === "rstudio" ? null : "rstudio")}
                   >
-                    <InfoRows
-                      accent="dark"
-                      rows={[["O que é", "Software oficial da Roblox onde os jogos são construídos no computador."], ["O que você faz aqui", "Cria, testa e ajusta a experiência antes de publicar."], ["Plataforma", "Gratuito, da Roblox."]]}
-                    />
+                    <InfoRows accent="dark" rows={t.eco.rstudio.rows} />
                     <div className="nested-cards">
                       <SubToolCard
                         accent="red"
-                        title="Bilde"
+                        meta={t.eco.subtoolMeta}
+                        title={t.eco.rstudio.bilde.title}
                         open={ecoSubOpen === "bilde"}
                         onToggle={(e) => { e.stopPropagation(); setEcoSubOpen(ecoSubOpen === "bilde" ? null : "bilde"); }}
-                        body="Criação guiada por perguntas, com ajuda de IA."
-                        rows={[
-                          ["O que é", "Plugin que entrevista o creator e vai montando o jogo a partir das respostas."],
-                          ["O que você faz aqui", "Descreve a ideia, responde às perguntas e ajusta o projeto no Roblox Studio."],
-                          ["Plataforma", "Plugin dentro do Roblox Studio, no computador."],
-                        ]}
-                        cta="Ver Bilde →"
+                        body={t.eco.rstudio.bilde.body}
+                        rows={t.eco.rstudio.bilde.rows}
+                        cta={t.eco.rstudio.bilde.cta}
                         onAction={(e) => {
                           e.stopPropagation();
                           runLoading(() => {
@@ -663,16 +627,13 @@ function App() {
                       />
                       <SubToolCard
                         accent="blue"
-                        title="Tutoriais"
+                        meta={t.eco.subtoolMeta}
+                        title={t.eco.rstudio.tut.title}
                         open={ecoSubOpen === "tutoriais"}
                         onToggle={(e) => { e.stopPropagation(); setEcoSubOpen(ecoSubOpen === "tutoriais" ? null : "tutoriais"); }}
-                        body="Passo a passo mão na massa, etapa por etapa."
-                        rows={[
-                          ["O que é", "Plugin com trilhas guiadas em que cada etapa ensina uma parte concreta do jogo."],
-                          ["O que você faz aqui", "Constrói cenário, lógica e mecânicas com a própria mão dentro do Roblox Studio."],
-                          ["Plataforma", "Plugin dentro do Roblox Studio, no computador."],
-                        ]}
-                        cta="Ver Tutoriais →"
+                        body={t.eco.rstudio.tut.body}
+                        rows={t.eco.rstudio.tut.rows}
+                        cta={t.eco.rstudio.tut.cta}
                         onAction={(e) => {
                           e.stopPropagation();
                           runLoading(() => {
@@ -688,40 +649,34 @@ function App() {
 
                   <AccordionCard
                     accent="red"
-                    title="Roblox"
-                    subtitle="Plataforma de jogos"
-                    body="Onde seu jogo vai para o mundo"
+                    title={t.eco.roblox.title}
+                    subtitle={t.eco.roblox.subtitle}
+                    body={t.eco.roblox.body}
                     open={ecoOpen === "roblox"}
                     onToggle={() => setEcoOpen(ecoOpen === "roblox" ? null : "roblox")}
                   >
-                    <InfoRows
-                      accent="red"
-                      rows={[["O que é", "A plataforma onde os jogos são publicados e jogados por outras pessoas."], ["O que você faz aqui", "Publica o jogo pronto e acompanha sua experiência no ar."], ["Plataforma", "Roblox — gratuita, com conta própria."]]}
-                    />
+                    <InfoRows accent="red" rows={t.eco.roblox.rows} />
                     <div className="ecosystem-cta-area">
-                      <div className="ecosystem-cta-copy">Quando o jogo estiver pronto, é aqui que ele entra no ar.</div>
+                      <div className="ecosystem-cta-copy">{t.eco.roblox.ctaCopy}</div>
                       <button className="small-action red" onClick={(e) => { e.stopPropagation(); setModal({ label: "Roblox" }); }}>
-                        Publicar no Roblox →
+                        {t.eco.roblox.cta}
                       </button>
                     </div>
                   </AccordionCard>
 
                   <AccordionCard
                     accent="purple"
-                    title="Comunidade"
-                    subtitle="Discord · paralelo"
-                    body="Creators juntos, a qualquer hora"
+                    title={t.eco.comunidade.title}
+                    subtitle={t.eco.comunidade.subtitle}
+                    body={t.eco.comunidade.body}
                     open={ecoOpen === "comunidade"}
                     onToggle={() => setEcoOpen(ecoOpen === "comunidade" ? null : "comunidade")}
                   >
-                    <InfoRows
-                      accent="purple"
-                      rows={[["O que é", "O servidor da Expedição no Discord. Acompanha por fora — um espaço paralelo, não uma fase da jornada."], ["O que você faz aqui", "Encontra outros creators, tira dúvidas, compartilha o jogo. Antes, durante e depois de publicar."], ["Plataforma", "Discord — gratuito, no celular e no computador."]]}
-                    />
+                    <InfoRows accent="purple" rows={t.eco.comunidade.rows} />
                     <div className="ecosystem-cta-area">
-                      <div className="ecosystem-cta-copy">A comunidade segue junto antes, durante e depois da publicação.</div>
+                      <div className="ecosystem-cta-copy">{t.eco.comunidade.ctaCopy}</div>
                       <button className="small-action purple" onClick={(e) => { e.stopPropagation(); setModal({ label: "Comunidade no Discord" }); }}>
-                        Entrar no Discord →
+                        {t.eco.comunidade.cta}
                       </button>
                     </div>
                   </AccordionCard>
@@ -730,13 +685,13 @@ function App() {
 
               {tab === "sobre" && (
                 <section>
-                  <h2 className="page-title">A Expedição Roblox</h2>
+                  <h2 className="page-title">{t.sobre.pageTitle}</h2>
                   <div className="sobre-list">
-                    {sobreSections.map((section, index) => (
-                      <div key={section.kicker} className="sobre-item">
-                        <div className="sobre-icon">{icon(section.icon, section.color)}</div>
+                    {t.sobre.sections.map((section, index) => (
+                      <div key={index} className="sobre-item">
+                        <div className="sobre-icon">{icon(sobreMeta[index].icon, sobreMeta[index].color)}</div>
                         <div className="sobre-copy">
-                          <div className="sobre-kicker" style={{ color: section.color }}>{section.kicker}</div>
+                          <div className="sobre-kicker" style={{ color: sobreMeta[index].color }}>{section.kicker}</div>
                           {section.paragraphs.map((p, i) => (
                             <p key={`${index}-${i}`} className={`sobre-paragraph ${i === 0 ? "lead" : ""}`}>{p}</p>
                           ))}
@@ -759,18 +714,18 @@ function App() {
                       }}
                     >
                       <span>{paisJornada && paisEco ? "∧" : "∨"}</span>
-                      <span>{paisJornada && paisEco ? "Recolher" : "Expandir"}</span>
+                      <span>{paisJornada && paisEco ? t.pais.collapse : t.pais.expand}</span>
                     </button>
                   )}
 
-                  <NumberedHeader number="01" color={palette.red} title="O que acontece na Expedição" icon="stair" />
-                  <p className="page-subtitle wider">A Expedição conduz o creator por um caminho estruturado — da escolha da ferramenta até o jogo publicado no Roblox. A cada etapa, o jovem constrói algo real com a própria mão, sem que ninguém faça por ele.</p>
+                  <NumberedHeader number="01" color={palette.red} title={t.pais.h1Title} icon="stair" />
+                  <p className="page-subtitle wider">{t.pais.h1Sub}</p>
                   <div className="parent-steps">
-                    {parentSteps.map((step) => (
-                      <div key={step.number} className="parent-step">
+                    {t.pais.steps.map((step, i) => (
+                      <div key={i} className="parent-step">
                         <div className="parent-step-head">
                           <div>
-                            <div className="ghost-number">{step.number}</div>
+                            <div className="ghost-number">{String(i + 1).padStart(2, "0")}</div>
                             <div className="parent-step-title">{step.title}</div>
                           </div>
                         </div>
@@ -779,55 +734,55 @@ function App() {
                     ))}
                   </div>
 
-                  <NumberedHeader number="02" color={palette.yellow} title="A jornada do creator" icon="stair" />
-                  <p className="page-subtitle wider">Cada ferramenta da Expedição tem um propósito específico. Veja como funciona o caminho completo.</p>
+                  <NumberedHeader number="02" color={palette.yellow} title={t.pais.h2Title} icon="stair" />
+                  <p className="page-subtitle wider">{t.pais.h2Sub}</p>
                   <ExpandCard
-                    title="Ver a jornada completa"
-                    subtitle="Jornada do creator"
+                    title={t.pais.journeyExpandTitle}
+                    subtitle={t.pais.journeyExpandSub}
                     open={paisJornada}
                     onToggle={() => setPaisJornada(!paisJornada)}
                   >
                     <div className="expand-stack">
-                      <CompactJourney accent="yellow" title="Criar no Celular" subtitle="App Mastertech · celular" body="Só o celular basta. Cria e publica um jogo inteiro pelo telefone." />
-                      <CompactJourney accent="red" title="Criar com IA" subtitle="Bilde · Roblox Studio · plugin" body="Plugin que entrevista o creator e monta o jogo a partir das respostas. Ideal para quem não sabe por onde começar." />
-                      <CompactJourney accent="blue" title="Aprender com Tutoriais" subtitle="Tutoriais · Roblox Studio · plugin" body="Plugin que conduz etapa a etapa. O creator constrói cada parte do jogo com a própria mão." />
+                      {t.pais.journeyCompact.map((c, i) => (
+                        <CompactJourney key={i} accent={c.accent} title={c.title} subtitle={c.subtitle} body={c.body} />
+                      ))}
                       <PromoCard
                         theme="dark"
-                        kicker="a virada"
-                        title="Publicar"
-                        body="Já tem um jogo?\nPublique no Roblox."
-                        note="O creator publica no Roblox e o jogo fica no ar para qualquer pessoa jogar."
-                        button="Publicar agora →"
+                        kicker={t.pais.promo.kicker}
+                        title={t.pais.promo.title}
+                        body={`${t.pais.promo.line1}\n${t.pais.promo.line2}`}
+                        note={t.pais.promo.note}
+                        button={t.pais.promo.button}
                         onClick={() => setModal({ label: "Roblox" })}
                         compact
                       />
                     </div>
                   </ExpandCard>
 
-                  <NumberedHeader number="03" color={palette.blue} title="O ecossistema" icon="hex" />
-                  <p className="page-subtitle wider">Os espaços onde a criação acontece — o que cada um é e qual o papel da Mastertech e da Roblox em cada um.</p>
+                  <NumberedHeader number="03" color={palette.blue} title={t.pais.h3Title} icon="hex" />
+                  <p className="page-subtitle wider">{t.pais.h3Sub}</p>
                   <ExpandCard
-                    title="Ver o ecossistema"
-                    subtitle="Espaços da Expedição"
+                    title={t.pais.ecoExpandTitle}
+                    subtitle={t.pais.ecoExpandSub}
                     open={paisEco}
                     onToggle={() => setPaisEco(!paisEco)}
                   >
                     <div className="expand-stack">
-                      <CompactJourney accent="dark" title="Roblox Studio" subtitle="Roblox · computador" body="Onde os jogos são construídos. Os plugins Bilde e Tutoriais rodam dentro dele. Pertence à Roblox — gratuito." />
-                      <CompactJourney accent="red" title="Roblox" subtitle="Plataforma de jogos" body="Onde os jogos são publicados. Qualquer pessoa no mundo pode jogar. Pertence à Roblox." />
-                      <CompactJourney accent="purple" title="Comunidade" subtitle="Discord · paralelo" body="Servidor da Expedição no Discord. Mediado pela Mastertech. Não é obrigatório — acompanha por fora." />
+                      {t.pais.ecoCompact.map((c, i) => (
+                        <CompactJourney key={i} accent={c.accent} title={c.title} subtitle={c.subtitle} body={c.body} />
+                      ))}
                     </div>
                   </ExpandCard>
 
-                  <NumberedHeader number="04" color={palette.red} title="Para entender melhor" icon="play" />
-                  <p className="page-subtitle wider">Conteúdos feitos para responsáveis. Cada vídeo tem um propósito específico.</p>
+                  <NumberedHeader number="04" color={palette.red} title={t.pais.h4Title} icon="play" />
+                  <p className="page-subtitle wider">{t.pais.h4Sub}</p>
                   <div className="video-list">
-                    {videos.map((video) => (
-                      <div key={video.title} className="video-item">
+                    {t.pais.videos.map((video, i) => (
+                      <div key={i} className="video-item">
                         <p className="video-text">{video.text}</p>
                         <div className="video-card">
-                          <div className="video-thumb" style={{ background: video.color }}>
-                            <span className="video-play" style={{ background: video.accent }}>▶</span>
+                          <div className="video-thumb" style={{ background: videoMeta[i].color }}>
+                            <span className="video-play" style={{ background: videoMeta[i].accent }}>▶</span>
                             <span className="video-title">{video.title}</span>
                           </div>
                           <div className="video-meta">{video.meta}</div>
@@ -836,28 +791,28 @@ function App() {
                     ))}
                   </div>
 
-                  <NumberedHeader number="05" color={palette.purple} title="Comunidade e segurança" icon="shield" />
-                  <p className="page-subtitle wider">A Mastertech gerencia a comunidade da Expedição e está presente na jornada do creator.</p>
+                  <NumberedHeader number="05" color={palette.purple} title={t.pais.h5Title} icon="shield" />
+                  <p className="page-subtitle wider">{t.pais.h5Sub}</p>
                   <div className="safety-list">
-                    <SafetyCard title="Roblox é classificado E10+" label="Classificação" body="Filtros de chat ativos por padrão. A Mastertech orienta sobre as configurações de segurança recomendadas para a faixa etária." />
-                    <SafetyCard title="A Expedição é gratuita" label="Microtransações" body="Nenhuma atividade da Expedição exige compra. O Roblox usa Robux como moeda opcional — você controla o acesso." />
-                    <SafetyCard title="Conta vinculada + privacidade configurável" label="Controle parental" body="Crie uma conta parental no Roblox e configure quem pode interagir com seu filho, ver o perfil e enviar mensagens." />
+                    {t.pais.safety.map((card, i) => (
+                      <SafetyCard key={i} label={card.label} title={card.title} body={card.body} />
+                    ))}
                     <div className="community-card">
-                      <div className="card-kicker light">Comunidade mediada</div>
-                      <div className="community-title">Mastertech presente no Discord</div>
-                      <p>O servidor da Expedição é gerenciado pela equipe Mastertech. Há moderação ativa e acompanhamento das interações.</p>
+                      <div className="card-kicker light">{t.pais.communityCard.kicker}</div>
+                      <div className="community-title">{t.pais.communityCard.title}</div>
+                      <p>{t.pais.communityCard.body}</p>
                       <button className="outline-action" onClick={() => setModal({ label: "Comunidade no Discord" })}>
-                        Entrar na comunidade →
+                        {t.pais.communityCard.button}
                       </button>
                     </div>
                   </div>
 
-                  <NumberedHeader number="06" color={palette.text} title="Quer aprofundar?" icon="arrow" />
-                  <p className="page-subtitle wider">Se quiser explorar o Roblox diretamente, configure a conta parental antes de começar.</p>
+                  <NumberedHeader number="06" color={palette.text} title={t.pais.h6Title} icon="arrow" />
+                  <p className="page-subtitle wider">{t.pais.h6Sub}</p>
                   <button className="deep-link" onClick={() => setModal({ label: "Roblox" })}>
                     <span>
-                      <small>Roblox · externo</small>
-                      <strong>Configurar conta parental</strong>
+                      <small>{t.pais.deepLinkSmall}</small>
+                      <strong>{t.pais.deepLinkStrong}</strong>
                     </span>
                     <span>›</span>
                   </button>
@@ -869,12 +824,23 @@ function App() {
               <div className="modal-backdrop" onClick={() => setModal(null)}>
                 <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
                   <div className="sheet-handle" />
-                  <div className="modal-kicker">Saindo do hub</div>
-                  <h3 className="modal-title">Abrir {modal.label}?</h3>
-                  <p className="modal-copy">Você vai sair do Unbloxing e abrir um app externo.</p>
+                  <div className="modal-kicker">{t.modal.kicker}</div>
+                  <h3 className="modal-title">{t.modal.openPrefix} {modalName}{t.modal.openSuffix}</h3>
+                  <p className="modal-copy">
+                    {externalLinks[modal.label] ? t.modal.copyNew : t.modal.copy}
+                  </p>
                   <div className="modal-actions">
-                    <button className="modal-primary" onClick={() => setModal(null)}>Continuar →</button>
-                    <button className="modal-secondary" onClick={() => setModal(null)}>Ficar no hub</button>
+                    <button
+                      className="modal-primary"
+                      onClick={() => {
+                        const url = externalLinks[modal.label];
+                        if (url) window.open(url, "_blank", "noopener,noreferrer");
+                        setModal(null);
+                      }}
+                    >
+                      {t.modal.continue}
+                    </button>
+                    <button className="modal-secondary" onClick={() => setModal(null)}>{t.modal.stay}</button>
                   </div>
                 </div>
               </div>
@@ -901,6 +867,22 @@ function App() {
   );
 }
 
+function LangSwitch({ lang, setLang }) {
+  return (
+    <div className="lang-switch">
+      {langOrder.map((code) => (
+        <button
+          key={code}
+          className={`lang-option ${lang === code ? "active" : ""}`}
+          onClick={() => setLang(code)}
+        >
+          {langLabels[code]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function LoadingOverlay({ loading, hub }) {
   return (
     <div className={`loading-overlay ${loading ? "show" : ""} ${hub ? "light" : ""}`}>
@@ -917,12 +899,12 @@ function LoadingOverlay({ loading, hub }) {
   );
 }
 
-function Logo({ usage = "entry" }) {
+function Logo({ usage = "entry", alt = "Expedição Roblox" }) {
   return (
     <img
       className={`logo-image ${usage}`}
       src="/uploads/expedicao-roblox-logo.png"
-      alt="Expedição Roblox"
+      alt={alt}
     />
   );
 }
@@ -969,10 +951,10 @@ function ResultCard({ theme, kicker, title, body, button, onClick }) {
   );
 }
 
-function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, setSlide, action, onAction, onBack, actionTheme, videoStub, inline = false }) {
+function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, setSlide, action, onAction, onBack, actionTheme, videoStub, labels, inline = false }) {
   return (
     <section className={inline ? "detail-screen-inline" : ""}>
-      <button className="detail-back" onClick={onBack}>{inline ? "fechar ↑" : "← voltar"}</button>
+      <button className="detail-back" onClick={onBack}>{inline ? labels.close : labels.back}</button>
       <div className="detail-head">
         <div>
           <div className="detail-kicker" style={{ color: accent }}>{kicker}</div>
@@ -980,11 +962,11 @@ function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, se
         </div>
       </div>
       <div className="detail-subline" style={{ color: accent }}>{subline}</div>
-      {videoStub && <div className="video-stub"><span>▶</span><small>Como funciona</small></div>}
+      {videoStub && <div className="video-stub"><span>▶</span><small>{labels.howItWorks}</small></div>}
       <div className="detail-grid" style={{ color: accent }}>
-        <DetailFact title="O que é" body={cards[0]} />
-        <DetailFact title="Como funciona" body={cards[1]} />
-        <DetailFact title="Onde abre" body={cards[2]} />
+        <DetailFact title={labels.factWhat} body={cards[0]} />
+        <DetailFact title={labels.factHow} body={cards[1]} />
+        <DetailFact title={labels.factWhere} body={cards[2]} />
       </div>
       <div className="carousel">
         <div className="carousel-frame">
@@ -1067,44 +1049,38 @@ function PromoCard({ theme, kicker, title, body, note, button, onClick, compact 
   );
 }
 
-function CommunityJourneyCard({ onClick }) {
+function CommunityJourneyCard({ dict, onClick }) {
   return (
     <div className="community-journey-card">
       <div className="community-orb" />
-      <div className="promo-kicker">continuidade</div>
-      <div className="promo-title">Comunidade</div>
-      <p className="community-journey-copy">
-        O servidor da Expedição no Discord. Não é uma fase da jornada — está disponível a
-        qualquer hora, para os creators continuarem criando juntos.
-      </p>
+      <div className="promo-kicker">{dict.kicker}</div>
+      <div className="promo-title">{dict.title}</div>
+      <p className="community-journey-copy">{dict.copy}</p>
       <button className="community-journey-button" onClick={onClick}>
-        Entrar no Discord →
+        {dict.button}
       </button>
     </div>
   );
 }
 
-function PublishJourneyCard({ onClick }) {
+function PublishJourneyCard({ dict, onClick }) {
   return (
     <div className="publish-journey-card">
-      <div className="promo-kicker">a virada</div>
-      <div className="promo-title">Publicar</div>
+      <div className="promo-kicker">{dict.kicker}</div>
+      <div className="promo-title">{dict.title}</div>
       <div className="publish-journey-headline">
-        <div>Já tem um jogo?</div>
-        <div>Publique no Roblox.</div>
+        <div>{dict.line1}</div>
+        <div>{dict.line2}</div>
       </div>
-      <p className="publish-journey-copy">
-        O momento mais importante da jornada. Seu jogo entra no Roblox e qualquer pessoa no
-        mundo pode jogar.
-      </p>
+      <p className="publish-journey-copy">{dict.copy}</p>
       <button className="publish-journey-button" onClick={onClick}>
-        Publicar agora →
+        {dict.button}
       </button>
     </div>
   );
 }
 
-function AccordionCard({ accent, title, subtitle, body, open, onToggle, children }) {
+function AccordionCard({ accent, title, subtitle, body, open, onToggle, children, deviceIcon }) {
   return (
     <div className={`accordion-card ${accent} ${open ? "open" : ""}`}>
       <button className={`accordion-head ${accent}`} onClick={onToggle}>
@@ -1114,10 +1090,10 @@ function AccordionCard({ accent, title, subtitle, body, open, onToggle, children
             <div className="accordion-title">{title}</div>
             <div className="accordion-body">{body}</div>
           </div>
-          {(title === "Studio mobile" || title === "Roblox Studio") && (
+          {deviceIcon && (
             <div className="accordion-device-icon">
               <Icon
-                name={title === "Studio mobile" ? "mobile" : "laptop"}
+                name={deviceIcon}
                 color={accent === "yellow" ? "#1A1A1A" : "#FFFFFF"}
                 large
               />
@@ -1134,9 +1110,9 @@ function AccordionCard({ accent, title, subtitle, body, open, onToggle, children
 function InfoRows({ rows, accent = "dark", compact = false }) {
   return (
     <div className={`info-rows ${compact ? "compact" : ""}`}>
-      {rows.map(([title, body]) => (
+      {rows.map(([glyph, title, body]) => (
         <div key={title} className="info-row">
-          <div className={`info-row-icon ${accent}`}>{<RowGlyph title={title} accent={accent} />}</div>
+          <div className={`info-row-icon ${accent}`}>{<RowGlyph glyph={glyph} accent={accent} />}</div>
           <div className="info-row-copy">
             <div className="info-row-title">{title}</div>
             <div className="info-row-body">{body}</div>
@@ -1147,7 +1123,7 @@ function InfoRows({ rows, accent = "dark", compact = false }) {
   );
 }
 
-function RowGlyph({ title, accent }) {
+function RowGlyph({ glyph, accent }) {
   const colorMap = {
     yellow: "#B8860B",
     dark: "#1A1A1A",
@@ -1157,24 +1133,24 @@ function RowGlyph({ title, accent }) {
   };
   const color = colorMap[accent] || "#1A1A1A";
 
-  if (title === "O que é") {
+  if (glyph === "what") {
     return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke={color} strokeWidth="1.9"/><path d="M12 15V11.5C12 9.7 14.8 9.7 14.8 7.9C14.8 6.4 13.5 5.5 12.1 5.5C10.6 5.5 9.3 6.4 9.3 7.9" stroke={color} strokeWidth="1.9" strokeLinecap="round"/><circle cx="12" cy="18" r="1.2" fill={color}/></svg>;
   }
-  if (title === "O que você faz aqui") {
+  if (glyph === "do") {
     return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5.5 12.2L9.8 16.4L18.3 7.9" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 3.8V5.8M20.2 12H18.2M5.8 12H3.8M17.8 6.2L16.4 7.6" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
   }
-  if (title === "Plataforma") {
+  if (glyph === "platform") {
     return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="5.5" width="15" height="9.5" rx="2.2" stroke={color} strokeWidth="1.9"/><path d="M2.5 18.5H21.5M9.2 15.8V18.5M14.8 15.8V18.5" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
   }
   return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 4L18.5 7V12.8C18.5 16.1 15.7 18.3 12 20C8.3 18.3 5.5 16.1 5.5 12.8V7L12 4Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M9.2 12.4L11.2 14.4L14.9 10.7" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 }
 
-function SubToolCard({ accent, title, open, onToggle, body, rows, cta, onAction }) {
+function SubToolCard({ accent, title, open, onToggle, body, rows, cta, onAction, meta }) {
   return (
     <div className={`subtool-card ${accent} ${open ? "open" : ""}`}>
       <div className={`subtool-top ${accent}`}>
         <button className="subtool-toggle" onClick={onToggle}>
-          <div className="subtool-meta">plugin · Roblox Studio · computador</div>
+          <div className="subtool-meta">{meta}</div>
           <div className="subtool-head">
             <div className="subtool-head-copy">
               <strong>{title}</strong>
