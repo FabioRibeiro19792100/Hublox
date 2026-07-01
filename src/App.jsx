@@ -29,8 +29,28 @@ const makePlaceholder = (label, mobile = false) =>
 
 const externalLinks = {
   "Studio mobile": "https://exproblox.studio",
+  "Studio web": "https://exproblox.studio",
   "Roblox Studio": "https://create.roblox.com/store/asset/125743081126783/Expedio-Roblox",
 };
+
+// Rough heuristic for whether the machine can comfortably run Roblox Studio.
+// The browser can't truly test installability, so we combine CPU cores, device
+// memory (Chromium-only) and a tiny timed benchmark into a capable/weak verdict.
+function testComputationalPower() {
+  const cores = navigator.hardwareConcurrency || 2;
+  const memory = navigator.deviceMemory; // GB, undefined outside Chromium
+
+  const start = performance.now();
+  let acc = 0;
+  for (let i = 0; i < 4_000_000; i++) acc += Math.sqrt(i) * 1.0001;
+  const elapsed = performance.now() - start; // ms; lower is faster
+  if (acc < 0) return "weak"; // keep the loop from being optimized away
+
+  const coresOk = cores >= 4;
+  const benchOk = elapsed < 160;
+  const memOk = memory === undefined ? benchOk : memory >= 4;
+  return coresOk && memOk ? "capable" : "weak";
+}
 
 const brazilStates = [
   "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal",
@@ -89,7 +109,7 @@ function App() {
   const [pais, setPais] = useState("");
   const [estado, setEstado] = useState("");
   const [qDev, setQDev] = useState(null);
-  const [qSty, setQSty] = useState(null);
+  const [pcTest, setPcTest] = useState(null); // null | "running" | "capable" | "weak"
   const [tab, setTab] = useState("sobre");
   const [sub, setSub] = useState("main");
   const [journeyDevice, setJourneyDevice] = useState(null);
@@ -153,12 +173,28 @@ function App() {
     setTimeout(() => setLoading(false), duration);
   };
 
-  const qResult = useMemo(() => {
-    if (qDev === "mob") return "mobile";
-    if (qDev === "pc" && qSty === "guia") return "bilde";
-    if (qDev === "pc" && qSty === "mao") return "tut";
-    return null;
-  }, [qDev, qSty]);
+  const pcTestTimer = useRef(null);
+
+  const runPcTest = () => {
+    setQDev("pc");
+    setPcTest("running");
+    if (pcTestTimer.current) clearTimeout(pcTestTimer.current);
+    pcTestTimer.current = setTimeout(() => {
+      setPcTest(testComputationalPower());
+    }, 1900);
+  };
+
+  const chooseMobile = () => {
+    if (pcTestTimer.current) clearTimeout(pcTestTimer.current);
+    setPcTest(null);
+    setQDev("mob");
+  };
+
+  const resetCreatorQ = () => {
+    if (pcTestTimer.current) clearTimeout(pcTestTimer.current);
+    setQDev(null);
+    setPcTest(null);
+  };
 
   const activeNav = [
     { key: "sobre", ...t.nav.sobre },
@@ -237,8 +273,7 @@ function App() {
               className="cta cta-red"
               onClick={() =>
                 runLoading(() => {
-                  setQDev(null);
-                  setQSty(null);
+                  resetCreatorQ();
                   setScreen("creator-id");
                 })
               }
@@ -262,8 +297,7 @@ function App() {
                 body={t.anamnese.creatorBody}
                 icon={icon("stair", "#fff")}
                 onClick={() => {
-                  setQDev(null);
-                  setQSty(null);
+                  resetCreatorQ();
                   setScreen("creator-id");
                   window.scrollTo(0, 0);
                 }}
@@ -358,24 +392,14 @@ function App() {
 
             <QuestionCard number="01" title={t.creatorQ.q1Title}>
               <div className="pill-row">
-                <QuestionPill active={qDev === "pc"} onClick={() => { setQDev("pc"); setQSty(null); }}>{t.creatorQ.optComputer}</QuestionPill>
-                <QuestionPill active={qDev === "mob"} onClick={() => setQDev("mob")}>{t.creatorQ.optMobile}</QuestionPill>
+                <QuestionPill active={qDev === "pc"} onClick={runPcTest}>{t.creatorQ.optComputer}</QuestionPill>
+                <QuestionPill active={qDev === "mob"} onClick={chooseMobile}>{t.creatorQ.optMobile}</QuestionPill>
               </div>
             </QuestionCard>
 
-            {qDev && (
-              <QuestionCard number="02" title={t.creatorQ.q2Title} muted={qDev !== "pc"}>
-                <div className="pill-row">
-                  <QuestionPill active={qSty === "guia"} disabled={qDev !== "pc"} onClick={() => setQSty("guia")}>{t.creatorQ.optGuided}</QuestionPill>
-                  <QuestionPill active={qSty === "mao"} disabled={qDev !== "pc"} onClick={() => setQSty("mao")}>{t.creatorQ.optHands}</QuestionPill>
-                </div>
-                {qDev !== "pc" && <div className="mini-note">{t.creatorQ.q2Note}</div>}
-              </QuestionCard>
-            )}
+            {!qDev && <div className="empty-result">{t.creatorQ.empty}</div>}
 
-            {!qResult && <div className="empty-result">{t.creatorQ.empty}</div>}
-
-            {qResult === "mobile" && (
+            {qDev === "mob" && (
               <ResultCard
                 theme="yellow"
                 kicker={t.creatorQ.results.mobile.kicker}
@@ -385,24 +409,32 @@ function App() {
                 onClick={() => toHub("jornada", "mob", "detail")}
               />
             )}
-            {qResult === "bilde" && (
+
+            {qDev === "pc" && pcTest === "running" && (
+              <TestingCard title={t.creatorQ.testing.title} note={t.creatorQ.testing.note} />
+            )}
+
+            {qDev === "pc" && pcTest === "capable" && (
               <ResultCard
                 theme="red"
-                kicker={t.creatorQ.results.bilde.kicker}
-                title={t.creatorQ.results.bilde.title}
-                body={t.creatorQ.results.bilde.body}
-                button={t.creatorQ.results.bilde.button}
-                onClick={() => toHub("jornada", "bilde", "detail")}
+                kicker={t.creatorQ.results.plugin.kicker}
+                title={t.creatorQ.results.plugin.title}
+                body={t.creatorQ.results.plugin.body}
+                button={t.creatorQ.results.plugin.button}
+                onClick={() => setModal({ label: "Roblox Studio" })}
+                secondaryText={t.creatorQ.results.plugin.webHint}
+                onSecondary={() => setModal({ label: "Studio web" })}
               />
             )}
-            {qResult === "tut" && (
+
+            {qDev === "pc" && pcTest === "weak" && (
               <ResultCard
                 theme="blue"
-                kicker={t.creatorQ.results.tut.kicker}
-                title={t.creatorQ.results.tut.title}
-                body={t.creatorQ.results.tut.body}
-                button={t.creatorQ.results.tut.button}
-                onClick={() => toHub("jornada", "tut", "detail")}
+                kicker={t.creatorQ.results.web.kicker}
+                title={t.creatorQ.results.web.title}
+                body={t.creatorQ.results.web.body}
+                button={t.creatorQ.results.web.button}
+                onClick={() => setModal({ label: "Studio web" })}
               />
             )}
 
@@ -820,32 +852,6 @@ function App() {
               )}
             </div>
 
-            {modal && (
-              <div className="modal-backdrop" onClick={() => setModal(null)}>
-                <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
-                  <div className="sheet-handle" />
-                  <div className="modal-kicker">{t.modal.kicker}</div>
-                  <h3 className="modal-title">{t.modal.openPrefix} {modalName}{t.modal.openSuffix}</h3>
-                  <p className="modal-copy">
-                    {externalLinks[modal.label] ? t.modal.copyNew : t.modal.copy}
-                  </p>
-                  <div className="modal-actions">
-                    <button
-                      className="modal-primary"
-                      onClick={() => {
-                        const url = externalLinks[modal.label];
-                        if (url) window.open(url, "_blank", "noopener,noreferrer");
-                        setModal(null);
-                      }}
-                    >
-                      {t.modal.continue}
-                    </button>
-                    <button className="modal-secondary" onClick={() => setModal(null)}>{t.modal.stay}</button>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {isMobile && (
               <nav className="bottom-nav">
                 {activeNav.map((item) => (
@@ -861,6 +867,32 @@ function App() {
               </nav>
             )}
           </main>
+        </div>
+      )}
+
+      {modal && (
+        <div className="modal-backdrop" onClick={() => setModal(null)}>
+          <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="sheet-handle" />
+            <div className="modal-kicker">{t.modal.kicker}</div>
+            <h3 className="modal-title">{t.modal.openPrefix} {modalName}{t.modal.openSuffix}</h3>
+            <p className="modal-copy">
+              {externalLinks[modal.label] ? t.modal.copyNew : t.modal.copy}
+            </p>
+            <div className="modal-actions">
+              <button
+                className="modal-primary"
+                onClick={() => {
+                  const url = externalLinks[modal.label];
+                  if (url) window.open(url, "_blank", "noopener,noreferrer");
+                  setModal(null);
+                }}
+              >
+                {t.modal.continue}
+              </button>
+              <button className="modal-secondary" onClick={() => setModal(null)}>{t.modal.stay}</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -940,13 +972,28 @@ function QuestionPill({ active, disabled, onClick, children }) {
   );
 }
 
-function ResultCard({ theme, kicker, title, body, button, onClick }) {
+function ResultCard({ theme, kicker, title, body, button, onClick, secondaryText, onSecondary }) {
   return (
     <div className={`result-card ${theme}`}>
       <div className="result-kicker">{kicker}</div>
       <div className="result-title">{title}</div>
       <div className="result-body">{body}</div>
       <button className="result-button" onClick={onClick}>{button}</button>
+      {secondaryText && (
+        <button className="result-secondary" onClick={onSecondary}>{secondaryText} ›</button>
+      )}
+    </div>
+  );
+}
+
+function TestingCard({ title, note }) {
+  return (
+    <div className="testing-card">
+      <div className="testing-spinner" />
+      <div className="testing-copy">
+        <div className="testing-title">{title}</div>
+        <div className="testing-note">{note}</div>
+      </div>
     </div>
   );
 }

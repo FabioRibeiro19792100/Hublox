@@ -451,6 +451,50 @@ button {
   background: #e31837;
 }
 
+.testing-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.testing-spinner {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #e31837;
+  animation: testing-spin 0.8s linear infinite;
+}
+
+@keyframes testing-spin {
+  to { transform: rotate(360deg); }
+}
+
+.testing-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.testing-title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.testing-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.4);
+}
+
 .empty-result {
   border: 1.5px dashed rgba(255, 255, 255, 0.1);
   border-radius: 14px;
@@ -514,6 +558,22 @@ button {
 .result-card.red .result-button { color: #e31837; }
 .result-card.blue .result-button { color: #2468b8; }
 .result-card.yellow .result-button { background: #1a1a1a; color: #f5c518; }
+
+.result-secondary {
+  display: block;
+  margin-top: 14px;
+  padding: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: inherit;
+  opacity: 0.62;
+  cursor: pointer;
+  transition: opacity 0.18s ease;
+}
+
+.result-secondary:hover {
+  opacity: 0.95;
+}
 
 .subtle-link-wrap {
   margin-top: 36px;

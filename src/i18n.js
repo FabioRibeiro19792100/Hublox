@@ -51,12 +51,12 @@ const pt = {
     q1Title: "Onde você vai criar?",
     optComputer: "No computador",
     optMobile: "No celular",
-    q2Title: "Como você prefere começar?",
-    optGuided: "Ser guiado por perguntas",
-    optHands: "Mão na massa, construindo",
-    q2Note: "Vale para quem cria no computador.",
     empty: "Responda para ver o caminho ↑",
     directLink: "ou vá direto para a Jornada ›",
+    testing: {
+      title: "Testando seu computador…",
+      note: "Vendo se dá pra instalar o Roblox Studio aqui.",
+    },
     results: {
       mobile: {
         kicker: "no celular, seu caminho é",
@@ -64,17 +64,18 @@ const pt = {
         body: "Studio mobile — app de criação da Mastertech para celular.",
         button: "Ir para o Studio mobile →",
       },
-      bilde: {
-        kicker: "no computador, guiado por IA",
-        title: "Criar com IA",
-        body: "Bilde — conversa com você por perguntas e monta o jogo junto.",
-        button: "Ir para o Bilde →",
+      plugin: {
+        kicker: "seu computador aguenta",
+        title: "Criar no Roblox Studio",
+        body: "Dá pra instalar o Roblox Studio. Use o plugin da Expedição e crie por lá.",
+        button: "Abrir o plugin no Roblox Studio →",
+        webHint: "Prefere testar pelo navegador? Studio web",
       },
-      tut: {
-        kicker: "no computador, mão na massa",
-        title: "Aprender com Tutoriais",
-        body: "Você constrói cada parte do jogo com a própria mão.",
-        button: "Ir para os Tutoriais →",
+      web: {
+        kicker: "melhor pelo navegador",
+        title: "Criar no Studio web",
+        body: "Seu computador fica mais leve criando pelo navegador, sem instalar nada.",
+        button: "Abrir o Studio web →",
       },
     },
   },
@@ -371,6 +372,7 @@ const pt = {
     stay: "Ficar no hub",
     names: {
       "Comunidade no Discord": "Comunidade no Discord",
+      "Studio web": "Studio web",
     },
   },
 };
@@ -422,12 +424,12 @@ const en = {
     q1Title: "Where will you create?",
     optComputer: "On the computer",
     optMobile: "On the phone",
-    q2Title: "How do you prefer to start?",
-    optGuided: "Be guided by questions",
-    optHands: "Hands-on, building",
-    q2Note: "Applies to those creating on the computer.",
     empty: "Answer to see your path ↑",
     directLink: "or go straight to the Journey ›",
+    testing: {
+      title: "Testing your computer…",
+      note: "Checking whether Roblox Studio can run here.",
+    },
     results: {
       mobile: {
         kicker: "on the phone, your path is",
@@ -435,17 +437,18 @@ const en = {
         body: "Studio mobile — Mastertech's creation app for phones.",
         button: "Go to Studio mobile →",
       },
-      bilde: {
-        kicker: "on the computer, guided by AI",
-        title: "Create with AI",
-        body: "Bilde — talks with you through questions and builds the game together.",
-        button: "Go to Bilde →",
+      plugin: {
+        kicker: "your computer can handle it",
+        title: "Create in Roblox Studio",
+        body: "Roblox Studio can be installed. Use the Expedition plugin and create there.",
+        button: "Open the plugin in Roblox Studio →",
+        webHint: "Rather test in the browser? web Studio",
       },
-      tut: {
-        kicker: "on the computer, hands-on",
-        title: "Learn with Tutorials",
-        body: "You build each part of the game with your own hands.",
-        button: "Go to the Tutorials →",
+      web: {
+        kicker: "better in the browser",
+        title: "Create in the web Studio",
+        body: "Your computer runs lighter creating in the browser, with nothing to install.",
+        button: "Open the web Studio →",
       },
     },
   },
@@ -742,6 +745,7 @@ const en = {
     stay: "Stay in the hub",
     names: {
       "Comunidade no Discord": "Community on Discord",
+      "Studio web": "web Studio",
     },
   },
 };
@@ -793,12 +797,12 @@ const es = {
     q1Title: "¿Dónde vas a crear?",
     optComputer: "En la computadora",
     optMobile: "En el celular",
-    q2Title: "¿Cómo prefieres empezar?",
-    optGuided: "Que me guíen con preguntas",
-    optHands: "Manos a la obra, construyendo",
-    q2Note: "Aplica para quienes crean en la computadora.",
     empty: "Responde para ver tu camino ↑",
     directLink: "o ve directo a la Jornada ›",
+    testing: {
+      title: "Probando tu computadora…",
+      note: "Viendo si se puede instalar Roblox Studio aquí.",
+    },
     results: {
       mobile: {
         kicker: "en el celular, tu camino es",
@@ -806,17 +810,18 @@ const es = {
         body: "Studio mobile — app de creación de Mastertech para celular.",
         button: "Ir al Studio mobile →",
       },
-      bilde: {
-        kicker: "en la computadora, guiado por IA",
-        title: "Crear con IA",
-        body: "Bilde — conversa contigo con preguntas y arma el juego junto a ti.",
-        button: "Ir a Bilde →",
+      plugin: {
+        kicker: "tu computadora aguanta",
+        title: "Crear en Roblox Studio",
+        body: "Se puede instalar Roblox Studio. Usa el plugin de la Expedición y crea ahí.",
+        button: "Abrir el plugin en Roblox Studio →",
+        webHint: "¿Prefieres probar desde el navegador? Studio web",
       },
-      tut: {
-        kicker: "en la computadora, manos a la obra",
-        title: "Aprender con Tutoriales",
-        body: "Construyes cada parte del juego con tus propias manos.",
-        button: "Ir a los Tutoriales →",
+      web: {
+        kicker: "mejor desde el navegador",
+        title: "Crear en el Studio web",
+        body: "Tu computadora va más ligera creando desde el navegador, sin instalar nada.",
+        button: "Abrir el Studio web →",
       },
     },
   },
@@ -1113,6 +1118,7 @@ const es = {
     stay: "Quedarme en el hub",
     names: {
       "Comunidade no Discord": "Comunidad en Discord",
+      "Studio web": "Studio web",
     },
   },
 };
