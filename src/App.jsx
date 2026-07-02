@@ -86,6 +86,28 @@ const statesByCountry = {
   MX: mexicoStates,
 };
 
+// "Para responsáveis" media (YouTube ids + Google Docs), zipped by index with
+// the translated titles/descriptions in t.responsaveis.audiences[*].
+const DOC = "https://docs.google.com/document/d/e/";
+const responsaveisMedia = {
+  responsaveis: {
+    videos: ["Gn_s7uwZSVY", "NQAb8ibln8Y", "Te3wD_n9n10", "_S0IslHdWIM", "vKf3Gl6oUUo", "9XC6d1fzB_o"],
+    docs: [
+      `${DOC}2PACX-1vT5hWL7_iEWnZW5MNfKKbb-Vv3hiH58jVzOQlw2b5saetuznjeozsjae2RwtZJcN_AZ32EbHTRrTZtK/pub`,
+      `${DOC}2PACX-1vTLtA9KLoxL9mN0etmw3ezxBSp5p0Ti516KICMbm_5LEjB-BXewpVJabf1eNBvsuBZ6rM2L7ihNqtyp/pub`,
+      `${DOC}2PACX-1vSiAvmcWNoNZUDhSlYMYeFnbKm0W-irUtdpwT0-zs1Jzp2OIA4rNEka9m9hSqD3Eu6w0UxHgIqbrkbq/pub`,
+    ],
+  },
+  educadores: {
+    videos: ["5y6yjqbD4lw", "iGZW_2bkrzo", "j3jXYj9SFB0", "B1Hau_9L7YM", "-Saml9SlIG4"],
+    docs: [
+      `${DOC}2PACX-1vSiAvmcWNoNZUDhSlYMYeFnbKm0W-irUtdpwT0-zs1Jzp2OIA4rNEka9m9hSqD3Eu6w0UxHgIqbrkbq/pub`,
+      `${DOC}2PACX-1vSB-ikEr648Spl-KGxY9lh5g_JWXBWOvdcew8DaNJ9wFQPB1gc0Xqjwtf_Y2bQeH8_rmjdBYBFzRyrM/pub`,
+      `${DOC}2PACX-1vTVqf6J5-HBu_WBpqVFJMfZOIwGIrftsYNc9kUfkuQRaEmm3yFB1PNy_As9HLtY7p9SEMR1hlY-leix/pub`,
+    ],
+  },
+};
+
 // Non-text metadata kept out of the translation dictionary, merged by index.
 const sobreMeta = [
   { color: palette.red, icon: "target" },
@@ -117,8 +139,8 @@ function App() {
   const [ecoOpen, setEcoOpen] = useState(null);
   const [ecoSubOpen, setEcoSubOpen] = useState(null);
   const [modal, setModal] = useState(null);
-  const [paisJornada, setPaisJornada] = useState(false);
-  const [paisEco, setPaisEco] = useState(false);
+  const [audience, setAudience] = useState("responsaveis");
+  const [videoModal, setVideoModal] = useState(null);
   const [bildeSlide, setBildeSlide] = useState(0);
   const [tutSlide, setTutSlide] = useState(0);
   const [mobSlide, setMobSlide] = useState(0);
@@ -198,9 +220,9 @@ function App() {
 
   const activeNav = [
     { key: "sobre", ...t.nav.sobre },
-    { key: "jornada", ...t.nav.jornada },
     { key: "eco", ...t.nav.eco },
     { key: "pais", ...t.nav.pais },
+    { key: "jornada", ...t.nav.jornada },
   ];
 
   const toHub = (nextTab, nextSub = "main", nextJourneyView = "inline") =>
@@ -751,122 +773,103 @@ function App() {
                 </section>
               )}
 
-              {tab === "pais" && (
-                <section>
-                  {isMobile && (
-                    <button
-                      className="float-toggle"
-                      onClick={() => {
-                        const next = !(paisJornada && paisEco);
-                        setPaisJornada(next);
-                        setPaisEco(next);
-                      }}
-                    >
-                      <span>{paisJornada && paisEco ? "∧" : "∨"}</span>
-                      <span>{paisJornada && paisEco ? t.pais.collapse : t.pais.expand}</span>
-                    </button>
-                  )}
+              {tab === "pais" && (() => {
+                const aud = t.responsaveis.audiences[audience];
+                const media = responsaveisMedia[audience];
+                return (
+                  <section>
+                    <h2 className="page-title">{t.responsaveis.pageTitle}</h2>
+                    <p className="page-subtitle wider">{t.responsaveis.pageSubtitle}</p>
 
-                  <NumberedHeader number="01" color={palette.red} title={t.pais.h1Title} icon="stair" />
-                  <p className="page-subtitle wider">{t.pais.h1Sub}</p>
-                  <div className="parent-steps">
-                    {t.pais.steps.map((step, i) => (
-                      <div key={i} className="parent-step">
-                        <div className="parent-step-head">
-                          <div>
-                            <div className="ghost-number">{String(i + 1).padStart(2, "0")}</div>
-                            <div className="parent-step-title">{step.title}</div>
-                          </div>
-                        </div>
-                        <div className="parent-step-body">{step.body}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <NumberedHeader number="02" color={palette.yellow} title={t.pais.h2Title} icon="stair" />
-                  <p className="page-subtitle wider">{t.pais.h2Sub}</p>
-                  <ExpandCard
-                    title={t.pais.journeyExpandTitle}
-                    subtitle={t.pais.journeyExpandSub}
-                    open={paisJornada}
-                    onToggle={() => setPaisJornada(!paisJornada)}
-                  >
-                    <div className="expand-stack">
-                      {t.pais.journeyCompact.map((c, i) => (
-                        <CompactJourney key={i} accent={c.accent} title={c.title} subtitle={c.subtitle} body={c.body} />
-                      ))}
-                      <PromoCard
-                        theme="dark"
-                        kicker={t.pais.promo.kicker}
-                        title={t.pais.promo.title}
-                        body={`${t.pais.promo.line1}\n${t.pais.promo.line2}`}
-                        note={t.pais.promo.note}
-                        button={t.pais.promo.button}
-                        onClick={() => setModal({ label: "Roblox" })}
-                        compact
-                      />
-                    </div>
-                  </ExpandCard>
-
-                  <NumberedHeader number="03" color={palette.blue} title={t.pais.h3Title} icon="hex" />
-                  <p className="page-subtitle wider">{t.pais.h3Sub}</p>
-                  <ExpandCard
-                    title={t.pais.ecoExpandTitle}
-                    subtitle={t.pais.ecoExpandSub}
-                    open={paisEco}
-                    onToggle={() => setPaisEco(!paisEco)}
-                  >
-                    <div className="expand-stack">
-                      {t.pais.ecoCompact.map((c, i) => (
-                        <CompactJourney key={i} accent={c.accent} title={c.title} subtitle={c.subtitle} body={c.body} />
-                      ))}
-                    </div>
-                  </ExpandCard>
-
-                  <NumberedHeader number="04" color={palette.red} title={t.pais.h4Title} icon="play" />
-                  <p className="page-subtitle wider">{t.pais.h4Sub}</p>
-                  <div className="video-list">
-                    {t.pais.videos.map((video, i) => (
-                      <div key={i} className="video-item">
-                        <p className="video-text">{video.text}</p>
-                        <div className="video-card">
-                          <div className="video-thumb" style={{ background: videoMeta[i].color }}>
-                            <span className="video-play" style={{ background: videoMeta[i].accent }}>▶</span>
-                            <span className="video-title">{video.title}</span>
-                          </div>
-                          <div className="video-meta">{video.meta}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <NumberedHeader number="05" color={palette.purple} title={t.pais.h5Title} icon="shield" />
-                  <p className="page-subtitle wider">{t.pais.h5Sub}</p>
-                  <div className="safety-list">
-                    {t.pais.safety.map((card, i) => (
-                      <SafetyCard key={i} label={card.label} title={card.title} body={card.body} />
-                    ))}
-                    <div className="community-card">
-                      <div className="card-kicker light">{t.pais.communityCard.kicker}</div>
-                      <div className="community-title">{t.pais.communityCard.title}</div>
-                      <p>{t.pais.communityCard.body}</p>
-                      <button className="outline-action" onClick={() => setModal({ label: "Comunidade no Discord" })}>
-                        {t.pais.communityCard.button}
+                    <div className="device-switch" role="tablist" aria-label={t.responsaveis.audienceAria}>
+                      <button
+                        className={`device-switch-option red ${audience === "responsaveis" ? "active" : ""}`}
+                        onClick={() => setAudience("responsaveis")}
+                      >
+                        <span className="device-switch-icon">{icon("shield", audience === "responsaveis" ? palette.red : "#8A8A8A")}</span>
+                        <span className="device-switch-copy">
+                          <strong>{t.responsaveis.toggleResp.strong}</strong>
+                          <small>{t.responsaveis.toggleResp.small}</small>
+                        </span>
+                      </button>
+                      <button
+                        className={`device-switch-option blue ${audience === "educadores" ? "active" : ""}`}
+                        onClick={() => setAudience("educadores")}
+                      >
+                        <span className="device-switch-icon">{icon("stair", audience === "educadores" ? palette.blue : "#8A8A8A")}</span>
+                        <span className="device-switch-copy">
+                          <strong>{t.responsaveis.toggleEdu.strong}</strong>
+                          <small>{t.responsaveis.toggleEdu.small}</small>
+                        </span>
                       </button>
                     </div>
-                  </div>
 
-                  <NumberedHeader number="06" color={palette.text} title={t.pais.h6Title} icon="arrow" />
-                  <p className="page-subtitle wider">{t.pais.h6Sub}</p>
-                  <button className="deep-link" onClick={() => setModal({ label: "Roblox" })}>
-                    <span>
-                      <small>{t.pais.deepLinkSmall}</small>
-                      <strong>{t.pais.deepLinkStrong}</strong>
-                    </span>
-                    <span>›</span>
-                  </button>
-                </section>
-              )}
+                    <p className="resp-intro">{aud.intro}</p>
+
+                    <div className="resp-steps">
+                      {aud.steps.map((step, i) => (
+                        <div key={i} className="resp-step">
+                          <div className="resp-step-num">{String(i + 1).padStart(2, "0")}</div>
+                          <div className="resp-step-title">{step.title}</div>
+                          <div className="resp-step-body">{step.body}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <h3 className="resp-section-title">{t.responsaveis.videosLabel}</h3>
+                    <div className="resp-video-grid">
+                      {aud.videos.map((video, i) => (
+                        <button
+                          key={`${audience}-v-${i}`}
+                          className="resp-video-card"
+                          onClick={() => setVideoModal({ id: media.videos[i], title: video.title })}
+                        >
+                          <div className="resp-video-thumb">
+                            <img src={`https://img.youtube.com/vi/${media.videos[i]}/hqdefault.jpg`} alt={video.title} loading="lazy" />
+                            <span className="resp-video-play">▶</span>
+                          </div>
+                          <div className="resp-video-info">
+                            <strong>{video.title}</strong>
+                            <small>{video.desc}</small>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+
+                    <h3 className="resp-section-title">{t.responsaveis.docsLabel}</h3>
+                    <div className="resp-doc-list">
+                      {aud.docs.map((doc, i) => (
+                        <button
+                          key={`${audience}-d-${i}`}
+                          className="resp-doc-card"
+                          onClick={() => window.open(media.docs[i], "_blank", "noopener,noreferrer")}
+                        >
+                          <span className="resp-doc-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                              <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" stroke={palette.red} strokeWidth="1.8" strokeLinejoin="round" />
+                              <path d="M14 3v5h5M9 13h6M9 16.5h6" stroke={palette.red} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
+                          <span className="resp-doc-copy">
+                            <strong>{doc.title}</strong>
+                            <small>{t.responsaveis.docTag}</small>
+                          </span>
+                          <span className="resp-doc-arrow">↗</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="community-card resp-community">
+                      <div className="card-kicker light">{t.responsaveis.community.kicker}</div>
+                      <div className="community-title">{t.responsaveis.community.title}</div>
+                      <p>{t.responsaveis.community.body}</p>
+                      <button className="outline-action" onClick={() => setModal({ label: "Comunidade no Discord" })}>
+                        {t.responsaveis.community.button}
+                      </button>
+                    </div>
+                  </section>
+                );
+              })()}
             </div>
 
             {isMobile && (
@@ -909,6 +912,23 @@ function App() {
               </button>
               <button className="modal-secondary" onClick={() => setModal(null)}>{t.modal.stay}</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {videoModal && (
+        <div className="modal-backdrop video-backdrop" onClick={() => setVideoModal(null)}>
+          <div className="video-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="video-modal-close" onClick={() => setVideoModal(null)} aria-label="Fechar">✕</button>
+            <div className="video-modal-frame">
+              <iframe
+                src={`https://www.youtube.com/embed/${videoModal.id}?autoplay=1&rel=0`}
+                title={videoModal.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <div className="video-modal-title">{videoModal.title}</div>
           </div>
         </div>
       )}

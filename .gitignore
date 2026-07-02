@@ -4,3 +4,6 @@ dist/
 
 # Raw 4K manifesto originals (~293MB each) — web-optimized copies live in public/uploads
 /Manifesto*.mp4
+
+# Reference-only legacy landing project (contains its own .env/secrets and heavy assets)
+/LANDING-OLD/

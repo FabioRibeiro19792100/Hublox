@@ -83,7 +83,7 @@ const pt = {
     sobre: { label: "Expedição", subtitle: "O que é o programa" },
     jornada: { label: "Jornada", subtitle: "Ferramentas e caminho" },
     eco: { label: "Ecossistema", subtitle: "Onde tudo acontece" },
-    pais: { label: "Para pais", subtitle: "Guia para responsáveis" },
+    pais: { label: "Para responsáveis", subtitle: "Guia para responsáveis" },
   },
   journey: {
     pageTitle: "Sua jornada",
@@ -361,6 +361,64 @@ const pt = {
     h6Sub: "Se quiser explorar o Roblox diretamente, configure a conta parental antes de começar.",
     deepLinkSmall: "Roblox · externo",
     deepLinkStrong: "Configurar conta parental",
+  },
+  responsaveis: {
+    pageTitle: "Para responsáveis",
+    pageSubtitle: "Conteúdos e orientações para pais, responsáveis e educadores acompanharem a jornada de criação no Roblox.",
+    audienceAria: "Escolha o público",
+    toggleResp: { strong: "Pais e responsáveis", small: "Apoiar em casa" },
+    toggleEdu: { strong: "Educadores", small: "Usar em sala de aula" },
+    videosLabel: "Vídeos",
+    docsLabel: "Guias e materiais",
+    docTag: "Documento · abre em nova aba",
+    community: {
+      kicker: "Comunidade",
+      title: "Entre na comunidade da Expedição",
+      body: "Tire dúvidas, acompanhe os criadores e fique por dentro de tudo que acontece na Expedição.",
+      button: "Entrar no Discord →",
+    },
+    audiences: {
+      responsaveis: {
+        intro: "Entenda o projeto e saiba como apoiar seu filho nessa jornada de aprendizado e criação.",
+        steps: [
+          { title: "Entender o projeto", body: "Conheça a Expedição Roblox, como funciona e como acompanhar seu filho." },
+          { title: "Participar junto", body: "Viva a jornada de criação em família, presencial ou de casa." },
+        ],
+        videos: [
+          { title: "O que é a Roblox?", desc: "Não é só um jogo: é uma plataforma de experiências criadas por pessoas." },
+          { title: "Gerenciando gastos e Robux", desc: "Como funciona a moeda da plataforma e como controlar as compras." },
+          { title: "Segurança e privacidade", desc: "Filtros de conteúdo, restrições por idade e controle de chat e amizades." },
+          { title: "Tempo de tela e qualidade de uso", desc: "Consumo passivo x criação ativa e como equilibrar o tempo." },
+          { title: "De consumidor a criador", desc: "Como incentivar o Studio para aprender programação, lógica e design." },
+          { title: "Diálogo e cidadania digital", desc: "Como manter a conversa aberta e construir autonomia com segurança." },
+        ],
+        docs: [
+          { title: "Como criar uma conta na Roblox" },
+          { title: "Como jogar Roblox (computador e celular)" },
+          { title: "Guia para pais e educadores" },
+        ],
+      },
+      educadores: {
+        intro: "Use o Roblox como ferramenta pedagógica e inspire seus alunos a criar e aprender.",
+        steps: [
+          { title: "Usar na sala de aula", body: "Materiais pedagógicos e como integrar o Roblox ao seu planejamento." },
+          { title: "Formar e participar", body: "Participe de eventos para educadores e amplie sua rede." },
+          { title: "Levar a turma", body: "Incentive seus alunos a criar e acompanhe o progresso deles." },
+        ],
+        videos: [
+          { title: "Por que usar a Roblox na educação?", desc: "Alinhamento à BNCC, engajamento e competências do século 21." },
+          { title: "Primeiros passos e navegação", desc: "A diferença entre jogar e criar, e a conta de professor." },
+          { title: "O Learning Hub e a curadoria", desc: "Onde achar experiências educacionais alinhadas aos objetivos de aula." },
+          { title: "Segurança e servidores privados", desc: "Servidores privados para a turma e ferramentas de segurança." },
+          { title: "Mediação e avaliação", desc: "O papel do professor como mediador e como avaliar o aprendizado." },
+        ],
+        docs: [
+          { title: "Guia para pais e educadores" },
+          { title: "Preparação de aulas usando Roblox" },
+          { title: "Criar experiências educacionais no Roblox" },
+        ],
+      },
+    },
   },
   modal: {
     kicker: "Saindo do hub",
@@ -735,6 +793,64 @@ const en = {
     deepLinkSmall: "Roblox · external",
     deepLinkStrong: "Set up parental account",
   },
+  responsaveis: {
+    pageTitle: "For guardians",
+    pageSubtitle: "Content and guidance for parents, guardians and educators who want to follow the creation journey on Roblox.",
+    audienceAria: "Choose the audience",
+    toggleResp: { strong: "Parents & guardians", small: "Support at home" },
+    toggleEdu: { strong: "Educators", small: "Use in the classroom" },
+    videosLabel: "Videos",
+    docsLabel: "Guides & materials",
+    docTag: "Document · opens in a new tab",
+    community: {
+      kicker: "Community",
+      title: "Join the Expedition community",
+      body: "Ask questions, follow the creators and keep up with everything happening in the Expedition.",
+      button: "Join the Discord →",
+    },
+    audiences: {
+      responsaveis: {
+        intro: "Understand the project and learn how to support your child on this journey of learning and creating.",
+        steps: [
+          { title: "Understand the project", body: "Get to know Roblox Expedition, how it works and how to follow your child." },
+          { title: "Take part together", body: "Live the creation journey as a family, in person or from home." },
+        ],
+        videos: [
+          { title: "What is Roblox?", desc: "Not just a game: a platform of experiences created by people." },
+          { title: "Managing spending and Robux", desc: "How the platform's currency works and how to control purchases." },
+          { title: "Safety and privacy", desc: "Content filters, age restrictions and chat and friend controls." },
+          { title: "Screen time and quality of use", desc: "Passive consumption vs. active creation, and how to balance time." },
+          { title: "From consumer to creator", desc: "How to encourage Studio to learn programming, logic and design." },
+          { title: "Ongoing dialogue and digital citizenship", desc: "How to keep the conversation open and build autonomy safely." },
+        ],
+        docs: [
+          { title: "How to create a Roblox account" },
+          { title: "How to play Roblox (computer and phone)" },
+          { title: "Guide for parents and educators" },
+        ],
+      },
+      educadores: {
+        intro: "Use Roblox as a teaching tool and inspire your students to create and learn.",
+        steps: [
+          { title: "Use in the classroom", body: "Teaching materials and how to fit Roblox into your lesson plans." },
+          { title: "Train and take part", body: "Join events for educators and grow your network." },
+          { title: "Bring your class", body: "Encourage your students to create and follow their progress." },
+        ],
+        videos: [
+          { title: "Why use Roblox in education?", desc: "Curriculum alignment, engagement and 21st-century skills." },
+          { title: "First steps and navigation", desc: "The difference between playing and creating, and the teacher account." },
+          { title: "The Learning Hub and curation", desc: "Where to find educational experiences aligned with lesson goals." },
+          { title: "Safety and private servers", desc: "Private servers for the class and safety tools." },
+          { title: "Mediation and assessment", desc: "The teacher's role as a mediator and how to assess learning." },
+        ],
+        docs: [
+          { title: "Guide for parents and educators" },
+          { title: "Preparing lessons using Roblox" },
+          { title: "Creating educational experiences in Roblox" },
+        ],
+      },
+    },
+  },
   modal: {
     kicker: "Leaving the hub",
     openPrefix: "Open",
@@ -1107,6 +1223,64 @@ const es = {
     h6Sub: "Si quieres explorar Roblox directamente, configura la cuenta parental antes de empezar.",
     deepLinkSmall: "Roblox · externo",
     deepLinkStrong: "Configurar cuenta parental",
+  },
+  responsaveis: {
+    pageTitle: "Para responsables",
+    pageSubtitle: "Contenidos y orientaciones para padres, responsables y educadores que quieran acompañar la jornada de creación en Roblox.",
+    audienceAria: "Elige el público",
+    toggleResp: { strong: "Padres y responsables", small: "Apoyar en casa" },
+    toggleEdu: { strong: "Educadores", small: "Usar en el aula" },
+    videosLabel: "Videos",
+    docsLabel: "Guías y materiales",
+    docTag: "Documento · se abre en una nueva pestaña",
+    community: {
+      kicker: "Comunidad",
+      title: "Entra a la comunidad de la Expedición",
+      body: "Resuelve dudas, sigue a los creators y entérate de todo lo que pasa en la Expedición.",
+      button: "Entrar a Discord →",
+    },
+    audiences: {
+      responsaveis: {
+        intro: "Entiende el proyecto y descubre cómo apoyar a tu hijo en esta jornada de aprendizaje y creación.",
+        steps: [
+          { title: "Entender el proyecto", body: "Conoce la Expedición Roblox, cómo funciona y cómo acompañar a tu hijo." },
+          { title: "Participar juntos", body: "Vive la jornada de creación en familia, presencial o desde casa." },
+        ],
+        videos: [
+          { title: "¿Qué es Roblox?", desc: "No es solo un juego: es una plataforma de experiencias creadas por personas." },
+          { title: "Gestionar gastos y Robux", desc: "Cómo funciona la moneda de la plataforma y cómo controlar las compras." },
+          { title: "Seguridad y privacidad", desc: "Filtros de contenido, restricciones por edad y control de chat y amistades." },
+          { title: "Tiempo de pantalla y calidad de uso", desc: "Consumo pasivo vs. creación activa y cómo equilibrar el tiempo." },
+          { title: "De consumidor a creador", desc: "Cómo incentivar el Studio para aprender programación, lógica y diseño." },
+          { title: "Diálogo y ciudadanía digital", desc: "Cómo mantener la conversación abierta y construir autonomía con seguridad." },
+        ],
+        docs: [
+          { title: "Cómo crear una cuenta en Roblox" },
+          { title: "Cómo jugar Roblox (computadora y celular)" },
+          { title: "Guía para padres y educadores" },
+        ],
+      },
+      educadores: {
+        intro: "Usa Roblox como herramienta pedagógica e inspira a tus alumnos a crear y aprender.",
+        steps: [
+          { title: "Usar en el aula", body: "Materiales pedagógicos y cómo integrar Roblox a tu planificación." },
+          { title: "Formarte y participar", body: "Participa en eventos para educadores y amplía tu red." },
+          { title: "Llevar al grupo", body: "Incentiva a tus alumnos a crear y acompaña su progreso." },
+        ],
+        videos: [
+          { title: "¿Por qué usar Roblox en la educación?", desc: "Alineación curricular, engagement y competencias del siglo 21." },
+          { title: "Primeros pasos y navegación", desc: "La diferencia entre jugar y crear, y la cuenta de profesor." },
+          { title: "El Learning Hub y la curaduría", desc: "Dónde encontrar experiencias educativas alineadas a los objetivos de clase." },
+          { title: "Seguridad y servidores privados", desc: "Servidores privados para el grupo y herramientas de seguridad." },
+          { title: "Mediación y evaluación", desc: "El papel del profesor como mediador y cómo evaluar el aprendizaje." },
+        ],
+        docs: [
+          { title: "Guía para padres y educadores" },
+          { title: "Preparación de clases usando Roblox" },
+          { title: "Crear experiencias educativas en Roblox" },
+        ],
+      },
+    },
   },
   modal: {
     kicker: "Saliendo del hub",
