@@ -122,11 +122,25 @@ const videoMeta = [
   { color: "linear-gradient(135deg,#0F1A0F 0%,#1A2E1A 100%)", accent: "#1F8A5B" },
 ];
 
+// Ecosystem items tracked for the logged-area progress (viewed on expand, done on action).
+const ECO_KEYS = ["studiomob", "rstudio", "roblox", "comunidade"];
+
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
   const t = translations[lang] || translations.pt;
 
-  const [screen, setScreen] = useState("entry");
+  const [creatorSession, setCreatorSession] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("hublox-creator-session")) || null; }
+    catch { return null; }
+  });
+  const [ecoProgress, setEcoProgress] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("hublox-eco-progress"));
+      return saved && saved.viewed && saved.done ? saved : { viewed: {}, done: {} };
+    } catch { return { viewed: {}, done: {} }; }
+  });
+  const [screen, setScreen] = useState(() => (creatorSession ? "hub" : "entry"));
+  const [welcomeBack, setWelcomeBack] = useState(() => !!creatorSession);
   const [robloxHandle, setRobloxHandle] = useState("");
   const [pais, setPais] = useState("");
   const [estado, setEstado] = useState("");
@@ -151,6 +165,40 @@ function App() {
   useEffect(() => {
     localStorage.setItem("hublox-lang", lang);
   }, [lang]);
+
+  useEffect(() => {
+    if (creatorSession) localStorage.setItem("hublox-creator-session", JSON.stringify(creatorSession));
+  }, [creatorSession]);
+
+  useEffect(() => {
+    localStorage.setItem("hublox-eco-progress", JSON.stringify(ecoProgress));
+  }, [ecoProgress]);
+
+  useEffect(() => {
+    if (!welcomeBack) return;
+    const timer = setTimeout(() => setWelcomeBack(false), 5000);
+    return () => clearTimeout(timer);
+  }, [welcomeBack]);
+
+  const markEco = (key, level) =>
+    setEcoProgress((prev) =>
+      prev[level][key] ? prev : { ...prev, [level]: { ...prev[level], [key]: true } },
+    );
+
+  const toggleEco = (key) => {
+    const opening = ecoOpen !== key;
+    setEcoOpen(opening ? key : null);
+    if (opening) markEco(key, "viewed");
+  };
+
+  const logout = () => {
+    localStorage.removeItem("hublox-creator-session");
+    localStorage.removeItem("hublox-eco-progress");
+    setCreatorSession(null);
+    setEcoProgress({ viewed: {}, done: {} });
+    setWelcomeBack(false);
+    runLoading(() => setScreen("entry"));
+  };
 
   const bildeShots = useMemo(
     () => Array.from({ length: 5 }, (_, i) => makePlaceholder(`${t.shots.drag} ${i + 1}`)),
@@ -279,6 +327,9 @@ function App() {
     ? (lang === "en" ? "/uploads/manifesto-eng.mp4" : "/uploads/manifesto-ptbr.mp4")
     : "/uploads/manifesto-horiz.mp4";
 
+  const ecoExplored = ECO_KEYS.filter((k) => ecoProgress.viewed[k] || ecoProgress.done[k]).length;
+  const ecoDone = ECO_KEYS.filter((k) => ecoProgress.done[k]).length;
+
   return (
     <div className="app-root">
       <LoadingOverlay loading={loading} hub={screen === "hub"} />
@@ -298,12 +349,16 @@ function App() {
             <p className="entry-text faint">{t.entry.p3}</p>
             <button
               className="cta cta-red"
-              onClick={() =>
+              onClick={() => {
+                if (creatorSession) {
+                  toHub("sobre");
+                  return;
+                }
                 runLoading(() => {
                   resetCreatorQ();
                   setScreen("creator-id");
-                })
-              }
+                });
+              }}
             >
               <span>{t.entry.cta}</span>
               <span className="cta-badge">→</span>
@@ -402,7 +457,10 @@ function App() {
             <button
               className="cta cta-red id-continue"
               disabled={!robloxHandle.trim() || !pais || (statesByCountry[pais] && !estado)}
-              onClick={() => runLoading(() => { setScreen("creator-q"); })}
+              onClick={() => {
+                setCreatorSession({ handle: robloxHandle.trim(), pais, estado });
+                runLoading(() => { setScreen("creator-q"); });
+              }}
             >
               <span>{t.id.continue}</span>
               <span className="cta-badge">→</span>
@@ -495,17 +553,30 @@ function App() {
                   </button>
                 ))}
               </div>
-              <button className="sidebar-exit" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.exit}</button>
+              <div className="sidebar-footer">
+                <button className="sidebar-exit" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.exit}</button>
+                {creatorSession && (
+                  <button className="sidebar-logout" onClick={logout}>{t.account.logout}</button>
+                )}
+              </div>
             </aside>
           )}
 
           <main className="main-panel">
+            {welcomeBack && creatorSession && (
+              <div className="welcome-back" role="status" onClick={() => setWelcomeBack(false)}>
+                <span>{t.account.welcomeBack} <strong>@{creatorSession.handle}</strong></span>
+                <button className="welcome-back-close" aria-label="Fechar" onClick={(e) => { e.stopPropagation(); setWelcomeBack(false); }}>✕</button>
+              </div>
+            )}
             {isMobile && (
               <>
                 <header className="mobile-topbar">
                   <div className="mobile-head">
                     <Logo usage="topbar" alt={t.common.logoAlt} />
-                    <span className="mobile-tag">{t.common.creatorTag}</span>
+                    {creatorSession
+                      ? <button className="mobile-logout" onClick={logout}>{t.account.logout}</button>
+                      : <span className="mobile-tag">{t.common.creatorTag}</span>}
                   </div>
                   <div className="mobile-tabs">
                     {activeNav.map((item) => (
@@ -636,6 +707,8 @@ function App() {
                   <h2 className="page-title">{t.eco.pageTitle}</h2>
                   <p className="page-subtitle">{t.eco.pageSubtitle}</p>
 
+                  <EcoProgress explored={ecoExplored} done={ecoDone} total={ECO_KEYS.length} t={t} />
+
                   <AccordionCard
                     accent="yellow"
                     deviceIcon="mobile"
@@ -643,12 +716,12 @@ function App() {
                     subtitle={t.eco.studiomob.subtitle}
                     body={t.eco.studiomob.body}
                     open={ecoOpen === "studiomob"}
-                    onToggle={() => setEcoOpen(ecoOpen === "studiomob" ? null : "studiomob")}
+                    onToggle={() => toggleEco("studiomob")}
                   >
                     <InfoRows accent="yellow" rows={t.eco.studiomob.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.studiomob.ctaCopy}</div>
-                      <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); setModal({ label: "Studio mobile" }); }}>
+                      <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); markEco("studiomob", "done"); setModal({ label: "Studio mobile" }); }}>
                         {t.eco.studiomob.cta}
                       </button>
                     </div>
@@ -661,7 +734,7 @@ function App() {
                     subtitle={t.eco.rstudio.subtitle}
                     body={t.eco.rstudio.body}
                     open={ecoOpen === "rstudio"}
-                    onToggle={() => setEcoOpen(ecoOpen === "rstudio" ? null : "rstudio")}
+                    onToggle={() => toggleEco("rstudio")}
                   >
                     <InfoRows accent="dark" rows={t.eco.rstudio.rows} />
                     <div className="nested-cards">
@@ -676,6 +749,7 @@ function App() {
                         cta={t.eco.rstudio.bilde.cta}
                         onAction={(e) => {
                           e.stopPropagation();
+                          markEco("rstudio", "done");
                           runLoading(() => {
                             setTab("jornada");
                             setJourneyDevice("computer");
@@ -695,6 +769,7 @@ function App() {
                         cta={t.eco.rstudio.tut.cta}
                         onAction={(e) => {
                           e.stopPropagation();
+                          markEco("rstudio", "done");
                           runLoading(() => {
                             setTab("jornada");
                             setJourneyDevice("computer");
@@ -712,12 +787,12 @@ function App() {
                     subtitle={t.eco.roblox.subtitle}
                     body={t.eco.roblox.body}
                     open={ecoOpen === "roblox"}
-                    onToggle={() => setEcoOpen(ecoOpen === "roblox" ? null : "roblox")}
+                    onToggle={() => toggleEco("roblox")}
                   >
                     <InfoRows accent="red" rows={t.eco.roblox.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.roblox.ctaCopy}</div>
-                      <button className="small-action red" onClick={(e) => { e.stopPropagation(); setModal({ label: "Roblox" }); }}>
+                      <button className="small-action red" onClick={(e) => { e.stopPropagation(); markEco("roblox", "done"); setModal({ label: "Roblox" }); }}>
                         {t.eco.roblox.cta}
                       </button>
                     </div>
@@ -729,12 +804,12 @@ function App() {
                     subtitle={t.eco.comunidade.subtitle}
                     body={t.eco.comunidade.body}
                     open={ecoOpen === "comunidade"}
-                    onToggle={() => setEcoOpen(ecoOpen === "comunidade" ? null : "comunidade")}
+                    onToggle={() => toggleEco("comunidade")}
                   >
                     <InfoRows accent="purple" rows={t.eco.comunidade.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.comunidade.ctaCopy}</div>
-                      <button className="small-action purple" onClick={(e) => { e.stopPropagation(); setModal({ label: "Comunidade no Discord" }); }}>
+                      <button className="small-action purple" onClick={(e) => { e.stopPropagation(); markEco("comunidade", "done"); setModal({ label: "Comunidade no Discord" }); }}>
                         {t.eco.comunidade.cta}
                       </button>
                     </div>
@@ -1019,6 +1094,24 @@ function ResultCard({ theme, kicker, title, body, button, onClick, secondaryText
       {secondaryText && (
         <button className="result-secondary" onClick={onSecondary}>{secondaryText} ›</button>
       )}
+    </div>
+  );
+}
+
+function EcoProgress({ explored, done, total, t }) {
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const exploredPct = total ? Math.round((explored / total) * 100) : 0;
+  return (
+    <div className="eco-progress">
+      <div className="eco-progress-track">
+        <div className="eco-progress-explored" style={{ width: `${exploredPct}%` }} />
+        <div className="eco-progress-done" style={{ width: `${pct}%` }} />
+      </div>
+      <div className="eco-progress-label">
+        {explored} {t.eco.progressOf} {total} {t.eco.progressExplored}
+        <span className="eco-progress-sep"> · </span>
+        {done} {t.eco.progressDone}
+      </div>
     </div>
   );
 }

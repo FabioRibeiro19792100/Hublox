@@ -174,6 +174,9 @@ const pt = {
   eco: {
     pageTitle: "O ecossistema",
     pageSubtitle: "Toque em cada espaço para entender o que é e o que você faz lá.",
+    progressOf: "de",
+    progressExplored: "explorados",
+    progressDone: "concluídos",
     subtoolMeta: "plugin · Roblox Studio · computador",
     studiomob: {
       title: "Studio mobile",
@@ -420,6 +423,10 @@ const pt = {
       },
     },
   },
+  account: {
+    welcomeBack: "Bem-vindo de volta,",
+    logout: "Sair da conta",
+  },
   modal: {
     kicker: "Saindo do hub",
     openPrefix: "Abrir",
@@ -605,6 +612,9 @@ const en = {
   eco: {
     pageTitle: "The ecosystem",
     pageSubtitle: "Tap each space to understand what it is and what you do there.",
+    progressOf: "of",
+    progressExplored: "explored",
+    progressDone: "completed",
     subtoolMeta: "plugin · Roblox Studio · computer",
     studiomob: {
       title: "Studio mobile",
@@ -851,6 +861,10 @@ const en = {
       },
     },
   },
+  account: {
+    welcomeBack: "Welcome back,",
+    logout: "Log out",
+  },
   modal: {
     kicker: "Leaving the hub",
     openPrefix: "Open",
@@ -1036,6 +1050,9 @@ const es = {
   eco: {
     pageTitle: "El ecosistema",
     pageSubtitle: "Toca cada espacio para entender qué es y qué haces ahí.",
+    progressOf: "de",
+    progressExplored: "explorados",
+    progressDone: "completados",
     subtoolMeta: "plugin · Roblox Studio · computadora",
     studiomob: {
       title: "Studio mobile",
@@ -1281,6 +1298,10 @@ const es = {
         ],
       },
     },
+  },
+  account: {
+    welcomeBack: "¡Bienvenido de vuelta,",
+    logout: "Cerrar sesión",
   },
   modal: {
     kicker: "Saliendo del hub",
