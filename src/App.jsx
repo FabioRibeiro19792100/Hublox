@@ -252,6 +252,11 @@ function App() {
 
   const modalName = modal ? t.modal.names[modal.label] || modal.label : "";
 
+  // Manifesto hero: horizontal on desktop, vertical (per language) on mobile.
+  const heroVideo = isMobile
+    ? (lang === "en" ? "/uploads/manifesto-eng.mp4" : "/uploads/manifesto-ptbr.mp4")
+    : "/uploads/manifesto-horiz.mp4";
+
   return (
     <div className="app-root">
       <LoadingOverlay loading={loading} hub={screen === "hub"} />
@@ -495,7 +500,7 @@ function App() {
               </>
             )}
 
-            <div className="content-shell">
+            <div className={`content-shell ${tab === "sobre" ? "full" : ""}`}>
               {tab === "jornada" && journeyView === "detail" && sub !== "main" && (
                 <section>
                   {sub === "mob" && renderDetail("mob", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
@@ -716,20 +721,32 @@ function App() {
               )}
 
               {tab === "sobre" && (
-                <section>
-                  <h2 className="page-title">{t.sobre.pageTitle}</h2>
-                  <div className="sobre-list">
-                    {t.sobre.sections.map((section, index) => (
-                      <div key={index} className="sobre-item">
-                        <div className="sobre-icon">{icon(sobreMeta[index].icon, sobreMeta[index].color)}</div>
-                        <div className="sobre-copy">
-                          <div className="sobre-kicker" style={{ color: sobreMeta[index].color }}>{section.kicker}</div>
-                          {section.paragraphs.map((p, i) => (
-                            <p key={`${index}-${i}`} className={`sobre-paragraph ${i === 0 ? "lead" : ""}`}>{p}</p>
-                          ))}
+                <section className="sobre-page">
+                  <div className={`sobre-hero ${isMobile ? "vertical" : "horizontal"}`}>
+                    <video
+                      key={heroVideo}
+                      className="sobre-hero-video"
+                      src={heroVideo}
+                      controls
+                      playsInline
+                      preload="metadata"
+                    />
+                  </div>
+                  <div className="sobre-body">
+                    <h2 className="page-title">{t.sobre.pageTitle}</h2>
+                    <div className="sobre-list">
+                      {t.sobre.sections.map((section, index) => (
+                        <div key={index} className="sobre-item">
+                          <div className="sobre-icon">{icon(sobreMeta[index].icon, sobreMeta[index].color)}</div>
+                          <div className="sobre-copy">
+                            <div className="sobre-kicker" style={{ color: sobreMeta[index].color }}>{section.kicker}</div>
+                            {section.paragraphs.map((p, i) => (
+                              <p key={`${index}-${i}`} className={`sobre-paragraph ${i === 0 ? "lead" : ""}`}>{p}</p>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </section>
               )}

@@ -1660,6 +1660,51 @@ button {
   line-height: 1.65;
 }
 
+/* Full-bleed Expedição page: video hero + full-width description */
+.content-shell.full {
+  max-width: none;
+  padding: 0;
+}
+
+.sobre-page {
+  min-height: 100%;
+}
+
+.sobre-hero {
+  width: 100%;
+  background: #0d1117;
+  overflow: hidden;
+}
+
+.sobre-hero.horizontal {
+  height: clamp(320px, 56vh, 620px);
+}
+
+.sobre-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sobre-body {
+  padding: 44px 48px 64px;
+}
+
+.sobre-body .sobre-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px 56px;
+  margin-top: 30px;
+}
+
+.sobre-body .sobre-item {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  gap: 22px;
+}
+
 .float-toggle {
   position: fixed;
   right: 16px;
@@ -2160,6 +2205,35 @@ button {
 
   .sobre-icon {
     width: 56px;
+  }
+
+  .sobre-hero.vertical {
+    height: auto;
+  }
+
+  .sobre-hero.vertical .sobre-hero-video {
+    height: auto;
+  }
+
+  .sobre-body {
+    padding: 28px 20px 96px;
+  }
+
+  .sobre-body .sobre-list {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .sobre-body .sobre-item {
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .sobre-body .sobre-item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
   }
 
   .expand-body {
