@@ -347,9 +347,9 @@ function App() {
 
   const detailProps = (kind) => {
     const map = {
-      mob: { accent: palette.yellowText, dict: t.detail.mob, slides: mobShots, slide: mobSlide, setSlide: setMobSlide, actionTheme: "yellow", modalLabel: "Studio mobile" },
-      bilde: { accent: palette.red, dict: t.detail.bilde, slides: bildeShots, slide: bildeSlide, setSlide: setBildeSlide, actionTheme: "", modalLabel: "Roblox Studio" },
-      tut: { accent: palette.blue, dict: t.detail.tut, slides: tutShots, slide: tutSlide, setSlide: setTutSlide, actionTheme: "", modalLabel: "Roblox Studio" },
+      mob: { accent: palette.yellowText, dict: t.detail.mob, slides: mobShots, slide: mobSlide, setSlide: setMobSlide, actionTheme: "yellow", modalLabel: "Studio mobile", loopVideo: "/uploads/studiomobile-loop.mp4" },
+      bilde: { accent: palette.red, dict: t.detail.bilde, slides: bildeShots, slide: bildeSlide, setSlide: setBildeSlide, actionTheme: "", modalLabel: "Roblox Studio", loopVideo: "/uploads/bilde-loop.mp4" },
+      tut: { accent: palette.blue, dict: t.detail.tut, slides: tutShots, slide: tutSlide, setSlide: setTutSlide, actionTheme: "", modalLabel: "Roblox Studio", loopVideo: "/uploads/plugin-loop.mp4" },
     };
     return map[kind];
   };
@@ -370,6 +370,7 @@ function App() {
         actionTheme={p.actionTheme}
         labels={t.detail}
         videoStub
+        loopVideo={p.loopVideo}
         inline={inline}
         onAction={() => setModal({ label: p.modalLabel })}
         onBack={onBack}
@@ -1220,7 +1221,7 @@ function TestingCard({ title, note }) {
   );
 }
 
-function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, setSlide, action, onAction, onBack, actionTheme, videoStub, labels, inline = false }) {
+function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, setSlide, action, onAction, onBack, actionTheme, videoStub, loopVideo, labels, inline = false }) {
   return (
     <section className={inline ? "detail-screen-inline" : ""}>
       <button className="detail-back" onClick={onBack}>{inline ? labels.close : labels.back}</button>
@@ -1231,7 +1232,13 @@ function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, se
         </div>
       </div>
       <div className="detail-subline" style={{ color: accent }}>{subline}</div>
-      {videoStub && <div className="video-stub"><span>▶</span><small>{labels.howItWorks}</small></div>}
+      {loopVideo ? (
+        <div className="detail-loop">
+          <video src={loopVideo} autoPlay muted loop playsInline preload="metadata" />
+        </div>
+      ) : (
+        videoStub && <div className="video-stub"><span>▶</span><small>{labels.howItWorks}</small></div>
+      )}
       <div className="detail-grid" style={{ color: accent }}>
         <DetailFact title={labels.factWhat} body={cards[0]} />
         <DetailFact title={labels.factHow} body={cards[1]} />

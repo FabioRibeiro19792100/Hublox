@@ -5,5 +5,10 @@ dist/
 # Raw 4K manifesto originals (~293MB each) — web-optimized copies live in public/uploads
 /Manifesto*.mp4
 
+# Raw screen-recording originals — web loops live in public/uploads (*-loop.mp4)
+/bilde.mov
+/plugin.mov
+/studiomobile.mov
+
 # Reference-only legacy landing project (contains its own .env/secrets and heavy assets)
 /LANDING-OLD/

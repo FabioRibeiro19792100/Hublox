@@ -102,8 +102,8 @@ const pt = {
     cardMobile: {
       kicker: "Studio mobile · App Mastertech",
       title: "Criar no Celular",
-      body: "Cria e publica sem computador",
-      note: "Só o celular basta. Cria e publica tudo pelo telefone.",
+      body: "Cria e exporta sem computador",
+      note: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio.",
     },
     cardBilde: {
       kicker: "Bilde · Roblox Studio · plugin",
@@ -131,7 +131,7 @@ const pt = {
       subline: "app · Mastertech · celular",
       cards: [
         "App da Mastertech para criar no celular, com interface pensada para tela pequena.",
-        "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar.",
+        "Cria um jogo inteiro pelo telefone, testa no próprio ambiente web e exporta direto para o Roblox Studio.",
         "No Studio mobile, no celular. App separado do Roblox Studio.",
       ],
       action: "Abrir o Studio mobile →",
@@ -186,10 +186,10 @@ const pt = {
     studiomob: {
       title: "Studio mobile",
       subtitle: "App Mastertech · celular",
-      body: "Cria e publica só com o celular",
+      body: "Cria e exporta só com o celular",
       rows: [
         ["what", "O que é", "O app da Mastertech para criar no celular. Uma alternativa ao Roblox Studio para quem não tem computador."],
-        ["do", "O que você faz aqui", "Cria e publica um jogo inteiro pelo telefone. Vai direto para o Roblox ao publicar."],
+        ["do", "O que você faz aqui", "Cria um jogo inteiro pelo telefone, testa no próprio ambiente web e exporta direto para o Roblox Studio."],
         ["who", "Quem fez", "Mastertech — parte da Expedição Roblox."],
       ],
       ctaCopy: "Entre direto no app de criação para celular da Expedição.",
@@ -312,7 +312,7 @@ const pt = {
     journeyExpandTitle: "Ver a jornada completa",
     journeyExpandSub: "Jornada do creator",
     journeyCompact: [
-      { accent: "yellow", title: "Criar no Celular", subtitle: "App Mastertech · celular", body: "Só o celular basta. Cria e publica um jogo inteiro pelo telefone." },
+      { accent: "yellow", title: "Criar no Celular", subtitle: "App Mastertech · celular", body: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio." },
       { accent: "red", title: "Criar com IA", subtitle: "Bilde · Roblox Studio · plugin", body: "Plugin que entrevista o creator e monta o jogo a partir das respostas. Ideal para quem não sabe por onde começar." },
       { accent: "blue", title: "Aprender com Tutoriais", subtitle: "Tutoriais · Roblox Studio · plugin", body: "Plugin que conduz etapa a etapa. O creator constrói cada parte do jogo com a própria mão." },
     ],
@@ -545,8 +545,8 @@ const en = {
     cardMobile: {
       kicker: "Studio mobile · Mastertech App",
       title: "Create on Mobile",
-      body: "Create and publish without a computer",
-      note: "Just your phone is enough. Create and publish everything from your phone.",
+      body: "Create and export without a computer",
+      note: "Just your phone is enough. Create, test in the browser and export to Roblox Studio.",
     },
     cardBilde: {
       kicker: "Bilde · Roblox Studio · plugin",
@@ -574,7 +574,7 @@ const en = {
       subline: "app · Mastertech · mobile",
       cards: [
         "Mastertech's app for creating on your phone, with an interface designed for small screens.",
-        "Create and publish an entire game from your phone. Goes straight to Roblox when you publish.",
+        "Build a whole game from your phone, test it right in the web environment and export it straight to Roblox Studio.",
         "In Studio mobile, on your phone. A separate app from Roblox Studio.",
       ],
       action: "Open Studio mobile →",
@@ -629,10 +629,10 @@ const en = {
     studiomob: {
       title: "Studio mobile",
       subtitle: "Mastertech App · mobile",
-      body: "Create and publish with just your phone",
+      body: "Create and export with just your phone",
       rows: [
         ["what", "What it is", "Mastertech's app for creating on your phone. An alternative to Roblox Studio for those without a computer."],
-        ["do", "What you do here", "Create and publish an entire game from your phone. Goes straight to Roblox when you publish."],
+        ["do", "What you do here", "Build a whole game from your phone, test it right in the web environment and export it straight to Roblox Studio."],
         ["who", "Who made it", "Mastertech — part of Roblox Expedition."],
       ],
       ctaCopy: "Jump straight into the Expedition's mobile creation app.",
@@ -755,7 +755,7 @@ const en = {
     journeyExpandTitle: "See the full journey",
     journeyExpandSub: "The creator's journey",
     journeyCompact: [
-      { accent: "yellow", title: "Create on Mobile", subtitle: "Mastertech App · mobile", body: "Just your phone is enough. Create and publish an entire game from your phone." },
+      { accent: "yellow", title: "Create on Mobile", subtitle: "Mastertech App · mobile", body: "Just your phone is enough. Create, test in the browser and export to Roblox Studio." },
       { accent: "red", title: "Create with AI", subtitle: "Bilde · Roblox Studio · plugin", body: "A plugin that interviews the creator and builds the game from their answers. Perfect for those who don't know where to start." },
       { accent: "blue", title: "Learn with Tutorials", subtitle: "Tutorials · Roblox Studio · plugin", body: "A plugin that guides you step by step. The creator builds each part of the game with their own hands." },
     ],
@@ -988,8 +988,8 @@ const es = {
     cardMobile: {
       kicker: "Studio mobile · App Mastertech",
       title: "Crear en el Celular",
-      body: "Crea y publica sin computadora",
-      note: "Solo el celular basta. Crea y publica todo desde el teléfono.",
+      body: "Crea y exporta sin computadora",
+      note: "Solo el celular basta. Crea, prueba en el navegador y expórtalo a Roblox Studio.",
     },
     cardBilde: {
       kicker: "Bilde · Roblox Studio · plugin",
@@ -1017,7 +1017,7 @@ const es = {
       subline: "app · Mastertech · celular",
       cards: [
         "App de Mastertech para crear en el celular, con una interfaz pensada para pantalla pequeña.",
-        "Crea y publica un juego entero desde el teléfono. Va directo a Roblox al publicar.",
+        "Crea un juego entero desde el teléfono, pruébalo en el propio entorno web y expórtalo directo a Roblox Studio.",
         "En el Studio mobile, en el celular. App separada de Roblox Studio.",
       ],
       action: "Abrir el Studio mobile →",
@@ -1072,10 +1072,10 @@ const es = {
     studiomob: {
       title: "Studio mobile",
       subtitle: "App Mastertech · celular",
-      body: "Crea y publica solo con el celular",
+      body: "Crea y exporta solo con el celular",
       rows: [
         ["what", "Qué es", "La app de Mastertech para crear en el celular. Una alternativa a Roblox Studio para quien no tiene computadora."],
-        ["do", "Qué haces aquí", "Crea y publica un juego entero desde el teléfono. Va directo a Roblox al publicar."],
+        ["do", "Qué haces aquí", "Crea un juego entero desde el teléfono, pruébalo en el propio entorno web y expórtalo directo a Roblox Studio."],
         ["who", "Quién lo hizo", "Mastertech — parte de la Expedición Roblox."],
       ],
       ctaCopy: "Entra directo a la app de creación para celular de la Expedición.",
@@ -1198,7 +1198,7 @@ const es = {
     journeyExpandTitle: "Ver la jornada completa",
     journeyExpandSub: "Jornada del creator",
     journeyCompact: [
-      { accent: "yellow", title: "Crear en el Celular", subtitle: "App Mastertech · celular", body: "Solo el celular basta. Crea y publica un juego entero desde el teléfono." },
+      { accent: "yellow", title: "Crear en el Celular", subtitle: "App Mastertech · celular", body: "Solo el celular basta. Crea, prueba en el navegador y expórtalo a Roblox Studio." },
       { accent: "red", title: "Crear con IA", subtitle: "Bilde · Roblox Studio · plugin", body: "Plugin que entrevista al creator y arma el juego a partir de las respuestas. Ideal para quien no sabe por dónde empezar." },
       { accent: "blue", title: "Aprender con Tutoriales", subtitle: "Tutoriales · Roblox Studio · plugin", body: "Plugin que guía etapa por etapa. El creator construye cada parte del juego con sus propias manos." },
     ],
