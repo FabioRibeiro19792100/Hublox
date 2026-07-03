@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { translations, langOrder, langLabels } from "./i18n";
 
 const palette = {
@@ -15,17 +15,6 @@ const palette = {
   muted: "#6B6B6B",
   border: "#EBEBEB",
 };
-
-const makePlaceholder = (label, mobile = false) =>
-  `data:image/svg+xml;utf8,${encodeURIComponent(`
-  <svg xmlns="http://www.w3.org/2000/svg" width="${mobile ? 320 : 520}" height="${mobile ? 480 : 340}" viewBox="0 0 ${mobile ? 320 : 520} ${mobile ? 480 : 340}">
-    <rect width="100%" height="100%" fill="#F0F0F0" />
-    <rect x="${mobile ? 110 : 200}" y="${mobile ? 180 : 130}" width="${mobile ? 100 : 120}" height="${mobile ? 70 : 80}" rx="8" fill="#DCDCDC" />
-    <circle cx="${mobile ? 135 : 225}" cy="${mobile ? 200 : 155}" r="${mobile ? 9 : 10}" fill="#C8C8C8" />
-    <path d="${mobile ? "M110 230 L138 208 L160 222 L185 198 L210 230 Z" : "M200 190 L230 165 L255 185 L285 155 L320 190 Z"}" fill="#C8C8C8" />
-    <text x="50%" y="${mobile ? 290 : 240}" text-anchor="middle" font-family="sans-serif" font-size="${mobile ? 12 : 13}" fill="#ADADAD">${label}</text>
-  </svg>
-`)}`;
 
 const externalLinks = {
   "Studio mobile": "https://exproblox.studio",
@@ -204,9 +193,6 @@ function App() {
   const [modal, setModal] = useState(null);
   const [audience, setAudience] = useState("responsaveis");
   const [videoModal, setVideoModal] = useState(null);
-  const [bildeSlide, setBildeSlide] = useState(0);
-  const [tutSlide, setTutSlide] = useState(0);
-  const [mobSlide, setMobSlide] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 880);
   const activeJourneyDetailRef = useRef(null);
@@ -292,19 +278,6 @@ function App() {
     runLoading(() => setScreen("entry"));
   };
 
-  const bildeShots = useMemo(
-    () => Array.from({ length: 5 }, (_, i) => makePlaceholder(`${t.shots.drag} ${i + 1}`)),
-    [t],
-  );
-  const tutShots = useMemo(
-    () => Array.from({ length: 5 }, (_, i) => makePlaceholder(`${t.shots.drag} ${i + 1}`)),
-    [t],
-  );
-  const mobShots = useMemo(
-    () => Array.from({ length: 5 }, (_, i) => makePlaceholder(`${t.shots.screenshot} ${i + 1}`, true)),
-    [t],
-  );
-
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 880);
     window.addEventListener("resize", onResize);
@@ -382,9 +355,9 @@ function App() {
 
   const detailProps = (kind) => {
     const map = {
-      mob: { accent: palette.yellowText, dict: t.detail.mob, slides: mobShots, slide: mobSlide, setSlide: setMobSlide, actionTheme: "yellow", modalLabel: "Studio mobile", loopVideo: "/uploads/studiomobile-loop.mp4" },
-      bilde: { accent: palette.red, dict: t.detail.bilde, slides: bildeShots, slide: bildeSlide, setSlide: setBildeSlide, actionTheme: "", modalLabel: "Roblox Studio", loopVideo: "/uploads/bilde-loop.mp4" },
-      tut: { accent: palette.blue, dict: t.detail.tut, slides: tutShots, slide: tutSlide, setSlide: setTutSlide, actionTheme: "", modalLabel: "Roblox Studio", loopVideo: "/uploads/plugin-loop.mp4" },
+      mob: { accent: palette.yellowText, dict: t.detail.mob, actionTheme: "yellow", modalLabel: "Studio mobile", loopVideo: "/uploads/studiomobile-loop.mp4" },
+      bilde: { accent: palette.red, dict: t.detail.bilde, actionTheme: "", modalLabel: "Roblox Studio", loopVideo: "/uploads/bilde-loop.mp4" },
+      tut: { accent: palette.blue, dict: t.detail.tut, actionTheme: "", modalLabel: "Roblox Studio", loopVideo: "/uploads/plugin-loop.mp4" },
     };
     return map[kind];
   };
@@ -399,9 +372,6 @@ function App() {
         subline={p.dict.subline}
         cards={p.dict.cards}
         action={p.dict.action}
-        slides={p.slides}
-        slide={p.slide}
-        setSlide={p.setSlide}
         actionTheme={p.actionTheme}
         labels={t.detail}
         videoStub
@@ -1286,7 +1256,7 @@ function TestingCard({ title, note }) {
   );
 }
 
-function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, setSlide, action, onAction, onBack, actionTheme, videoStub, loopVideo, labels, inline = false }) {
+function DetailScreen({ accent, kicker, title, subline, cards, action, onAction, onBack, actionTheme, videoStub, loopVideo, labels, inline = false }) {
   return (
     <section className={inline ? "detail-screen-inline" : ""}>
       <button className="detail-back" onClick={onBack}>{inline ? labels.close : labels.back}</button>
@@ -1308,21 +1278,6 @@ function DetailScreen({ accent, kicker, title, subline, cards, slides, slide, se
         <DetailFact title={labels.factWhat} body={cards[0]} />
         <DetailFact title={labels.factHow} body={cards[1]} />
         <DetailFact title={labels.factWhere} body={cards[2]} />
-      </div>
-      <div className="carousel">
-        <div className="carousel-frame">
-          <img src={slides[slide]} alt={title} />
-        </div>
-        <div className="dots">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              className="dot"
-              style={{ background: slide === index ? accent : "#E0E0E0" }}
-              onClick={() => setSlide(index)}
-            />
-          ))}
-        </div>
       </div>
       <button className={`detail-action ${actionTheme || ""}`} onClick={onAction}>{action}</button>
     </section>

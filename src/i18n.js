@@ -12,10 +12,6 @@ const pt = {
     creatorTag: "creator",
     logoAlt: "Expedição Roblox",
   },
-  shots: {
-    drag: "Arraste um screenshot aqui",
-    screenshot: "Screenshot",
-  },
   entry: {
     title: ["Quer criar?", "Desce pro", "play."],
     p1: "Este hub é seu ponto de entrada na Expedição, um projeto onde jovens aprendem a criar jogos e experiências digitais.",
@@ -471,10 +467,6 @@ const en = {
     creatorTag: "creator",
     logoAlt: "Roblox Expedition",
   },
-  shots: {
-    drag: "Drag a screenshot here",
-    screenshot: "Screenshot",
-  },
   entry: {
     title: ["Got an idea?", "Hit play."],
     p1: "This hub is your entry point into the Expedition, a project where teens learn to create games and digital experiences.",
@@ -929,10 +921,6 @@ const es = {
     exit: "← Salir",
     creatorTag: "creator",
     logoAlt: "Expedición Roblox",
-  },
-  shots: {
-    drag: "Arrastra un screenshot aquí",
-    screenshot: "Screenshot",
   },
   entry: {
     title: ["¿Listo para crear?", "Es hora de", "jugar."],
