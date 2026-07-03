@@ -143,6 +143,29 @@ async function verifyEntry(handle, item) {
   return false;
 }
 
+// Neutral medal shown until the real badge artwork is dropped in public/uploads
+// (badge-creator.png / badge-constructor.png). Grayscaled while locked.
+const MEDAL_FALLBACK =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path d='M17 5h6l-2 11h-4z' fill='#c94b4b'/><path d='M25 5h6l2 11h-4z' fill='#4b74c9'/><circle cx='24' cy='29' r='14' fill='#e8b84b' stroke='#b8860b' stroke-width='2'/><path d='M24 20.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4-3.9-3.8 5.4-.8z' fill='#fff'/></svg>",
+  );
+
+// Logged-area achievements. Two plugin badges (image artwork), six Studio mobile
+// tutorials and one Bilde milestone (emoji). All locked until the backend reports
+// progress for the handle — see the `achievements` state / integration note.
+const ACHIEVEMENTS = [
+  { id: "creator", kind: "badge", img: "/uploads/badge-creator.png" },
+  { id: "constructor", kind: "badge", img: "/uploads/badge-constructor.png" },
+  { id: "tut-3d", kind: "emoji", emoji: "🧱" },
+  { id: "tut-plataforma", kind: "emoji", emoji: "👻" },
+  { id: "tut-porta", kind: "emoji", emoji: "🚪" },
+  { id: "tut-moeda", kind: "emoji", emoji: "🪙" },
+  { id: "tut-clicker", kind: "emoji", emoji: "🎯" },
+  { id: "tut-semaforo", kind: "emoji", emoji: "🚦" },
+  { id: "bilde-game", kind: "emoji", emoji: "🤖" },
+];
+
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
   const t = translations[lang] || translations.pt;
@@ -158,6 +181,12 @@ function App() {
       if (!saved) return empty;
       return { viewed: saved.viewed || {}, done: saved.done || {}, pending: saved.pending || {} };
     } catch { return empty; }
+  });
+  // Earned achievements map { [id]: true }. Populated by the backend integration
+  // later (plugin badges, Studio mobile tutorials, Bilde milestone); all locked now.
+  const [achievements, setAchievements] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("hublox-achievements")) || {}; }
+    catch { return {}; }
   });
   const [screen, setScreen] = useState(() => (creatorSession ? "hub" : "entry"));
   const [welcomeBack, setWelcomeBack] = useState(() => !!creatorSession);
@@ -193,6 +222,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("hublox-eco-progress", JSON.stringify(ecoProgress));
   }, [ecoProgress]);
+
+  useEffect(() => {
+    localStorage.setItem("hublox-achievements", JSON.stringify(achievements));
+  }, [achievements]);
 
   useEffect(() => {
     if (!welcomeBack) return;
@@ -251,8 +284,10 @@ function App() {
   const logout = () => {
     localStorage.removeItem("hublox-creator-session");
     localStorage.removeItem("hublox-eco-progress");
+    localStorage.removeItem("hublox-achievements");
     setCreatorSession(null);
     setEcoProgress({ viewed: {}, done: {}, pending: {} });
+    setAchievements({});
     setWelcomeBack(false);
     runLoading(() => setScreen("entry"));
   };
@@ -390,6 +425,7 @@ function App() {
   ).length;
   const ecoDone = ECO_KEYS.filter((k) => ecoProgress.done[k]).length;
   const ecoPending = ECO_KEYS.filter((k) => ecoProgress.pending[k] && !ecoProgress.done[k]).length;
+  const earnedCount = ACHIEVEMENTS.filter((a) => achievements[a.id]).length;
 
   return (
     <div className="app-root">
@@ -620,6 +656,35 @@ function App() {
                   </button>
                 ))}
               </div>
+
+              {creatorSession && (
+                <div className="sidebar-achievements">
+                  <div className="sa-head">
+                    <span className="sa-title">{t.achievements.title}</span>
+                    <span className="sa-count">{earnedCount}/{ACHIEVEMENTS.length}</span>
+                  </div>
+                  <div className="sa-grid">
+                    {ACHIEVEMENTS.map((a) => {
+                      const earned = !!achievements[a.id];
+                      const label = t.achievements.items[a.id];
+                      return (
+                        <div
+                          key={a.id}
+                          className={`sa-item ${earned ? "earned" : "locked"}`}
+                          title={`${label} — ${earned ? t.achievements.earnedHint : t.achievements.lockedHint}`}
+                        >
+                          {a.kind === "badge" ? (
+                            <img src={a.img} alt={label} onError={(e) => { e.currentTarget.src = MEDAL_FALLBACK; }} />
+                          ) : (
+                            <span className="sa-emoji">{a.emoji}</span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               <div className="sidebar-footer">
                 <button className="sidebar-exit" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.exit}</button>
                 {creatorSession && (

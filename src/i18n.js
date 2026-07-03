@@ -432,6 +432,22 @@ const pt = {
     welcomeBack: "Bem-vindo de volta,",
     logout: "Sair da conta",
   },
+  achievements: {
+    title: "Minhas conquistas",
+    lockedHint: "Bloqueado",
+    earnedHint: "Conquistado",
+    items: {
+      creator: "Creator",
+      constructor: "Creator-Construtor(a)",
+      "tut-3d": "Construtor 3D",
+      "tut-plataforma": "Plataforma que some",
+      "tut-porta": "Porta automática",
+      "tut-moeda": "Moeda Mágica",
+      "tut-clicker": "Clicker com meta",
+      "tut-semaforo": "Semáforo",
+      "bilde-game": "Criou um jogo com IA",
+    },
+  },
   modal: {
     kicker: "Saindo do hub",
     openPrefix: "Abrir",
@@ -875,6 +891,22 @@ const en = {
     welcomeBack: "Welcome back,",
     logout: "Log out",
   },
+  achievements: {
+    title: "My achievements",
+    lockedHint: "Locked",
+    earnedHint: "Unlocked",
+    items: {
+      creator: "Creator",
+      constructor: "Creator-Builder",
+      "tut-3d": "3D Builder",
+      "tut-plataforma": "Disappearing platform",
+      "tut-porta": "Automatic door",
+      "tut-moeda": "Magic coin",
+      "tut-clicker": "Clicker with a goal",
+      "tut-semaforo": "Traffic light",
+      "bilde-game": "Built a game with AI",
+    },
+  },
   modal: {
     kicker: "Leaving the hub",
     openPrefix: "Open",
@@ -1317,6 +1349,22 @@ const es = {
   account: {
     welcomeBack: "¡Bienvenido de vuelta,",
     logout: "Cerrar sesión",
+  },
+  achievements: {
+    title: "Mis logros",
+    lockedHint: "Bloqueado",
+    earnedHint: "Logrado",
+    items: {
+      creator: "Creator",
+      constructor: "Creator-Constructor(a)",
+      "tut-3d": "Constructor 3D",
+      "tut-plataforma": "Plataforma que desaparece",
+      "tut-porta": "Puerta automática",
+      "tut-moeda": "Moneda mágica",
+      "tut-clicker": "Clicker con meta",
+      "tut-semaforo": "Semáforo",
+      "bilde-game": "Creó un juego con IA",
+    },
   },
   modal: {
     kicker: "Saliendo del hub",
