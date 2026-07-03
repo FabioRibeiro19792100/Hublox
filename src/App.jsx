@@ -31,6 +31,8 @@ const externalLinks = {
   "Studio mobile": "https://exproblox.studio",
   "Studio web": "https://exproblox.studio",
   "Roblox Studio": "https://create.roblox.com/store/asset/125743081126783/Expedio-Roblox",
+  "Roblox": "https://create.roblox.com/docs/pt-br/production/publishing/publish-games-and-places#publicar-jogos",
+  "Comunidade no Discord": "https://discord.gg/exproblox",
 };
 
 // Rough heuristic for whether the machine can comfortably run Roblox Studio.
