@@ -125,6 +125,22 @@ const videoMeta = [
 // Ecosystem items tracked for the logged-area progress (viewed on expand, done on action).
 const ECO_KEYS = ["studiomob", "rstudio", "roblox", "comunidade"];
 
+// Items whose completion requires confirming the Roblox handle actually entered/used
+// the tool. "roblox" (publishing) is left optimistic; the rest gate on verification.
+const VERIFY_ITEMS = new Set(["studiomob", "rstudio", "comunidade"]);
+
+// Source of truth for "did this Roblox handle actually enter/use `item`?".
+// STUB — wire this to a real integration later (e.g. an exproblox.studio status
+// endpoint, a Discord bot membership check, or a Roblox Open Cloud lookup). Until
+// then it resolves false, so verified items stay "em análise" instead of completing
+// falsely. Example:
+//   const r = await fetch(`/api/verify?handle=${encodeURIComponent(handle)}&item=${item}`);
+//   return (await r.json()).entered === true;
+async function verifyEntry(handle, item) {
+  void handle; void item;
+  return false;
+}
+
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
   const t = translations[lang] || translations.pt;
@@ -134,10 +150,12 @@ function App() {
     catch { return null; }
   });
   const [ecoProgress, setEcoProgress] = useState(() => {
+    const empty = { viewed: {}, done: {}, pending: {} };
     try {
       const saved = JSON.parse(localStorage.getItem("hublox-eco-progress"));
-      return saved && saved.viewed && saved.done ? saved : { viewed: {}, done: {} };
-    } catch { return { viewed: {}, done: {} }; }
+      if (!saved) return empty;
+      return { viewed: saved.viewed || {}, done: saved.done || {}, pending: saved.pending || {} };
+    } catch { return empty; }
   });
   const [screen, setScreen] = useState(() => (creatorSession ? "hub" : "entry"));
   const [welcomeBack, setWelcomeBack] = useState(() => !!creatorSession);
@@ -191,11 +209,48 @@ function App() {
     if (opening) markEco(key, "viewed");
   };
 
+  // Using an ecosystem action: verified items go "pending" (confirmed later by the
+  // background poller); non-verified items complete immediately.
+  const runEcoAction = (key) => {
+    if (!VERIFY_ITEMS.has(key)) {
+      markEco(key, "done");
+      return;
+    }
+    setEcoProgress((prev) =>
+      prev.done[key] || prev.pending[key]
+        ? prev
+        : { ...prev, pending: { ...prev.pending, [key]: true } },
+    );
+  };
+
+  // Background re-check: while there are pending items, poll the source of truth
+  // until each is confirmed; then flip pending → done. Survives reloads.
+  useEffect(() => {
+    const pendingKeys = ECO_KEYS.filter((k) => ecoProgress.pending[k] && !ecoProgress.done[k]);
+    if (!creatorSession || pendingKeys.length === 0) return;
+    let cancelled = false;
+    const check = async () => {
+      for (const key of pendingKeys) {
+        const ok = await verifyEntry(creatorSession.handle, key);
+        if (ok && !cancelled) {
+          setEcoProgress((prev) => ({
+            ...prev,
+            done: { ...prev.done, [key]: true },
+            pending: { ...prev.pending, [key]: false },
+          }));
+        }
+      }
+    };
+    check();
+    const id = setInterval(check, 20000);
+    return () => { cancelled = true; clearInterval(id); };
+  }, [ecoProgress, creatorSession]);
+
   const logout = () => {
     localStorage.removeItem("hublox-creator-session");
     localStorage.removeItem("hublox-eco-progress");
     setCreatorSession(null);
-    setEcoProgress({ viewed: {}, done: {} });
+    setEcoProgress({ viewed: {}, done: {}, pending: {} });
     setWelcomeBack(false);
     runLoading(() => setScreen("entry"));
   };
@@ -327,8 +382,11 @@ function App() {
     ? (lang === "en" ? "/uploads/manifesto-eng.mp4" : "/uploads/manifesto-ptbr.mp4")
     : "/uploads/manifesto-horiz.mp4";
 
-  const ecoExplored = ECO_KEYS.filter((k) => ecoProgress.viewed[k] || ecoProgress.done[k]).length;
+  const ecoExplored = ECO_KEYS.filter(
+    (k) => ecoProgress.viewed[k] || ecoProgress.done[k] || ecoProgress.pending[k],
+  ).length;
   const ecoDone = ECO_KEYS.filter((k) => ecoProgress.done[k]).length;
+  const ecoPending = ECO_KEYS.filter((k) => ecoProgress.pending[k] && !ecoProgress.done[k]).length;
 
   return (
     <div className="app-root">
@@ -418,6 +476,12 @@ function App() {
                     value={robloxHandle}
                     onChange={(e) => setRobloxHandle(e.target.value.replace(/^@+/, ""))}
                   />
+                </div>
+                <div className="id-hint">
+                  {t.id.noAccount}{" "}
+                  <a className="id-hint-link" href="https://www.roblox.com/" target="_blank" rel="noopener noreferrer">
+                    {t.id.createFree}
+                  </a>
                 </div>
               </div>
 
@@ -707,8 +771,9 @@ function App() {
                   <h2 className="page-title">{t.eco.pageTitle}</h2>
                   <p className="page-subtitle">{t.eco.pageSubtitle}</p>
 
-                  <EcoProgress explored={ecoExplored} done={ecoDone} total={ECO_KEYS.length} t={t} />
+                  <EcoProgress explored={ecoExplored} done={ecoDone} pending={ecoPending} total={ECO_KEYS.length} t={t} />
 
+                  <div className="eco-grid">
                   <AccordionCard
                     accent="yellow"
                     deviceIcon="mobile"
@@ -721,9 +786,10 @@ function App() {
                     <InfoRows accent="yellow" rows={t.eco.studiomob.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.studiomob.ctaCopy}</div>
-                      <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); markEco("studiomob", "done"); setModal({ label: "Studio mobile" }); }}>
+                      <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); runEcoAction("studiomob"); setModal({ label: "Studio mobile" }); }}>
                         {t.eco.studiomob.cta}
                       </button>
+                      <EcoStatus item="studiomob" progress={ecoProgress} t={t} />
                     </div>
                   </AccordionCard>
 
@@ -749,7 +815,7 @@ function App() {
                         cta={t.eco.rstudio.bilde.cta}
                         onAction={(e) => {
                           e.stopPropagation();
-                          markEco("rstudio", "done");
+                          runEcoAction("rstudio");
                           runLoading(() => {
                             setTab("jornada");
                             setJourneyDevice("computer");
@@ -769,7 +835,7 @@ function App() {
                         cta={t.eco.rstudio.tut.cta}
                         onAction={(e) => {
                           e.stopPropagation();
-                          markEco("rstudio", "done");
+                          runEcoAction("rstudio");
                           runLoading(() => {
                             setTab("jornada");
                             setJourneyDevice("computer");
@@ -779,6 +845,7 @@ function App() {
                         }}
                       />
                     </div>
+                    <EcoStatus item="rstudio" progress={ecoProgress} t={t} />
                   </AccordionCard>
 
                   <AccordionCard
@@ -809,11 +876,13 @@ function App() {
                     <InfoRows accent="purple" rows={t.eco.comunidade.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.comunidade.ctaCopy}</div>
-                      <button className="small-action purple" onClick={(e) => { e.stopPropagation(); markEco("comunidade", "done"); setModal({ label: "Comunidade no Discord" }); }}>
+                      <button className="small-action purple" onClick={(e) => { e.stopPropagation(); runEcoAction("comunidade"); setModal({ label: "Comunidade no Discord" }); }}>
                         {t.eco.comunidade.cta}
                       </button>
+                      <EcoStatus item="comunidade" progress={ecoProgress} t={t} />
                     </div>
                   </AccordionCard>
+                  </div>
                 </section>
               )}
 
@@ -1098,7 +1167,7 @@ function ResultCard({ theme, kicker, title, body, button, onClick, secondaryText
   );
 }
 
-function EcoProgress({ explored, done, total, t }) {
+function EcoProgress({ explored, done, pending, total, t }) {
   const pct = total ? Math.round((done / total) * 100) : 0;
   const exploredPct = total ? Math.round((explored / total) * 100) : 0;
   return (
@@ -1111,9 +1180,30 @@ function EcoProgress({ explored, done, total, t }) {
         {explored} {t.eco.progressOf} {total} {t.eco.progressExplored}
         <span className="eco-progress-sep"> · </span>
         {done} {t.eco.progressDone}
+        {pending > 0 && (
+          <>
+            <span className="eco-progress-sep"> · </span>
+            <span className="eco-progress-analyzing">{pending} {t.eco.progressAnalyzing}</span>
+          </>
+        )}
       </div>
     </div>
   );
+}
+
+function EcoStatus({ item, progress, t }) {
+  if (progress.done[item]) {
+    return <div className="eco-status done">✓ {t.eco.statusDone}</div>;
+  }
+  if (progress.pending[item]) {
+    return (
+      <div className="eco-status pending">
+        <span className="eco-status-dot" />
+        {t.eco.statusPending}
+      </div>
+    );
+  }
+  return null;
 }
 
 function TestingCard({ title, note }) {

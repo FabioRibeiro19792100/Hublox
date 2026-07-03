@@ -405,6 +405,25 @@ button {
   cursor: not-allowed;
 }
 
+.id-hint {
+  margin-top: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.id-hint-link {
+  color: #ff6b6b;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 107, 107, 0.4);
+  transition: border-color 0.18s ease;
+}
+
+.id-hint-link:hover {
+  border-bottom-color: #ff6b6b;
+}
+
 .id-select {
   appearance: none;
   -webkit-appearance: none;
@@ -794,6 +813,41 @@ button {
   color: #c8c8ce;
 }
 
+.eco-progress-analyzing {
+  color: #b8860b;
+}
+
+/* Per-item verification status (functional feedback for the background check) */
+.eco-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.eco-status.done {
+  color: #1f8a5b;
+}
+
+.eco-status.pending {
+  color: #b8860b;
+}
+
+.eco-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e0a400;
+  animation: eco-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes eco-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
 .main-panel {
   flex: 1;
   display: flex;
@@ -804,9 +858,17 @@ button {
 }
 
 .content-shell {
-  max-width: 780px;
-  padding: 40px 48px 60px;
+  max-width: 1080px;
+  padding: 44px 56px 72px;
   overflow-y: auto;
+}
+
+/* Ecosystem cards in a 2-column grid to use the wider space */
+.eco-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
 }
 
 .page-title,
@@ -2640,6 +2702,10 @@ button {
 
   .content-shell {
     padding: 24px 20px 96px;
+  }
+
+  .eco-grid {
+    grid-template-columns: 1fr;
   }
 
   .carousel-frame img {
