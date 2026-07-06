@@ -163,7 +163,7 @@ const ACHIEVEMENT_CLUSTERS = [
     badgeIds: ["creator", "constructor"],
     style: {
       background: "#EEEDFE",
-      borderColor: "#7F77DD33",
+      borderColor: "#7F77DD73",
       titleColor: "#3C3489",
       textColor: "#534AB7",
     },
@@ -174,7 +174,7 @@ const ACHIEVEMENT_CLUSTERS = [
     badgeIds: ["tut-3d"],
     style: {
       background: "#FAECE7",
-      borderColor: "#D85A3033",
+      borderColor: "#D85A3070",
       titleColor: "#712B13",
       textColor: "#993C1D",
     },
@@ -184,7 +184,7 @@ const ACHIEVEMENT_CLUSTERS = [
     badgeIds: ["tut-plataforma", "tut-porta", "tut-moeda"],
     style: {
       background: "#FAEEDA",
-      borderColor: "#BA751733",
+      borderColor: "#BA751770",
       titleColor: "#633806",
       textColor: "#854F0B",
     },
@@ -194,14 +194,17 @@ const ACHIEVEMENT_CLUSTERS = [
     badgeIds: ["tut-clicker", "tut-semaforo", "bilde-game"],
     style: {
       background: "#E1F5EE",
-      borderColor: "#1D9E7533",
+      borderColor: "#1D9E7570",
       titleColor: "#085041",
       textColor: "#0F6E56",
     },
   },
 ];
 
-const responsaveisDocIcons = ["doc", "checklist", "book-open"];
+const responsaveisDocIcons = {
+  responsaveis: ["home", "laptop", "book-open"],
+  educadores: ["book-open", "classroom", "pathway"],
+};
 
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
@@ -239,11 +242,13 @@ function App() {
   const [ecoOpen, setEcoOpen] = useState(null);
   const [ecoSubOpen, setEcoSubOpen] = useState(null);
   const [modal, setModal] = useState(null);
-  const [audience, setAudience] = useState("responsaveis");
+  const [audience, setAudience] = useState(null);
   const [videoModal, setVideoModal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 880);
   const activeJourneyDetailRef = useRef(null);
+  const responsaveisMediaRef = useRef(null);
+  const responsaveisCommunityRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("hublox-lang", lang);
@@ -349,10 +354,22 @@ function App() {
     if (sub === "bilde" || sub === "tut") setJourneyDevice("computer");
   }, [sub]);
 
+  useEffect(() => {
+    if (tab !== "pais" && audience !== null) {
+      setAudience(null);
+    }
+  }, [tab, audience]);
+
   const runLoading = (cb, duration = 900) => {
     setLoading(true);
     cb();
     window.scrollTo({ top: 0, behavior: "instant" });
+    setTimeout(() => setLoading(false), duration);
+  };
+
+  const runSectionLoading = (cb, duration = 420) => {
+    setLoading(true);
+    cb();
     setTimeout(() => setLoading(false), duration);
   };
 
@@ -770,63 +787,84 @@ function App() {
                     </div>
                   )}
 
-                  {journeyDevice === "mobile" && (
-                    <>
-                      <div className="section-label yellow">{t.journey.labelMobile}</div>
-                      <JourneyCard
-                        accent="yellow"
-                        kicker={t.journey.cardMobile.kicker}
-                        title={t.journey.cardMobile.title}
-                        body={t.journey.cardMobile.body}
-                        note={t.journey.cardMobile.note}
-                        onClick={() => setSub(sub === "mob" ? "main" : "mob")}
-                      />
-                      {sub === "mob" && (
-                        <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                          {renderDetail("mob", { inline: true, onBack: () => setSub("main") })}
-                        </InlineJourneyDetail>
+                  {journeyDevice && (
+                    <div className="journey-stack">
+                      {journeyDevice === "mobile" && (
+                        <div className="journey-step">
+                          <div className="journey-node">
+                            <JourneyCard
+                              accent="yellow"
+                              kicker={t.journey.cardMobile.kicker}
+                              title={t.journey.cardMobile.title}
+                              body={t.journey.cardMobile.body}
+                              note={t.journey.cardMobile.note}
+                              open={sub === "mob"}
+                              onClick={() => setSub(sub === "mob" ? "main" : "mob")}
+                            />
+                            {sub === "mob" && (
+                              <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                                {renderDetail("mob", { inline: true, onBack: () => setSub("main") })}
+                              </InlineJourneyDetail>
+                            )}
+                          </div>
+                        </div>
                       )}
-                    </>
+
+                      {journeyDevice === "computer" && (
+                        <div className="journey-step">
+                          <div className="journey-node">
+                            <JourneyCard
+                              accent="red"
+                              kicker={t.journey.cardBilde.kicker}
+                              title={t.journey.cardBilde.title}
+                              body={t.journey.cardBilde.body}
+                              note={t.journey.cardBilde.note}
+                              open={sub === "bilde"}
+                              onClick={() => setSub(sub === "bilde" ? "main" : "bilde")}
+                            />
+                            {sub === "bilde" && (
+                              <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                                {renderDetail("bilde", { inline: true, onBack: () => setSub("main") })}
+                              </InlineJourneyDetail>
+                            )}
+                          </div>
+
+                          <div className="journey-node journey-node-separator">
+                            <div className="or-separator"><span>{t.journey.or}</span></div>
+                          </div>
+
+                          <div className="journey-node">
+                            <JourneyCard
+                              accent="blue"
+                              kicker={t.journey.cardTut.kicker}
+                              title={t.journey.cardTut.title}
+                              body={t.journey.cardTut.body}
+                              note={t.journey.cardTut.note}
+                              open={sub === "tut"}
+                              onClick={() => setSub(sub === "tut" ? "main" : "tut")}
+                            />
+                            {sub === "tut" && (
+                              <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                              {renderDetail("tut", { inline: true, onBack: () => setSub("main") })}
+                              </InlineJourneyDetail>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="journey-step">
+                        <div className="journey-node">
+                          <PublishJourneyCard dict={t.publish} onClick={() => setModal({ label: "Roblox" })} />
+                        </div>
+                      </div>
+
+                      <div className="journey-step">
+                        <div className="journey-node">
+                          <CommunityJourneyCard dict={t.community} onClick={() => setModal({ label: "Comunidade no Discord" })} />
+                        </div>
+                      </div>
+                    </div>
                   )}
-
-                  {journeyDevice === "computer" && (
-                    <>
-                      <div className="section-label gray">{t.journey.labelComputer}</div>
-                      <JourneyCard
-                        accent="red"
-                        kicker={t.journey.cardBilde.kicker}
-                        title={t.journey.cardBilde.title}
-                        body={t.journey.cardBilde.body}
-                        note={t.journey.cardBilde.note}
-                        onClick={() => setSub(sub === "bilde" ? "main" : "bilde")}
-                      />
-                      {sub === "bilde" && (
-                        <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                          {renderDetail("bilde", { inline: true, onBack: () => setSub("main") })}
-                        </InlineJourneyDetail>
-                      )}
-
-                      <div className="or-separator"><span>{t.journey.or}</span></div>
-
-                      <JourneyCard
-                        accent="blue"
-                        kicker={t.journey.cardTut.kicker}
-                        title={t.journey.cardTut.title}
-                        body={t.journey.cardTut.body}
-                        note={t.journey.cardTut.note}
-                        onClick={() => setSub(sub === "tut" ? "main" : "tut")}
-                      />
-                      {sub === "tut" && (
-                        <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                          {renderDetail("tut", { inline: true, onBack: () => setSub("main") })}
-                        </InlineJourneyDetail>
-                      )}
-                    </>
-                  )}
-
-                  {journeyDevice && <PublishJourneyCard dict={t.publish} onClick={() => setModal({ label: "Roblox" })} />}
-
-                  {journeyDevice && <CommunityJourneyCard dict={t.community} onClick={() => setModal({ label: "Comunidade no Discord" })} />}
                 </section>
               )}
 
@@ -978,8 +1016,8 @@ function App() {
               )}
 
                 {tab === "pais" && (() => {
-                const aud = t.responsaveis.audiences[audience];
-                const media = responsaveisMedia[audience];
+                const aud = audience ? t.responsaveis.audiences[audience] : null;
+                const media = audience ? responsaveisMedia[audience] : null;
                 return (
                   <section>
                     <h2 className="page-title">{t.responsaveis.pageTitle}</h2>
@@ -988,9 +1026,12 @@ function App() {
                     <div className="device-switch" role="tablist" aria-label={t.responsaveis.audienceAria}>
                       <button
                         className={`device-switch-option red ${audience === "responsaveis" ? "active" : ""}`}
-                        onClick={() => setAudience("responsaveis")}
+                        onClick={() => {
+                          if (audience === "responsaveis") return;
+                          runSectionLoading(() => setAudience("responsaveis"));
+                        }}
                       >
-                        <span className="device-switch-icon">{icon("shield", audience === "responsaveis" ? palette.red : "#8A8A8A")}</span>
+                        <span className="device-switch-icon">{icon("home", audience === "responsaveis" ? palette.red : "#8A8A8A")}</span>
                         <span className="device-switch-copy">
                           <strong>{t.responsaveis.toggleResp.strong}</strong>
                           <small>{t.responsaveis.toggleResp.small}</small>
@@ -998,9 +1039,12 @@ function App() {
                       </button>
                       <button
                         className={`device-switch-option blue ${audience === "educadores" ? "active" : ""}`}
-                        onClick={() => setAudience("educadores")}
+                        onClick={() => {
+                          if (audience === "educadores") return;
+                          runSectionLoading(() => setAudience("educadores"));
+                        }}
                       >
-                        <span className="device-switch-icon">{icon("stair", audience === "educadores" ? palette.blue : "#8A8A8A")}</span>
+                        <span className="device-switch-icon">{icon("classroom", audience === "educadores" ? palette.blue : "#8A8A8A")}</span>
                         <span className="device-switch-copy">
                           <strong>{t.responsaveis.toggleEdu.strong}</strong>
                           <small>{t.responsaveis.toggleEdu.small}</small>
@@ -1008,71 +1052,112 @@ function App() {
                       </button>
                     </div>
 
-                    <p className="resp-intro">{aud.intro}</p>
+                    {aud && (
+                      <>
+                        <p className="resp-intro">{aud.intro}</p>
 
-                    <div className="resp-steps">
-                      {aud.steps.map((step, i) => (
-                        <div key={i} className="resp-step">
-                          <div className="resp-step-num">{String(i + 1).padStart(2, "0")}</div>
-                          <div className="resp-step-title">{step.title}</div>
-                          <div className="resp-step-body">{step.body}</div>
+                        <div className="resp-group">
+                          <div className="resp-section-head">
+                            <span className="resp-section-icon">
+                              {icon(audience === "responsaveis" ? "compass" : "pathway", audience === "responsaveis" ? palette.red : palette.blue)}
+                            </span>
+                            <h3 className="resp-section-title">{aud.stepsLabel}</h3>
+                          </div>
+                          <div className="resp-steps">
+                            {aud.steps.map((step, i) => (
+                              <div key={i} className="resp-step">
+                                <div className="resp-step-num">{String(i + 1).padStart(2, "0")}</div>
+                                <div className="resp-step-title">{step.title}</div>
+                                <div className="resp-step-body">{step.body}</div>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="resp-next-actions">
+                            <button
+                              className="resp-whatsapp-band"
+                              onClick={() => responsaveisCommunityRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                            >
+                              <span className="resp-whatsapp-icon">
+                                <img src="/whatsapp-icon.png" alt="WhatsApp" className="resp-whatsapp-icon-img" />
+                              </span>
+                              <span className="resp-whatsapp-copy">
+                                <small>{t.responsaveis.stepCta.prompt}</small>
+                                <strong>{t.responsaveis.stepCta.talk}</strong>
+                              </span>
+                            </button>
+                            <p className="resp-whatsapp-note">{t.responsaveis.stepCta.note}</p>
+                          </div>
                         </div>
-                      ))}
-                    </div>
 
-                    <h3 className="resp-section-title">{t.responsaveis.videosLabel}</h3>
-                    <div className="resp-video-grid">
-                      {aud.videos.map((video, i) => (
-                        <button
-                          key={`${audience}-v-${i}`}
-                          className="resp-video-card"
-                          onClick={() => setVideoModal({ id: media.videos[i], title: video.title })}
-                        >
-                          <div className="resp-video-thumb">
-                            <img src={`https://img.youtube.com/vi/${media.videos[i]}/hqdefault.jpg`} alt={video.title} loading="lazy" />
-                            <span className="resp-video-play">▶</span>
+                        <div className="resp-group" ref={responsaveisMediaRef}>
+                          <div className="resp-section-head">
+                            <span className="resp-section-icon">
+                              {icon("play", palette.red)}
+                            </span>
+                            <h3 className="resp-section-title">{t.responsaveis.videosLabel}</h3>
                           </div>
-                          <div className="resp-video-info">
-                            <strong>{video.title}</strong>
-                            <small>{video.desc}</small>
+                          <div className="resp-video-grid">
+                            {aud.videos.map((video, i) => (
+                              <button
+                                key={`${audience}-v-${i}`}
+                                className="resp-video-card"
+                                onClick={() => setVideoModal({ id: media.videos[i], title: video.title })}
+                              >
+                                <div className="resp-video-thumb">
+                                  <img src={`https://img.youtube.com/vi/${media.videos[i]}/hqdefault.jpg`} alt={video.title} loading="lazy" />
+                                  <span className="resp-video-play">▶</span>
+                                </div>
+                                <div className="resp-video-info">
+                                  <strong>{video.title}</strong>
+                                  <small>{video.desc}</small>
+                                </div>
+                              </button>
+                            ))}
                           </div>
-                        </button>
-                      ))}
-                    </div>
+                        </div>
 
-                    <h3 className="resp-section-title">{t.responsaveis.docsLabel}</h3>
-                    <div className="resp-doc-list">
-                      {aud.docs.map((doc, i) => (
-                        <button
-                          key={`${audience}-d-${i}`}
-                          className="resp-doc-card"
-                          onClick={() => window.open(media.docs[i], "_blank", "noopener,noreferrer")}
-                        >
-                          <span className="resp-doc-icon">
-                            {icon(responsaveisDocIcons[i % responsaveisDocIcons.length], palette.red)}
-                          </span>
-                          <span className="resp-doc-copy">
-                            <strong>{doc.title}</strong>
-                            <small>{t.responsaveis.docTag}</small>
-                          </span>
-                          <span className="resp-doc-arrow">↗</span>
-                        </button>
-                      ))}
-                    </div>
+                        <div className="resp-group">
+                          <div className="resp-section-head">
+                            <span className="resp-section-icon">
+                              {icon("book-open", palette.blue)}
+                            </span>
+                            <h3 className="resp-section-title">{t.responsaveis.docsLabel}</h3>
+                          </div>
+                          <div className={`resp-doc-list ${audience}`}>
+                            {aud.docs.map((doc, i) => (
+                              <button
+                                key={`${audience}-d-${i}`}
+                                className={`resp-doc-card ${audience}`}
+                                onClick={() => window.open(media.docs[i], "_blank", "noopener,noreferrer")}
+                              >
+                                <span className="resp-doc-icon">
+                                  {icon(responsaveisDocIcons[audience][i % responsaveisDocIcons[audience].length], audience === "responsaveis" ? palette.red : palette.blue)}
+                                </span>
+                                <span className="resp-doc-copy">
+                                  <strong>{doc.title}</strong>
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
 
-                    <div className="resp-community-card">
-                      <div className="resp-community-top">
-                        <div className="card-kicker light">{t.responsaveis.community.kicker}</div>
-                        <div className="community-title">{t.responsaveis.community.title}</div>
-                        <p>{t.responsaveis.community.body}</p>
-                      </div>
-                      <div className="resp-community-bottom">
-                        <div className="resp-community-note">A comunidade acompanha antes, durante e depois da jornada.</div>
-                        <button className="small-action purple" onClick={() => setModal({ label: "Comunidade no Discord" })}>
-                        {t.responsaveis.community.button}
-                        </button>
-                      </div>
-                    </div>
+                        <div className="resp-group resp-group-community" ref={responsaveisCommunityRef}>
+                          <div className="resp-community-card">
+                            <div className="resp-community-top">
+                              <div className="card-kicker light">{t.responsaveis.community.kicker}</div>
+                              <div className="community-title">{t.responsaveis.community.title}</div>
+                              <p>{t.responsaveis.community.body}</p>
+                            </div>
+                            <div className="resp-community-bottom">
+                              <div className="resp-community-note">A comunidade acompanha antes, durante e depois da jornada.</div>
+                              <button className="small-action purple" onClick={() => setModal({ label: "Comunidade no Discord" })}>
+                              {t.responsaveis.community.button}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </section>
                 );
                 })()}
@@ -1098,6 +1183,7 @@ function App() {
                             key={cluster.id}
                             className="sa-cluster"
                             style={{
+                              color: cluster.style.textColor,
                               borderColor: cluster.style.borderColor,
                             }}
                           >
@@ -1105,7 +1191,13 @@ function App() {
                               <h3 className="sa-cluster-name" style={{ color: cluster.style.titleColor }}>
                                 {clusterText.name}
                               </h3>
-                              <span className="sa-cluster-tag" style={{ color: cluster.style.textColor }}>
+                              <span
+                                className="sa-cluster-tag"
+                                style={{
+                                  color: cluster.style.textColor,
+                                  borderColor: cluster.style.borderColor,
+                                }}
+                              >
                                 {clusterText.tag}
                               </span>
                             </div>
@@ -1396,7 +1488,18 @@ function InlineJourneyDetail({ children, containerRef }) {
 
   useEffect(() => {
     if (!contentRef.current) return;
-    setMeasuredHeight(contentRef.current.scrollHeight);
+    const node = contentRef.current;
+    const measure = () => setMeasuredHeight(node.scrollHeight);
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
   }, [children]);
 
   return (
@@ -1421,15 +1524,16 @@ function DetailFact({ title, body }) {
   );
 }
 
-function JourneyCard({ accent, kicker, title, body, note, onClick }) {
+function JourneyCard({ accent, kicker, title, body, note, open = false, onClick }) {
   return (
-    <button className={`journey-card ${accent}`} onClick={onClick}>
+    <button className={`journey-card ${accent} ${open ? "open" : ""}`} onClick={onClick} aria-expanded={open}>
       <div className="journey-head">
-        <div>
+        <div className="journey-head-copy">
           <div className="journey-kicker">{kicker}</div>
           <div className="journey-title">{title}</div>
           <div className="journey-body">{body}</div>
         </div>
+        <span className="journey-head-chevron" aria-hidden="true">{open ? "∧" : "∨"}</span>
       </div>
       <div className="journey-foot">
         <p>{note}</p>
@@ -1638,8 +1742,20 @@ function Icon({ name, color = "currentColor", large = false }) {
   if (name === "shield") {
     return <svg width="52" height="52" viewBox="0 0 80 80" fill="none"><path d="M40 10 L66 22 L66 44 C66 58 40 70 40 70 C40 70 14 58 14 44 L14 22 Z" stroke={color} strokeWidth="2" fill="none" strokeLinejoin="round"/><path d="M28 42 L37 51 L54 32" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
   }
+  if (name === "home") {
+    return <svg width="52" height="52" viewBox="0 0 80 80" fill="none"><path d="M16 35.5L40 16L64 35.5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M23 31V61H57V31" stroke={color} strokeWidth="2" strokeLinejoin="round"/><path d="M34 61V45H46V61" stroke={color} strokeWidth="2" strokeLinejoin="round"/></svg>;
+  }
+  if (name === "classroom") {
+    return <svg width="52" height="52" viewBox="0 0 80 80" fill="none"><rect x="15" y="18" width="50" height="30" rx="3.5" stroke={color} strokeWidth="2"/><path d="M24 55H56" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M34 48V55M46 48V55" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M24 28H42M24 34H50" stroke={color} strokeWidth="2" strokeLinecap="round"/><circle cx="55" cy="31" r="4" stroke={color} strokeWidth="2"/></svg>;
+  }
   if (name === "infinity") {
     return <svg width="52" height="52" viewBox="0 0 80 80" fill="none"><path d="M40 40 C40 40 30 22 18 22 C8 22 8 58 18 58 C30 58 40 40 40 40 C40 40 50 22 62 22 C72 22 72 58 62 58 C50 58 40 40 40 40 Z" stroke={color} strokeWidth="2" fill="none"/></svg>;
+  }
+  if (name === "compass") {
+    return <svg width="52" height="52" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="27" stroke={color} strokeWidth="2"/><path d="M49.5 30.5L44.8 44.8L30.5 49.5L35.2 35.2L49.5 30.5Z" stroke={color} strokeWidth="2" strokeLinejoin="round"/><circle cx="40" cy="40" r="2.8" fill={color}/></svg>;
+  }
+  if (name === "pathway") {
+    return <svg width="52" height="52" viewBox="0 0 80 80" fill="none"><path d="M18 61C18 46 30 43 30 30C30 22 25 17 18 14" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M62 61C62 46 50 43 50 30C50 22 55 17 62 14" stroke={color} strokeWidth="2" strokeLinecap="round"/><circle cx="18" cy="14" r="3.5" fill={color}/><circle cx="62" cy="14" r="3.5" fill={color}/><circle cx="40" cy="61" r="4" stroke={color} strokeWidth="2"/></svg>;
   }
   if (name === "hex") {
     return <svg width="36" height="36" viewBox="0 0 44 44" fill="none"><polygon points="22,3 37,12 37,30 22,39 7,30 7,12" stroke={color} strokeWidth="1.5"/><circle cx="22" cy="21" r="5" stroke={color} strokeWidth="1.5"/></svg>;
@@ -1664,6 +1780,12 @@ function Icon({ name, color = "currentColor", large = false }) {
   }
   if (name === "book-open") {
     return <svg width="30" height="30" viewBox="0 0 44 44" fill="none"><path d="M10.5 12.5C10.5 10.8 11.8 9.5 13.5 9.5H21.5V34C19.9 32.8 18 32.2 16 32.2H13.5C11.8 32.2 10.5 30.9 10.5 29.2V12.5Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M33.5 12.5C33.5 10.8 32.2 9.5 30.5 9.5H22.5V34C24.1 32.8 26 32.2 28 32.2H30.5C32.2 32.2 33.5 30.9 33.5 29.2V12.5Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M15 16H19M25 16H29" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+  }
+  if (name === "chat") {
+    return <svg width="30" height="30" viewBox="0 0 44 44" fill="none"><path d="M22 8.5C13.99 8.5 7.5 14.44 7.5 21.77C7.5 25.35 9.05 28.61 11.6 31L10.4 36L15.53 34.25C17.49 35.03 19.68 35.45 22 35.45C30.01 35.45 36.5 29.51 36.5 22.18C36.5 14.84 30.01 8.5 22 8.5Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M16.2 21.7C17.5 24.15 19.82 26.12 22.64 27.05C23.16 27.22 23.7 27.12 24.1 26.78L26.05 25.15C26.42 24.85 26.93 24.77 27.37 24.96L30.18 26.19C30.73 26.44 30.99 27.08 30.77 27.64C30.2 29.09 28.73 29.98 27.18 29.77C20.96 28.92 15.98 24.53 14.31 18.56C13.9 17.09 14.63 15.54 15.96 14.82C16.48 14.53 17.14 14.7 17.46 15.19L19.08 17.7C19.34 18.1 19.37 18.61 19.16 19.03L18.08 21.18C17.87 21.6 17.9 22.12 18.16 22.51" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+  }
+  if (name === "whatsapp") {
+    return <svg width="48" height="48" viewBox="0 0 44 44" fill="none"><path d="M22.1 8.2C14.2 8.2 7.8 14.4 7.8 22.1C7.8 25.1 8.8 28 10.6 30.3L9.2 35.8L14.9 34.3C17 35.5 19.5 36.1 22.1 36.1C30 36.1 36.4 29.9 36.4 22.2C36.4 14.5 30 8.2 22.1 8.2Z" stroke={color} strokeWidth="2" strokeLinejoin="round"/><path d="M18.3 16.8C18 16.1 17.7 16 17.1 16H15.7C15.2 16 14.6 16.2 14.3 16.6C13.3 17.6 12.8 18.9 12.8 20.4C12.8 22.1 13.5 23.8 14.8 25.3C17 28 20.2 30 23.8 30.7C25.3 31 26.5 30.6 27.4 29.7C27.8 29.3 28 28.7 28 28.2V26.8C28 26.2 27.8 25.9 27.2 25.6L24.8 24.5C24.3 24.3 23.9 24.4 23.5 24.7L22.4 25.6C22.1 25.8 21.7 25.9 21.4 25.8C19.5 25.1 17.9 23.6 17.1 21.8C16.9 21.5 17 21.1 17.2 20.8L18.1 19.7C18.4 19.3 18.5 18.9 18.3 18.4L17.3 16.1" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>;
   }
   if (name === "lock") {
     return <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2.5" stroke={color} strokeWidth="1.8"/><path d="M8 11V8.5C8 6.01472 10.0147 4 12.5 4C14.9853 4 17 6.01472 17 8.5V11" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="16" r="1.2" fill={color}/></svg>;

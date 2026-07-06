@@ -58,7 +58,7 @@ const pt = {
     results: {
       mobile: {
         kicker: "no celular, seu caminho é",
-        title: "Criar no Celular",
+        title: "Use seu próprio celular",
         body: "Studio mobile — app de criação da Mastertech para celular.",
         button: "Ir para o Studio mobile →",
       },
@@ -85,30 +85,30 @@ const pt = {
   },
   journey: {
     pageTitle: "Sua jornada",
-    pageSubtitle: "Três caminhos para criar. Um destino: seu jogo no ar.",
+    pageSubtitle: "Três caminhos para criar.\nUm destino: seu jogo no ar.",
     deviceAria: "Escolha o dispositivo",
     deviceMobileStrong: "No celular",
     deviceMobileSmall: "Studio mobile",
     deviceComputerStrong: "No computador",
     deviceComputerSmall: "Bilde e Tutoriais",
     chooseEmpty: "Escolha primeiro onde você vai criar para revelar os caminhos da jornada.",
-    labelMobile: "No celular",
-    labelComputer: "No computador",
+    labelMobile: "Criar",
+    labelComputer: "Criar",
     or: "OU",
     cardMobile: {
-      kicker: "Studio mobile · App Mastertech",
-      title: "Criar no Celular",
+      kicker: "Criar",
+      title: "Use seu próprio celular",
       body: "Cria e exporta sem computador",
       note: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio.",
     },
     cardBilde: {
-      kicker: "Bilde · Roblox Studio · plugin",
+      kicker: "Criar",
       title: "Criar com IA",
       body: "Conversa com você, monta o jogo",
       note: "Guiado por perguntas. Ideal para quem quer começar sem saber o que fazer.",
     },
     cardTut: {
-      kicker: "Tutoriais · Roblox Studio · plugin",
+      kicker: "Criar",
       title: "Aprender com Tutoriais",
       body: "Passo a passo, mão na massa",
       note: "Cada etapa, uma parte do jogo construída com a própria mão.",
@@ -123,7 +123,7 @@ const pt = {
     factWhere: "Onde abre",
     mob: {
       kicker: "Studio mobile",
-      title: "Criar no Celular",
+      title: "Studio mobile",
       subline: "app · Mastertech · celular",
       cards: [
         "App da Mastertech para criar no celular, com interface pensada para tela pequena.",
@@ -134,7 +134,7 @@ const pt = {
     },
     bilde: {
       kicker: "Bilde",
-      title: "Criar com IA",
+      title: "Bilde",
       subline: "plugin · Roblox Studio · computador",
       cards: [
         "Plugin que entrevista você sobre o jogo que quer criar e vai construindo junto com as respostas.",
@@ -145,7 +145,7 @@ const pt = {
     },
     tut: {
       kicker: "Tutoriais",
-      title: "Aprender com Tutoriais",
+      title: "Tutoriais",
       subline: "plugin · Roblox Studio · computador",
       cards: [
         "Plugin que conduz por etapas — em cada etapa você constrói uma parte do jogo com a própria mão.",
@@ -156,7 +156,7 @@ const pt = {
     },
   },
   publish: {
-    kicker: "a virada",
+    kicker: "Publicar",
     title: "Publicar",
     line1: "Já tem um jogo?",
     line2: "Publique no Roblox.",
@@ -164,7 +164,7 @@ const pt = {
     button: "Publicar agora →",
   },
   community: {
-    kicker: "continuidade",
+    kicker: "Pertencer",
     title: "Comunidade",
     copy: "O servidor da Expedição no Discord. Não é uma fase da jornada — está disponível a qualquer hora, para os creators continuarem criando juntos.",
     button: "Entrar no Discord →",
@@ -308,7 +308,7 @@ const pt = {
     journeyExpandTitle: "Ver a jornada completa",
     journeyExpandSub: "Jornada do creator",
     journeyCompact: [
-      { accent: "yellow", title: "Criar no Celular", subtitle: "App Mastertech · celular", body: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio." },
+      { accent: "yellow", title: "Use seu próprio celular", subtitle: "App Mastertech · celular", body: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio." },
       { accent: "red", title: "Criar com IA", subtitle: "Bilde · Roblox Studio · plugin", body: "Plugin que entrevista o creator e monta o jogo a partir das respostas. Ideal para quem não sabe por onde começar." },
       { accent: "blue", title: "Aprender com Tutoriais", subtitle: "Tutoriais · Roblox Studio · plugin", body: "Plugin que conduz etapa a etapa. O creator constrói cada parte do jogo com a própria mão." },
     ],
@@ -368,13 +368,17 @@ const pt = {
   },
   responsaveis: {
     pageTitle: "Para responsáveis",
-    pageSubtitle: "Conteúdos e orientações para pais, responsáveis e educadores acompanharem a jornada de criação no Roblox.",
+    pageSubtitle: "Conteúdos e orientações para pais, responsáveis e educadores\nacompanharem a jornada de criação no Roblox.",
     audienceAria: "Escolha o público",
     toggleResp: { strong: "Pais e responsáveis", small: "Apoiar em casa" },
     toggleEdu: { strong: "Educadores", small: "Usar em sala de aula" },
-    videosLabel: "Vídeos",
+    videosLabel: "Conteúdos informativos",
     docsLabel: "Guias e materiais",
-    docTag: "Documento · abre em nova aba",
+    stepCta: {
+      prompt: "Quer saber mais?",
+      talk: "Fale com a gente",
+      note: "Ou continue nesta seção para entender caminhos e possibilidades.",
+    },
     community: {
       kicker: "Comunidade",
       title: "Entre na comunidade da Expedição",
@@ -384,6 +388,7 @@ const pt = {
     audiences: {
       responsaveis: {
         intro: "Entenda o projeto e saiba como apoiar seu filho nessa jornada de aprendizado e criação.",
+        stepsLabel: "Como acompanhar",
         steps: [
           { title: "Entender o projeto", body: "Conheça a Expedição Roblox, como funciona e como acompanhar seu filho." },
           { title: "Participar junto", body: "Viva a jornada de criação em família, presencial ou de casa." },
@@ -404,10 +409,11 @@ const pt = {
       },
       educadores: {
         intro: "Use o Roblox como ferramenta pedagógica e inspire seus alunos a criar e aprender.",
+        stepsLabel: "Como participar",
         steps: [
           { title: "Usar na sala de aula", body: "Materiais pedagógicos e como integrar o Roblox ao seu planejamento." },
-          { title: "Formar e participar", body: "Participe de eventos para educadores e amplie sua rede." },
-          { title: "Levar a turma", body: "Incentive seus alunos a criar e acompanhe o progresso deles." },
+          { title: "Ampliar repertório e rede", body: "Participe de eventos para educadores e amplie sua rede." },
+          { title: "Desenvolver habilidades do futuro", body: "Incentive seus alunos a criar e acompanhe o progresso deles." },
         ],
         videos: [
           { title: "Por que usar a Roblox na educação?", desc: "Alinhamento à BNCC, engajamento e competências do século 21." },
@@ -430,29 +436,29 @@ const pt = {
   },
   achievements: {
     title: "Minhas conquistas",
-    intro: "Organização por natureza da conquista, agrupando identidade, construção espacial, interação por eventos e sistemas com lógica de estado.",
+    intro: "Reconhecimentos concedidos ao longo da formação em Roblox Studio, organizados em clusters conforme o tipo de habilidade ou marco alcançado.",
     lockedHint: "Bloqueado",
     earnedHint: "Conquistado",
     clusters: {
       identity: {
         name: "Identidade",
         tag: "Creator",
-        desc: "Marca o papel do creator dentro do ecossistema, não uma habilidade isolada.",
+        desc: "Conquistas que reconhecem o percurso completo. Creator marca quem passou pela formação inicial e publicou o primeiro jogo. Creator-Construtor(a) marca quem concluiu as trilhas de Mundo e Interação.",
       },
       world: {
         name: "Mundo",
         tag: "Iniciante",
-        desc: "Construção de geometria estática no espaço 3D, com foco em posicionamento, escala e composição.",
+        desc: "Construção de cenários 3D no Studio. Trabalha com Parts, materiais, escala, agrupamento e organização da hierarquia do Explorer. É onde se aprende a modelar o espaço do jogo.",
       },
       interaction: {
         name: "Interação",
         tag: "Intermediário",
-        desc: "Objetos que respondem a eventos do jogador, introduzindo gatilhos, sensores e mudanças em runtime.",
+        desc: "Programação de comportamentos que respondem ao jogador. Cada badge corresponde a um script que conecta um evento a uma ação sobre o objeto. É onde se aprende a fazer o mundo reagir.",
       },
       systems: {
         name: "Sistemas",
         tag: "Avançado",
-        desc: "Estado persistente, temporização e integração com lógica de maior complexidade.",
+        desc: "Programação de mecânicas que operam por conta própria. Envolve variáveis de estado, condicionais, timers e integração com serviços externos. É onde se aprende a construir a lógica que sustenta um jogo.",
       },
     },
     items: {
@@ -467,15 +473,15 @@ const pt = {
       "bilde-game": "Criou um jogo com IA",
     },
     descriptions: {
-      creator: "Acesso ao ecossistema e conclusão do onboarding no Roblox Studio.",
-      constructor: "Especialização na trilha de construção, com domínio dos badges de Mundo e Interação.",
-      "tut-3d": "Primeira construção significativa com Parts posicionadas, redimensionadas e agrupadas no Studio.",
-      "tut-plataforma": "Uso do evento Touched para alterar propriedade de um Part em runtime.",
-      "tut-porta": "Uso de sensor de proximidade para acionar animação de abertura.",
-      "tut-moeda": "Colisão com coleta, com destruição da instância e feedback visual ou sonoro.",
-      "tut-clicker": "Variável de contagem incrementada por evento, com condição de vitória ao atingir o alvo.",
-      "tut-semaforo": "Máquina de estados finitos alternando por timer, sem input do jogador.",
-      "bilde-game": "Integração com IA para gerar jogo, cena ou diálogo a partir de prompt.",
+      creator: "Concedido a quem passou pela formação inicial e publicou o primeiro jogo.",
+      constructor: "Concedido a quem concluiu as trilhas de Mundo e Interação.",
+      "tut-3d": "Construção de um cenário com Parts posicionadas, redimensionadas e agrupadas em hierarquia.",
+      "tut-plataforma": "Script que conecta o evento Touched de um Part à alteração da sua transparência ou colisão.",
+      "tut-porta": "Script que detecta a proximidade do jogador e aciona a animação de abertura da porta.",
+      "tut-moeda": "Script que trata a colisão com o jogador, destrói a instância da moeda e dispara feedback sonoro ou visual.",
+      "tut-clicker": "Uma variável de contagem cresce a cada clique e uma condicional é acionada ao atingir o valor-alvo.",
+      "tut-semaforo": "Três estados alternam em sequência, controlados por um timer, sem interação do jogador.",
+      "bilde-game": "Uma chamada a uma API de LLM gera NPC, cenário ou diálogo durante a execução do jogo.",
     },
   },
   modal: {
@@ -581,23 +587,23 @@ const en = {
     deviceComputerStrong: "On the computer",
     deviceComputerSmall: "Bilde and Tutorials",
     chooseEmpty: "First choose where you'll create to reveal the journey's paths.",
-    labelMobile: "On the phone",
-    labelComputer: "On the computer",
+    labelMobile: "Create",
+    labelComputer: "Create",
     or: "OR",
     cardMobile: {
-      kicker: "Studio mobile · Mastertech App",
+      kicker: "Create",
       title: "Create on Mobile",
       body: "Create and export without a computer",
       note: "Just your phone is enough. Create, test in the browser and export to Roblox Studio.",
     },
     cardBilde: {
-      kicker: "Bilde · Roblox Studio · plugin",
+      kicker: "Create",
       title: "Create with AI",
       body: "Talks with you, builds the game",
       note: "Guided by questions. Perfect for those who want to start without knowing what to do.",
     },
     cardTut: {
-      kicker: "Tutorials · Roblox Studio · plugin",
+      kicker: "Create",
       title: "Learn with Tutorials",
       body: "Step by step, hands-on",
       note: "Each step, one part of the game built with your own hands.",
@@ -612,7 +618,7 @@ const en = {
     factWhere: "Where it opens",
     mob: {
       kicker: "Studio mobile",
-      title: "Create on Mobile",
+      title: "Studio mobile",
       subline: "app · Mastertech · mobile",
       cards: [
         "Mastertech's app for creating on your phone, with an interface designed for small screens.",
@@ -623,7 +629,7 @@ const en = {
     },
     bilde: {
       kicker: "Bilde",
-      title: "Create with AI",
+      title: "Bilde",
       subline: "plugin · Roblox Studio · computer",
       cards: [
         "A plugin that interviews you about the game you want to create and builds it along with your answers.",
@@ -634,7 +640,7 @@ const en = {
     },
     tut: {
       kicker: "Tutorials",
-      title: "Learn with Tutorials",
+      title: "Tutorials",
       subline: "plugin · Roblox Studio · computer",
       cards: [
         "A plugin that guides you through steps — at each step you build a part of the game with your own hands.",
@@ -645,7 +651,7 @@ const en = {
     },
   },
   publish: {
-    kicker: "the turning point",
+    kicker: "Publish",
     title: "Publish",
     line1: "Already have a game?",
     line2: "Publish it on Roblox.",
@@ -653,7 +659,7 @@ const en = {
     button: "Publish now →",
   },
   community: {
-    kicker: "continuity",
+    kicker: "Belong",
     title: "Community",
     copy: "The Expedition's Discord server. It's not a stage of the journey — it's available anytime, for creators to keep creating together.",
     button: "Join the Discord →",
@@ -861,9 +867,13 @@ const en = {
     audienceAria: "Choose the audience",
     toggleResp: { strong: "Parents & guardians", small: "Support at home" },
     toggleEdu: { strong: "Educators", small: "Use in the classroom" },
-    videosLabel: "Videos",
+    videosLabel: "Informational content",
     docsLabel: "Guides & materials",
-    docTag: "Document · opens in a new tab",
+    stepCta: {
+      prompt: "Want to know more?",
+      talk: "Talk to us",
+      note: "Ask questions and find out how to follow closely.",
+    },
     community: {
       kicker: "Community",
       title: "Join the Expedition community",
@@ -873,6 +883,7 @@ const en = {
     audiences: {
       responsaveis: {
         intro: "Understand the project and learn how to support your child on this journey of learning and creating.",
+        stepsLabel: "How to follow along",
         steps: [
           { title: "Understand the project", body: "Get to know Roblox Expedition, how it works and how to follow your child." },
           { title: "Take part together", body: "Live the creation journey as a family, in person or from home." },
@@ -893,10 +904,11 @@ const en = {
       },
       educadores: {
         intro: "Use Roblox as a teaching tool and inspire your students to create and learn.",
+        stepsLabel: "How to take part",
         steps: [
           { title: "Use in the classroom", body: "Teaching materials and how to fit Roblox into your lesson plans." },
-          { title: "Train and take part", body: "Join events for educators and grow your network." },
-          { title: "Bring your class", body: "Encourage your students to create and follow their progress." },
+          { title: "Expand your toolkit and network", body: "Join events for educators and grow your network." },
+          { title: "Build future-ready skills", body: "Encourage your students to create and follow their progress." },
         ],
         videos: [
           { title: "Why use Roblox in education?", desc: "Curriculum alignment, engagement and 21st-century skills." },
@@ -919,29 +931,29 @@ const en = {
   },
   achievements: {
     title: "My achievements",
-    intro: "Achievements grouped by the nature of the work: identity, spatial building, event-driven interaction and systems with state logic.",
+    intro: "Achievements granted throughout the Roblox Studio learning journey, organized in clusters by the type of skill or milestone reached.",
     lockedHint: "Locked",
     earnedHint: "Unlocked",
     clusters: {
       identity: {
         name: "Identity",
         tag: "Creator",
-        desc: "Marks the creator's role inside the ecosystem rather than a single isolated skill.",
+        desc: "Achievements that recognize the full journey. Creator marks someone who completed the initial training and published a first game. Creator-Builder marks someone who completed the World and Interaction tracks.",
       },
       world: {
         name: "World",
         tag: "Beginner",
-        desc: "Static geometry building in 3D space, focused on placement, scale and scene composition.",
+        desc: "3D scene building in Studio. It works with Parts, materials, scale, grouping and Explorer hierarchy. This is where the learner starts shaping the space of the game.",
       },
       interaction: {
         name: "Interaction",
         tag: "Intermediate",
-        desc: "Objects that react to player events, introducing triggers, sensors and runtime changes.",
+        desc: "Programming behaviors that respond to the player. Each badge corresponds to a script that connects an event to an action on an object. This is where the world starts reacting.",
       },
       systems: {
         name: "Systems",
         tag: "Advanced",
-        desc: "Persistent state, timing and more complex logic structures.",
+        desc: "Programming mechanics that operate on their own. It involves state variables, conditionals, timers and integration with external services. This is where the supporting logic of a game takes shape.",
       },
     },
     items: {
@@ -956,15 +968,15 @@ const en = {
       "bilde-game": "Built a game with AI",
     },
     descriptions: {
-      creator: "Access to the ecosystem and onboarding completion in Roblox Studio.",
-      constructor: "Specialization in the building track, mastering the World and Interaction badges.",
-      "tut-3d": "First meaningful build with Parts positioned, resized and grouped in Studio.",
-      "tut-plataforma": "Uses the Touched event to change a Part property at runtime.",
-      "tut-porta": "Uses a proximity sensor to trigger an opening animation.",
-      "tut-moeda": "Collectible collision with instance removal and visual or sound feedback.",
-      "tut-clicker": "Event-based counter variable with a win condition once the target is reached.",
-      "tut-semaforo": "Finite-state machine alternating by timer, without player input.",
-      "bilde-game": "Uses AI to generate a game, scene or dialogue from a prompt.",
+      creator: "Granted to someone who completed the initial training and published a first game.",
+      constructor: "Granted to someone who completed the World and Interaction tracks.",
+      "tut-3d": "Building a scene with Parts positioned, resized and grouped into a clear hierarchy.",
+      "tut-plataforma": "A script that connects a Part's Touched event to a change in transparency or collision.",
+      "tut-porta": "A script that detects player proximity and triggers the door opening animation.",
+      "tut-moeda": "A script that handles collision with the player, destroys the coin instance and triggers visual or sound feedback.",
+      "tut-clicker": "A counter variable grows with each click and a conditional triggers once the target value is reached.",
+      "tut-semaforo": "Three states alternate in sequence, controlled by a timer, without player interaction.",
+      "bilde-game": "A call to an LLM API generates an NPC, scene or dialogue while the game is running.",
     },
   },
   modal: {
@@ -1070,23 +1082,23 @@ const es = {
     deviceComputerStrong: "En la computadora",
     deviceComputerSmall: "Bilde y Tutoriales",
     chooseEmpty: "Elige primero dónde vas a crear para revelar los caminos de la jornada.",
-    labelMobile: "En el celular",
-    labelComputer: "En la computadora",
+    labelMobile: "Crear",
+    labelComputer: "Crear",
     or: "O",
     cardMobile: {
-      kicker: "Studio mobile · App Mastertech",
+      kicker: "Crear",
       title: "Crear en el Celular",
       body: "Crea y exporta sin computadora",
       note: "Solo el celular basta. Crea, prueba en el navegador y expórtalo a Roblox Studio.",
     },
     cardBilde: {
-      kicker: "Bilde · Roblox Studio · plugin",
+      kicker: "Crear",
       title: "Crear con IA",
       body: "Conversa contigo, arma el juego",
       note: "Guiado por preguntas. Ideal para quien quiere empezar sin saber qué hacer.",
     },
     cardTut: {
-      kicker: "Tutoriales · Roblox Studio · plugin",
+      kicker: "Crear",
       title: "Aprender con Tutoriales",
       body: "Paso a paso, manos a la obra",
       note: "Cada etapa, una parte del juego construida con tus propias manos.",
@@ -1101,7 +1113,7 @@ const es = {
     factWhere: "Dónde se abre",
     mob: {
       kicker: "Studio mobile",
-      title: "Crear en el Celular",
+      title: "Studio mobile",
       subline: "app · Mastertech · celular",
       cards: [
         "App de Mastertech para crear en el celular, con una interfaz pensada para pantalla pequeña.",
@@ -1112,7 +1124,7 @@ const es = {
     },
     bilde: {
       kicker: "Bilde",
-      title: "Crear con IA",
+      title: "Bilde",
       subline: "plugin · Roblox Studio · computadora",
       cards: [
         "Plugin que te entrevista sobre el juego que quieres crear y lo va construyendo junto con tus respuestas.",
@@ -1123,7 +1135,7 @@ const es = {
     },
     tut: {
       kicker: "Tutoriales",
-      title: "Aprender con Tutoriales",
+      title: "Tutoriales",
       subline: "plugin · Roblox Studio · computadora",
       cards: [
         "Plugin que te guía por etapas — en cada etapa construyes una parte del juego con tus propias manos.",
@@ -1134,7 +1146,7 @@ const es = {
     },
   },
   publish: {
-    kicker: "el gran salto",
+    kicker: "Publicar",
     title: "Publicar",
     line1: "¿Ya tienes un juego?",
     line2: "Publícalo en Roblox.",
@@ -1142,7 +1154,7 @@ const es = {
     button: "Publicar ahora →",
   },
   community: {
-    kicker: "continuidad",
+    kicker: "Pertenecer",
     title: "Comunidad",
     copy: "El servidor de la Expedición en Discord. No es una fase de la jornada — está disponible a cualquier hora, para que los creators sigan creando juntos.",
     button: "Entrar a Discord →",
@@ -1350,9 +1362,13 @@ const es = {
     audienceAria: "Elige el público",
     toggleResp: { strong: "Padres y responsables", small: "Apoyar en casa" },
     toggleEdu: { strong: "Educadores", small: "Usar en el aula" },
-    videosLabel: "Videos",
+    videosLabel: "Contenidos informativos",
     docsLabel: "Guías y materiales",
-    docTag: "Documento · se abre en una nueva pestaña",
+    stepCta: {
+      prompt: "¿Quieres saber más?",
+      talk: "Habla con nosotros",
+      note: "Resuelve tus dudas y descubre cómo acompañar de cerca.",
+    },
     community: {
       kicker: "Comunidad",
       title: "Entra a la comunidad de la Expedición",
@@ -1362,6 +1378,7 @@ const es = {
     audiences: {
       responsaveis: {
         intro: "Entiende el proyecto y descubre cómo apoyar a tu hijo en esta jornada de aprendizaje y creación.",
+        stepsLabel: "Cómo acompañar",
         steps: [
           { title: "Entender el proyecto", body: "Conoce la Expedición Roblox, cómo funciona y cómo acompañar a tu hijo." },
           { title: "Participar juntos", body: "Vive la jornada de creación en familia, presencial o desde casa." },
@@ -1382,10 +1399,11 @@ const es = {
       },
       educadores: {
         intro: "Usa Roblox como herramienta pedagógica e inspira a tus alumnos a crear y aprender.",
+        stepsLabel: "Cómo participar",
         steps: [
           { title: "Usar en el aula", body: "Materiales pedagógicos y cómo integrar Roblox a tu planificación." },
-          { title: "Formarte y participar", body: "Participa en eventos para educadores y amplía tu red." },
-          { title: "Llevar al grupo", body: "Incentiva a tus alumnos a crear y acompaña su progreso." },
+          { title: "Ampliar repertorio y red", body: "Participa en eventos para educadores y amplía tu red." },
+          { title: "Desarrollar habilidades del futuro", body: "Incentiva a tus alumnos a crear y acompaña su progreso." },
         ],
         videos: [
           { title: "¿Por qué usar Roblox en la educación?", desc: "Alineación curricular, engagement y competencias del siglo 21." },
@@ -1408,29 +1426,29 @@ const es = {
   },
   achievements: {
     title: "Mis logros",
-    intro: "Organización por naturaleza del logro, agrupando identidad, construcción espacial, interacción por eventos y sistemas con lógica de estado.",
+    intro: "Reconocimientos concedidos a lo largo de la formación en Roblox Studio, organizados en clusters según el tipo de habilidad o hito alcanzado.",
     lockedHint: "Bloqueado",
     earnedHint: "Logrado",
     clusters: {
       identity: {
         name: "Identidad",
         tag: "Creator",
-        desc: "Marca el papel del creator dentro del ecosistema, no una habilidad aislada.",
+        desc: "Logros que reconocen el recorrido completo. Creator marca a quien pasó por la formación inicial y publicó su primer juego. Creator-Constructor(a) marca a quien concluyó las rutas de Mundo e Interacción.",
       },
       world: {
         name: "Mundo",
         tag: "Inicial",
-        desc: "Construcción de geometría estática en el espacio 3D, con foco en posición, escala y composición.",
+        desc: "Construcción de escenarios 3D en Studio. Trabaja con Parts, materiales, escala, agrupación y organización de la jerarquía en Explorer. Aquí se aprende a modelar el espacio del juego.",
       },
       interaction: {
         name: "Interacción",
         tag: "Intermedio",
-        desc: "Objetos que responden a eventos del jugador, introduciendo disparadores, sensores y cambios en runtime.",
+        desc: "Programación de comportamientos que responden al jugador. Cada badge corresponde a un script que conecta un evento con una acción sobre el objeto. Aquí se aprende a hacer que el mundo reaccione.",
       },
       systems: {
         name: "Sistemas",
         tag: "Avanzado",
-        desc: "Estado persistente, temporización y estructuras de lógica más complejas.",
+        desc: "Programación de mecánicas que operan por sí solas. Involucra variables de estado, condicionales, temporizadores e integración con servicios externos. Aquí se aprende a construir la lógica que sostiene un juego.",
       },
     },
     items: {
@@ -1445,15 +1463,15 @@ const es = {
       "bilde-game": "Creó un juego con IA",
     },
     descriptions: {
-      creator: "Acceso al ecosistema y finalización del onboarding en Roblox Studio.",
-      constructor: "Especialización en la ruta de construcción, dominando los badges de Mundo e Interacción.",
-      "tut-3d": "Primera construcción significativa con Parts posicionadas, redimensionadas y agrupadas en Studio.",
-      "tut-plataforma": "Uso del evento Touched para cambiar una propiedad de un Part en runtime.",
-      "tut-porta": "Uso de sensor de proximidad para activar una animación de apertura.",
-      "tut-moeda": "Colisión con objeto coleccionable, eliminando la instancia con feedback visual o sonoro.",
-      "tut-clicker": "Variable de conteo incrementada por evento, con condición de victoria al alcanzar la meta.",
-      "tut-semaforo": "Máquina de estados finitos alternando por temporizador, sin input del jugador.",
-      "bilde-game": "Uso de IA para generar juego, escena o diálogo a partir de un prompt.",
+      creator: "Concedido a quien pasó por la formación inicial y publicó su primer juego.",
+      constructor: "Concedido a quien concluyó las rutas de Mundo e Interacción.",
+      "tut-3d": "Construcción de un escenario con Parts posicionadas, redimensionadas y agrupadas en jerarquía.",
+      "tut-plataforma": "Script que conecta el evento Touched de un Part con el cambio de su transparencia o colisión.",
+      "tut-porta": "Script que detecta la proximidad del jugador y activa la animación de apertura de la puerta.",
+      "tut-moeda": "Script que trata la colisión con el jugador, destruye la instancia de la moneda y dispara feedback sonoro o visual.",
+      "tut-clicker": "Una variable de conteo crece con cada clic y una condicional se activa al alcanzar el valor objetivo.",
+      "tut-semaforo": "Tres estados alternan en secuencia, controlados por un temporizador, sin interacción del jugador.",
+      "bilde-game": "Una llamada a una API de LLM genera un NPC, escenario o diálogo durante la ejecución del juego.",
     },
   },
   modal: {
