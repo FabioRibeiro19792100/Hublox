@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 970">
+  <!--
+    Sistema de badges (versao linha, monocromatica)
+    Traco fino preto, sem preenchimento. Ideal para impressao, carimbo, laser ou UI minimal.
+    Uso: <svg><use href="badges-linha.svg#badge-semaforo" width="120" height="120"/>
+  <text x="215" y="510" text-anchor="middle" font-size="13">Versoes bloqueadas</text>
+  <use href="#badge-creator-locked" x="10" y="530" width="120" height="120"/>
+  <use href="#badge-creator-construtor-locked" x="150" y="530" width="120" height="120"/>
+  <use href="#badge-construtor-3d-locked" x="290" y="530" width="120" height="120"/>
+  <use href="#badge-plataforma-some-locked" x="10" y="660" width="120" height="120"/>
+  <use href="#badge-porta-automatica-locked" x="150" y="660" width="120" height="120"/>
+  <use href="#badge-moeda-magica-locked" x="290" y="660" width="120" height="120"/>
+  <use href="#badge-clicker-meta-locked" x="10" y="790" width="120" height="120"/>
+  <use href="#badge-semaforo-locked" x="150" y="790" width="120" height="120"/>
+  <use href="#badge-jogo-ia-locked" x="290" y="790" width="120" height="120"/>
+</svg>
+    Estado bloqueado: adicionar class="locked" no elemento <use>
+  -->
+  <style>
+    .locked { opacity: .35; }
+    symbol g.s { fill: none; stroke: #111; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    text { font-family: sans-serif; font-size: 11px; fill: #111; }
+  </style>
+
+  <symbol id="badge-creator" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <circle cx="60" cy="60" r="47"/>
+      <path d="M60 34 q4.5 20 24 24 q-19.5 4.5 -24 24 q-4.5 -20 -24 -24 q19.5 -4.5 24 -24 z"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-creator-construtor" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <circle cx="60" cy="60" r="47"/>
+      <path d="M60 32 L84 46 L84 74 L60 88 L36 74 L36 46 Z"/>
+      <path d="M36 46 L60 60 L84 46 M60 60 L60 88"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-construtor-3d" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <path d="M60 22 L82 34 L82 60 L60 72 L38 60 L38 34 Z"/>
+      <path d="M38 34 L60 46 L82 34 M60 46 L60 72"/>
+      <path d="M60 87.1 L40 98 L18 86 L18 60 L38 49.1"/>
+      <path d="M18 60 L40 72 L50 66.5 M40 72 L40 98"/>
+      <path d="M82 49.1 L102 60 L102 86 L80 98 L58 86 L58 70.9"/>
+      <path d="M102 60 L80 72 L70 66.5 M80 72 L80 98"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-plataforma-some" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <path d="M47 45 a13 13 0 0 1 26 0 v13 l-4.3 -5 l-4.4 5 l-4.3 -5 l-4.3 5 l-4.4 -5 l-4.3 5 z"/>
+      <rect x="26" y="70" width="20" height="11" rx="2"/>
+      <rect x="50" y="70" width="20" height="11" rx="2" stroke-dasharray="4 3"/>
+      <rect x="74" y="70" width="20" height="11" rx="2" stroke-dasharray="2 4"/>
+    </g>
+    <circle cx="54" cy="46" r="2" fill="#111"/>
+    <circle cx="66" cy="46" r="2" fill="#111"/>
+  </symbol>
+
+  <symbol id="badge-porta-automatica" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <rect x="34" y="28" width="52" height="64" rx="3"/>
+      <rect x="38" y="32" width="15" height="56"/>
+      <rect x="67" y="32" width="15" height="56"/>
+      <path d="M58 50 l-5 6 l5 6 M62 50 l5 6 l-5 6"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-moeda-magica" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <circle cx="60" cy="60" r="28"/>
+      <path d="M60 42 l4.7 13.3 L78 60 l-13.3 4.7 L60 78 l-4.7 -13.3 L42 60 l13.3 -4.7 z"/>
+      <circle cx="34" cy="34" r="3"/>
+      <circle cx="88" cy="86" r="3"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-clicker-meta" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <circle cx="60" cy="60" r="28"/>
+      <circle cx="60" cy="60" r="16"/>
+    </g>
+    <circle cx="60" cy="60" r="5" fill="#111"/>
+  </symbol>
+
+  <symbol id="badge-semaforo" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <rect x="43" y="26" width="34" height="68" rx="7"/>
+      <circle cx="60" cy="41" r="7.5"/>
+      <circle cx="60" cy="60" r="7.5"/>
+      <circle cx="60" cy="79" r="7.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-jogo-ia" viewBox="0 0 120 120">
+    <g class="s">
+      <circle cx="60" cy="60" r="56"/>
+      <line x1="60" y1="28" x2="60" y2="38"/>
+      <circle cx="60" cy="25" r="3"/>
+      <rect x="34" y="38" width="52" height="42" rx="9"/>
+      <line x1="50" y1="70" x2="70" y2="70"/>
+    </g>
+    <circle cx="48" cy="56" r="3.5" fill="#111"/>
+    <circle cx="72" cy="56" r="3.5" fill="#111"/>
+  </symbol>
+
+
+  <symbol id="badge-creator-locked" viewBox="0 0 120 120">
+    <use href="#badge-creator" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-creator-construtor-locked" viewBox="0 0 120 120">
+    <use href="#badge-creator-construtor" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-construtor-3d-locked" viewBox="0 0 120 120">
+    <use href="#badge-construtor-3d" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-plataforma-some-locked" viewBox="0 0 120 120">
+    <use href="#badge-plataforma-some" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-porta-automatica-locked" viewBox="0 0 120 120">
+    <use href="#badge-porta-automatica" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-moeda-magica-locked" viewBox="0 0 120 120">
+    <use href="#badge-moeda-magica" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-clicker-meta-locked" viewBox="0 0 120 120">
+    <use href="#badge-clicker-meta" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-semaforo-locked" viewBox="0 0 120 120">
+    <use href="#badge-semaforo" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="badge-jogo-ia-locked" viewBox="0 0 120 120">
+    <use href="#badge-jogo-ia" width="120" height="120" opacity=".3"/>
+    <g class="s">
+      <circle cx="92" cy="92" r="16"/>
+      <rect x="85" y="90.5" width="14" height="12" rx="2"/>
+      <path d="M88 90.5 v-3.5 a4 4 0 0 1 8 0 v3.5"/>
+    </g>
+  </symbol>
+
+  <!-- Grade de preview -->
+  <use href="#badge-creator" x="10" y="10" width="120" height="120"/>
+  <text x="70" y="146" text-anchor="middle">Creator</text>
+  <use href="#badge-creator-construtor" x="150" y="10" width="120" height="120"/>
+  <text x="210" y="146" text-anchor="middle">Creator-Construtor(a)</text>
+  <use href="#badge-construtor-3d" x="290" y="10" width="120" height="120"/>
+  <text x="350" y="146" text-anchor="middle">Construtor 3D</text>
+
+  <use href="#badge-plataforma-some" x="10" y="170" width="120" height="120"/>
+  <text x="70" y="306" text-anchor="middle">Plataforma que some</text>
+  <use href="#badge-porta-automatica" x="150" y="170" width="120" height="120"/>
+  <text x="210" y="306" text-anchor="middle">Porta automatica</text>
+  <use href="#badge-moeda-magica" x="290" y="170" width="120" height="120"/>
+  <text x="350" y="306" text-anchor="middle">Moeda magica</text>
+
+  <use href="#badge-clicker-meta" x="10" y="330" width="120" height="120"/>
+  <text x="70" y="466" text-anchor="middle">Clicker com meta</text>
+  <use href="#badge-semaforo" x="150" y="330" width="120" height="120"/>
+  <text x="210" y="466" text-anchor="middle">Semaforo</text>
+  <use href="#badge-jogo-ia" x="290" y="330" width="120" height="120"/>
+  <text x="350" y="466" text-anchor="middle">Jogo com IA</text>
+
+  <text x="215" y="510" text-anchor="middle" font-size="13">Versoes bloqueadas</text>
+  <use href="#badge-creator-locked" x="10" y="530" width="120" height="120"/>
+  <use href="#badge-creator-construtor-locked" x="150" y="530" width="120" height="120"/>
+  <use href="#badge-construtor-3d-locked" x="290" y="530" width="120" height="120"/>
+  <use href="#badge-plataforma-some-locked" x="10" y="660" width="120" height="120"/>
+  <use href="#badge-porta-automatica-locked" x="150" y="660" width="120" height="120"/>
+  <use href="#badge-moeda-magica-locked" x="290" y="660" width="120" height="120"/>
+  <use href="#badge-clicker-meta-locked" x="10" y="790" width="120" height="120"/>
+  <use href="#badge-semaforo-locked" x="150" y="790" width="120" height="120"/>
+  <use href="#badge-jogo-ia-locked" x="290" y="790" width="120" height="120"/>
+</svg>

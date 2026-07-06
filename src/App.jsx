@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import badgesCorUrl from "../badges-cor.svg";
+import badgesLinhaUrl from "../badges-linha.svg";
 import { translations, langOrder, langLabels } from "./i18n";
 
 const palette = {
@@ -144,16 +146,62 @@ const MEDAL_FALLBACK =
 // tutorials and one Bilde milestone (emoji). All locked until the backend reports
 // progress for the handle — see the `achievements` state / integration note.
 const ACHIEVEMENTS = [
-  { id: "creator", kind: "badge", img: "/uploads/badge-creator.png" },
-  { id: "constructor", kind: "badge", img: "/uploads/badge-constructor.png" },
-  { id: "tut-3d", kind: "emoji", emoji: "🧱" },
-  { id: "tut-plataforma", kind: "emoji", emoji: "👻" },
-  { id: "tut-porta", kind: "emoji", emoji: "🚪" },
-  { id: "tut-moeda", kind: "emoji", emoji: "🪙" },
-  { id: "tut-clicker", kind: "emoji", emoji: "🎯" },
-  { id: "tut-semaforo", kind: "emoji", emoji: "🚦" },
-  { id: "bilde-game", kind: "emoji", emoji: "🤖" },
+  { id: "creator", kind: "symbol", symbol: "badge-creator", frame: "circle" },
+  { id: "constructor", kind: "symbol", symbol: "badge-creator-construtor", frame: "circle" },
+  { id: "tut-3d", kind: "symbol", symbol: "badge-construtor-3d", frame: "circle" },
+  { id: "tut-plataforma", kind: "symbol", symbol: "badge-plataforma-some", frame: "circle" },
+  { id: "tut-porta", kind: "symbol", symbol: "badge-porta-automatica", frame: "circle" },
+  { id: "tut-moeda", kind: "symbol", symbol: "badge-moeda-magica", frame: "circle" },
+  { id: "tut-clicker", kind: "symbol", symbol: "badge-clicker-meta", frame: "circle" },
+  { id: "tut-semaforo", kind: "symbol", symbol: "badge-semaforo", frame: "circle" },
+  { id: "bilde-game", kind: "symbol", symbol: "badge-jogo-ia", frame: "circle" },
 ];
+
+const ACHIEVEMENT_CLUSTERS = [
+  {
+    id: "identity",
+    badgeIds: ["creator", "constructor"],
+    style: {
+      background: "#EEEDFE",
+      borderColor: "#7F77DD33",
+      titleColor: "#3C3489",
+      textColor: "#534AB7",
+    },
+  },
+  {
+    id: "world",
+    hidden: true,
+    badgeIds: ["tut-3d"],
+    style: {
+      background: "#FAECE7",
+      borderColor: "#D85A3033",
+      titleColor: "#712B13",
+      textColor: "#993C1D",
+    },
+  },
+  {
+    id: "interaction",
+    badgeIds: ["tut-plataforma", "tut-porta", "tut-moeda"],
+    style: {
+      background: "#FAEEDA",
+      borderColor: "#BA751733",
+      titleColor: "#633806",
+      textColor: "#854F0B",
+    },
+  },
+  {
+    id: "systems",
+    badgeIds: ["tut-clicker", "tut-semaforo", "bilde-game"],
+    style: {
+      background: "#E1F5EE",
+      borderColor: "#1D9E7533",
+      titleColor: "#085041",
+      textColor: "#0F6E56",
+    },
+  },
+];
+
+const responsaveisDocIcons = ["doc", "checklist", "book-open"];
 
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
@@ -400,7 +448,7 @@ function App() {
   return (
     <div className="app-root">
       <LoadingOverlay loading={loading} hub={screen === "hub"} />
-      <LangSwitch lang={lang} setLang={setLang} />
+      {screen !== "hub" && <LangSwitch lang={lang} setLang={setLang} />}
 
       {screen === "entry" && (
         <section className="entry-shell dark-shell">
@@ -609,7 +657,10 @@ function App() {
         <div className={`hub-shell ${isMobile ? "mobile" : ""}`}>
           {!isMobile && (
             <aside className="sidebar">
-              <div className="sidebar-logo"><Logo usage="sidebar" alt={t.common.logoAlt} /></div>
+              <div className="sidebar-logo">
+                <Logo usage="sidebar" alt={t.common.logoAlt} />
+                <LangSwitch lang={lang} setLang={setLang} className="sidebar-lang-switch" />
+              </div>
               <div className="sidebar-nav">
                 {activeNav.map((item) => (
                   <button
@@ -627,39 +678,13 @@ function App() {
                 ))}
               </div>
 
-              {creatorSession && (
-                <div className="sidebar-achievements">
-                  <div className="sa-head">
-                    <span className="sa-title">{t.achievements.title}</span>
-                    <span className="sa-count">{earnedCount}/{ACHIEVEMENTS.length}</span>
-                  </div>
-                  <div className="sa-grid">
-                    {ACHIEVEMENTS.map((a) => {
-                      const earned = !!achievements[a.id];
-                      const label = t.achievements.items[a.id];
-                      return (
-                        <div
-                          key={a.id}
-                          className={`sa-item ${earned ? "earned" : "locked"}`}
-                          title={`${label} — ${earned ? t.achievements.earnedHint : t.achievements.lockedHint}`}
-                        >
-                          {a.kind === "badge" ? (
-                            <img src={a.img} alt={label} onError={(e) => { e.currentTarget.src = MEDAL_FALLBACK; }} />
-                          ) : (
-                            <span className="sa-emoji">{a.emoji}</span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
               <div className="sidebar-footer">
-                <button className="sidebar-exit" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.exit}</button>
-                {creatorSession && (
-                  <button className="sidebar-logout" onClick={logout}>{t.account.logout}</button>
-                )}
+                <button
+                  className="sidebar-exit"
+                  onClick={creatorSession ? logout : () => runLoading(() => setScreen("entry"))}
+                >
+                  {creatorSession ? t.account.logout : t.common.exit}
+                </button>
               </div>
             </aside>
           )}
@@ -695,8 +720,9 @@ function App() {
               </>
             )}
 
-            <div className={`content-shell ${tab === "sobre" ? "full" : ""}`}>
-              {tab === "jornada" && journeyView === "detail" && sub !== "main" && (
+            <div className="main-layout">
+              <div className="content-shell">
+                {tab === "jornada" && journeyView === "detail" && sub !== "main" && (
                 <section>
                   {sub === "mob" && renderDetail("mob", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
                   {sub === "bilde" && renderDetail("bilde", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
@@ -811,7 +837,6 @@ function App() {
 
                   <EcoProgress explored={ecoExplored} done={ecoDone} pending={ecoPending} total={ECO_KEYS.length} t={t} />
 
-                  <div className="eco-grid">
                   <AccordionCard
                     accent="yellow"
                     deviceIcon="mobile"
@@ -920,42 +945,39 @@ function App() {
                       <EcoStatus item="comunidade" progress={ecoProgress} t={t} />
                     </div>
                   </AccordionCard>
-                  </div>
                 </section>
               )}
 
               {tab === "sobre" && (
-                <section className="sobre-page">
-                  <div className={`sobre-hero ${isMobile ? "vertical" : "horizontal"}`}>
+                <section>
+                  <h2 className="page-title">{t.sobre.pageTitle}</h2>
+                  <div className="sobre-media-card">
                     <video
                       key={heroVideo}
-                      className="sobre-hero-video"
+                      className="sobre-media-video"
                       src={heroVideo}
                       controls
                       playsInline
                       preload="metadata"
                     />
                   </div>
-                  <div className="sobre-body">
-                    <h2 className="page-title">{t.sobre.pageTitle}</h2>
-                    <div className="sobre-list">
-                      {t.sobre.sections.map((section, index) => (
-                        <div key={index} className="sobre-item">
-                          <div className="sobre-icon">{icon(sobreMeta[index].icon, sobreMeta[index].color)}</div>
-                          <div className="sobre-copy">
-                            <div className="sobre-kicker" style={{ color: sobreMeta[index].color }}>{section.kicker}</div>
-                            {section.paragraphs.map((p, i) => (
-                              <p key={`${index}-${i}`} className={`sobre-paragraph ${i === 0 ? "lead" : ""}`}>{p}</p>
-                            ))}
-                          </div>
+                  <div className="sobre-list">
+                    {t.sobre.sections.map((section, index) => (
+                      <div key={index} className="sobre-item">
+                        <div className="sobre-icon">{icon(sobreMeta[index].icon, sobreMeta[index].color)}</div>
+                        <div className="sobre-copy">
+                          <div className="sobre-kicker" style={{ color: sobreMeta[index].color }}>{section.kicker}</div>
+                          {section.paragraphs.map((p, i) => (
+                            <p key={`${index}-${i}`} className={`sobre-paragraph ${i === 0 ? "lead" : ""}`}>{p}</p>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
                 </section>
               )}
 
-              {tab === "pais" && (() => {
+                {tab === "pais" && (() => {
                 const aud = t.responsaveis.audiences[audience];
                 const media = responsaveisMedia[audience];
                 return (
@@ -1027,10 +1049,7 @@ function App() {
                           onClick={() => window.open(media.docs[i], "_blank", "noopener,noreferrer")}
                         >
                           <span className="resp-doc-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                              <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" stroke={palette.red} strokeWidth="1.8" strokeLinejoin="round" />
-                              <path d="M14 3v5h5M9 13h6M9 16.5h6" stroke={palette.red} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            {icon(responsaveisDocIcons[i % responsaveisDocIcons.length], palette.red)}
                           </span>
                           <span className="resp-doc-copy">
                             <strong>{doc.title}</strong>
@@ -1041,17 +1060,104 @@ function App() {
                       ))}
                     </div>
 
-                    <div className="community-card resp-community">
-                      <div className="card-kicker light">{t.responsaveis.community.kicker}</div>
-                      <div className="community-title">{t.responsaveis.community.title}</div>
-                      <p>{t.responsaveis.community.body}</p>
-                      <button className="outline-action" onClick={() => setModal({ label: "Comunidade no Discord" })}>
+                    <div className="resp-community-card">
+                      <div className="resp-community-top">
+                        <div className="card-kicker light">{t.responsaveis.community.kicker}</div>
+                        <div className="community-title">{t.responsaveis.community.title}</div>
+                        <p>{t.responsaveis.community.body}</p>
+                      </div>
+                      <div className="resp-community-bottom">
+                        <div className="resp-community-note">A comunidade acompanha antes, durante e depois da jornada.</div>
+                        <button className="small-action purple" onClick={() => setModal({ label: "Comunidade no Discord" })}>
                         {t.responsaveis.community.button}
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </section>
                 );
-              })()}
+                })()}
+              </div>
+
+              {!isMobile && creatorSession && (
+                <aside className="right-rail">
+                  <div className="rail-achievements">
+                    <div className="sa-head">
+                      <span className="sa-title">{t.achievements.title}</span>
+                      <span className="sa-count">{earnedCount}/{ACHIEVEMENTS.length}</span>
+                    </div>
+                    {t.achievements.intro && (
+                      <p className="sa-intro">{t.achievements.intro}</p>
+                    )}
+                    <div className="sa-clusters">
+                      {ACHIEVEMENT_CLUSTERS.map((cluster) => {
+                        if (cluster.hidden) return null;
+                        const clusterText = t.achievements.clusters?.[cluster.id];
+                        if (!clusterText) return null;
+                        return (
+                          <section
+                            key={cluster.id}
+                            className="sa-cluster"
+                            style={{
+                              borderColor: cluster.style.borderColor,
+                            }}
+                          >
+                            <div className="sa-cluster-head">
+                              <h3 className="sa-cluster-name" style={{ color: cluster.style.titleColor }}>
+                                {clusterText.name}
+                              </h3>
+                              <span className="sa-cluster-tag" style={{ color: cluster.style.textColor }}>
+                                {clusterText.tag}
+                              </span>
+                            </div>
+                            <p className="sa-cluster-desc" style={{ color: cluster.style.textColor }}>
+                              {clusterText.desc}
+                            </p>
+                            <div className="sa-grid">
+                              {cluster.badgeIds.map((badgeId) => {
+                                const a = ACHIEVEMENTS.find((item) => item.id === badgeId);
+                                if (!a) return null;
+                                const earned = !!achievements[a.id];
+                                const label = t.achievements.items[a.id];
+                                const desc = t.achievements.descriptions?.[a.id];
+                                return (
+                                  <div
+                                    key={a.id}
+                                    className={`sa-item-row ${earned ? "earned" : "locked"}`}
+                                    title={`${label} — ${earned ? t.achievements.earnedHint : t.achievements.lockedHint}`}
+                                  >
+                                    <div className={`sa-item ${a.frame} ${earned ? "earned" : "locked"}`}>
+                                      {a.kind === "symbol" ? (
+                                        <svg className="sa-badge-svg" viewBox="0 0 120 120" aria-hidden="true">
+                                          <use href={`${earned ? badgesCorUrl : badgesLinhaUrl}#${a.symbol}`} />
+                                        </svg>
+                                      ) : a.kind === "badge" ? (
+                                        <img src={a.img} alt={label} onError={(e) => { e.currentTarget.src = MEDAL_FALLBACK; }} />
+                                      ) : (
+                                        <span className="sa-emoji">{a.emoji}</span>
+                                      )}
+                                    </div>
+                                    <div className="sa-copy">
+                                      <strong>
+                                        {label}
+                                        {!earned && (
+                                          <span className="sa-lock" aria-hidden="true">
+                                            <Icon name="lock" color="#6D6D74" />
+                                          </span>
+                                        )}
+                                      </strong>
+                                      <small>{desc || (earned ? t.achievements.earnedHint : t.achievements.lockedHint)}</small>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </section>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </aside>
+              )}
             </div>
 
             {isMobile && (
@@ -1118,9 +1224,9 @@ function App() {
   );
 }
 
-function LangSwitch({ lang, setLang }) {
+function LangSwitch({ lang, setLang, className = "" }) {
   return (
-    <div className="lang-switch">
+    <div className={`lang-switch ${className}`.trim()}>
       {langOrder.map((code) => (
         <button
           key={code}
@@ -1549,6 +1655,18 @@ function Icon({ name, color = "currentColor", large = false }) {
   }
   if (name === "laptop") {
     return <svg width={size} height={size} viewBox="0 0 48 48" fill="none"><rect x="10" y="11" width="28" height="18" rx="3.5" stroke={color} strokeWidth="2.2"/><rect x="14" y="15" width="20" height="10" rx="1.8" stroke={color} strokeWidth="1.8" opacity="0.45"/><path d="M6 34.5H42" stroke={color} strokeWidth="2.2" strokeLinecap="round"/><path d="M18 31.5H30" stroke={color} strokeWidth="2.2" strokeLinecap="round"/></svg>;
+  }
+  if (name === "doc") {
+    return <svg width="30" height="30" viewBox="0 0 44 44" fill="none"><path d="M14 7.5H25.5L31 13V33.5C31 35.4 29.4 37 27.5 37H14C12.1 37 10.5 35.4 10.5 33.5V11C10.5 9.1 12.1 7.5 14 7.5Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M25.5 7.5V13H31" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M16.5 19H25M16.5 24H25M16.5 29H22.5" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+  }
+  if (name === "checklist") {
+    return <svg width="30" height="30" viewBox="0 0 44 44" fill="none"><path d="M16 10.5H30M16 22H30M16 33.5H30" stroke={color} strokeWidth="1.9" strokeLinecap="round"/><circle cx="11" cy="10.5" r="2.3" stroke={color} strokeWidth="1.9"/><path d="M8.8 22L10.6 23.8L13.5 20.9" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/><path d="M8.8 33.5L10.6 35.3L13.5 32.4" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+  }
+  if (name === "book-open") {
+    return <svg width="30" height="30" viewBox="0 0 44 44" fill="none"><path d="M10.5 12.5C10.5 10.8 11.8 9.5 13.5 9.5H21.5V34C19.9 32.8 18 32.2 16 32.2H13.5C11.8 32.2 10.5 30.9 10.5 29.2V12.5Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M33.5 12.5C33.5 10.8 32.2 9.5 30.5 9.5H22.5V34C24.1 32.8 26 32.2 28 32.2H30.5C32.2 32.2 33.5 30.9 33.5 29.2V12.5Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M15 16H19M25 16H29" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+  }
+  if (name === "lock") {
+    return <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2.5" stroke={color} strokeWidth="1.8"/><path d="M8 11V8.5C8 6.01472 10.0147 4 12.5 4C14.9853 4 17 6.01472 17 8.5V11" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><circle cx="12" cy="16" r="1.2" fill={color}/></svg>;
   }
   return <svg width="28" height="28" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="18" stroke={color} strokeWidth="1.5"/></svg>;
 }

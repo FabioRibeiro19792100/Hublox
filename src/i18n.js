@@ -430,8 +430,31 @@ const pt = {
   },
   achievements: {
     title: "Minhas conquistas",
+    intro: "Organização por natureza da conquista, agrupando identidade, construção espacial, interação por eventos e sistemas com lógica de estado.",
     lockedHint: "Bloqueado",
     earnedHint: "Conquistado",
+    clusters: {
+      identity: {
+        name: "Identidade",
+        tag: "Creator",
+        desc: "Marca o papel do creator dentro do ecossistema, não uma habilidade isolada.",
+      },
+      world: {
+        name: "Mundo",
+        tag: "Iniciante",
+        desc: "Construção de geometria estática no espaço 3D, com foco em posicionamento, escala e composição.",
+      },
+      interaction: {
+        name: "Interação",
+        tag: "Intermediário",
+        desc: "Objetos que respondem a eventos do jogador, introduzindo gatilhos, sensores e mudanças em runtime.",
+      },
+      systems: {
+        name: "Sistemas",
+        tag: "Avançado",
+        desc: "Estado persistente, temporização e integração com lógica de maior complexidade.",
+      },
+    },
     items: {
       creator: "Creator",
       constructor: "Creator-Construtor(a)",
@@ -442,6 +465,17 @@ const pt = {
       "tut-clicker": "Clicker com meta",
       "tut-semaforo": "Semáforo",
       "bilde-game": "Criou um jogo com IA",
+    },
+    descriptions: {
+      creator: "Acesso ao ecossistema e conclusão do onboarding no Roblox Studio.",
+      constructor: "Especialização na trilha de construção, com domínio dos badges de Mundo e Interação.",
+      "tut-3d": "Primeira construção significativa com Parts posicionadas, redimensionadas e agrupadas no Studio.",
+      "tut-plataforma": "Uso do evento Touched para alterar propriedade de um Part em runtime.",
+      "tut-porta": "Uso de sensor de proximidade para acionar animação de abertura.",
+      "tut-moeda": "Colisão com coleta, com destruição da instância e feedback visual ou sonoro.",
+      "tut-clicker": "Variável de contagem incrementada por evento, com condição de vitória ao atingir o alvo.",
+      "tut-semaforo": "Máquina de estados finitos alternando por timer, sem input do jogador.",
+      "bilde-game": "Integração com IA para gerar jogo, cena ou diálogo a partir de prompt.",
     },
   },
   modal: {
@@ -885,8 +919,31 @@ const en = {
   },
   achievements: {
     title: "My achievements",
+    intro: "Achievements grouped by the nature of the work: identity, spatial building, event-driven interaction and systems with state logic.",
     lockedHint: "Locked",
     earnedHint: "Unlocked",
+    clusters: {
+      identity: {
+        name: "Identity",
+        tag: "Creator",
+        desc: "Marks the creator's role inside the ecosystem rather than a single isolated skill.",
+      },
+      world: {
+        name: "World",
+        tag: "Beginner",
+        desc: "Static geometry building in 3D space, focused on placement, scale and scene composition.",
+      },
+      interaction: {
+        name: "Interaction",
+        tag: "Intermediate",
+        desc: "Objects that react to player events, introducing triggers, sensors and runtime changes.",
+      },
+      systems: {
+        name: "Systems",
+        tag: "Advanced",
+        desc: "Persistent state, timing and more complex logic structures.",
+      },
+    },
     items: {
       creator: "Creator",
       constructor: "Creator-Builder",
@@ -897,6 +954,17 @@ const en = {
       "tut-clicker": "Clicker with a goal",
       "tut-semaforo": "Traffic light",
       "bilde-game": "Built a game with AI",
+    },
+    descriptions: {
+      creator: "Access to the ecosystem and onboarding completion in Roblox Studio.",
+      constructor: "Specialization in the building track, mastering the World and Interaction badges.",
+      "tut-3d": "First meaningful build with Parts positioned, resized and grouped in Studio.",
+      "tut-plataforma": "Uses the Touched event to change a Part property at runtime.",
+      "tut-porta": "Uses a proximity sensor to trigger an opening animation.",
+      "tut-moeda": "Collectible collision with instance removal and visual or sound feedback.",
+      "tut-clicker": "Event-based counter variable with a win condition once the target is reached.",
+      "tut-semaforo": "Finite-state machine alternating by timer, without player input.",
+      "bilde-game": "Uses AI to generate a game, scene or dialogue from a prompt.",
     },
   },
   modal: {
@@ -1340,8 +1408,31 @@ const es = {
   },
   achievements: {
     title: "Mis logros",
+    intro: "Organización por naturaleza del logro, agrupando identidad, construcción espacial, interacción por eventos y sistemas con lógica de estado.",
     lockedHint: "Bloqueado",
     earnedHint: "Logrado",
+    clusters: {
+      identity: {
+        name: "Identidad",
+        tag: "Creator",
+        desc: "Marca el papel del creator dentro del ecosistema, no una habilidad aislada.",
+      },
+      world: {
+        name: "Mundo",
+        tag: "Inicial",
+        desc: "Construcción de geometría estática en el espacio 3D, con foco en posición, escala y composición.",
+      },
+      interaction: {
+        name: "Interacción",
+        tag: "Intermedio",
+        desc: "Objetos que responden a eventos del jugador, introduciendo disparadores, sensores y cambios en runtime.",
+      },
+      systems: {
+        name: "Sistemas",
+        tag: "Avanzado",
+        desc: "Estado persistente, temporización y estructuras de lógica más complejas.",
+      },
+    },
     items: {
       creator: "Creator",
       constructor: "Creator-Constructor(a)",
@@ -1352,6 +1443,17 @@ const es = {
       "tut-clicker": "Clicker con meta",
       "tut-semaforo": "Semáforo",
       "bilde-game": "Creó un juego con IA",
+    },
+    descriptions: {
+      creator: "Acceso al ecosistema y finalización del onboarding en Roblox Studio.",
+      constructor: "Especialización en la ruta de construcción, dominando los badges de Mundo e Interacción.",
+      "tut-3d": "Primera construcción significativa con Parts posicionadas, redimensionadas y agrupadas en Studio.",
+      "tut-plataforma": "Uso del evento Touched para cambiar una propiedad de un Part en runtime.",
+      "tut-porta": "Uso de sensor de proximidad para activar una animación de apertura.",
+      "tut-moeda": "Colisión con objeto coleccionable, eliminando la instancia con feedback visual o sonoro.",
+      "tut-clicker": "Variable de conteo incrementada por evento, con condición de victoria al alcanzar la meta.",
+      "tut-semaforo": "Máquina de estados finitos alternando por temporizador, sin input del jugador.",
+      "bilde-game": "Uso de IA para generar juego, escena o diálogo a partir de un prompt.",
     },
   },
   modal: {
