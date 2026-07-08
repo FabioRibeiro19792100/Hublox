@@ -234,6 +234,7 @@ function App() {
   const [resolvedHandle, setResolvedHandle] = useState(""); // canonical username from Roblox
   const [resolvedDisplayName, setResolvedDisplayName] = useState("");
   const [resolvedId, setResolvedId] = useState(null); // numeric Roblox ID
+  const [resolvedThumbnail, setResolvedThumbnail] = useState(null);
   const [robloxValidating, setRobloxValidating] = useState(false);
   const [robloxError, setRobloxError] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
@@ -374,6 +375,7 @@ function App() {
       setResolvedHandle(data.name);
       setResolvedDisplayName(data.displayName || data.name);
       setResolvedId(data.id);
+      setResolvedThumbnail(data.thumbnailUrl || null);
       setIdStep("confirm");
     } catch {
       setRobloxError("Sem conexão. Verifique sua internet e tente novamente.");
@@ -677,11 +679,10 @@ function App() {
 
             <div className="id-roblox-preview">
               <div className="id-roblox-preview-avatar">
-                <img
-                  src={`https://www.roblox.com/headshot-thumbnail/image?userId=${resolvedId}&width=48&height=48&format=png`}
-                  alt={resolvedDisplayName}
-                  onError={(e) => { e.target.style.display = "none"; }}
-                />
+                {resolvedThumbnail
+                  ? <img src={resolvedThumbnail} alt={resolvedDisplayName} />
+                  : (resolvedDisplayName || resolvedHandle).charAt(0).toUpperCase()
+                }
               </div>
               <div className="id-roblox-preview-info">
                 <span className="id-roblox-preview-display">{resolvedDisplayName}</span>
