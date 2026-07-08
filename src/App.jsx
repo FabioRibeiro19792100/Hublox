@@ -1033,56 +1033,9 @@ const responsaveisDocIcons = {
   educadores: ["book-open", "classroom", "pathway"],
 };
 
-const FONT_PRESETS = [
-  {
-    id: "inclusive",
-    name: "01 Inclusive Sans",
-    note: "limpo e sofisticado",
-    title: '"Inclusive Sans", "Bricolage Grotesque", sans-serif',
-    highlight: '"Inclusive Sans", "Bricolage Grotesque", sans-serif',
-  },
-  {
-    id: "manrope",
-    name: "02 Manrope",
-    note: "sólido e contemporâneo",
-    title: '"Manrope", "Bricolage Grotesque", sans-serif',
-    highlight: '"Manrope", "Bricolage Grotesque", sans-serif',
-  },
-  {
-    id: "sora",
-    name: "03 Sora",
-    note: "editorial sem ficar dura",
-    title: '"Sora", "Bricolage Grotesque", sans-serif',
-    highlight: '"Sora", "Bricolage Grotesque", sans-serif',
-  },
-  {
-    id: "jakarta",
-    name: "04 Plus Jakarta Sans",
-    note: "humano e elegante",
-    title: '"Plus Jakarta Sans", "Bricolage Grotesque", sans-serif',
-    highlight: '"Plus Jakarta Sans", "Bricolage Grotesque", sans-serif',
-  },
-  {
-    id: "inter-tight",
-    name: "05 Inter Tight",
-    note: "técnico e premium",
-    title: '"Inter Tight", "Bricolage Grotesque", sans-serif',
-    highlight: '"Inter Tight", "Bricolage Grotesque", sans-serif',
-  },
-  {
-    id: "editorial",
-    name: "06 Oswald + Inclusive",
-    note: "impacto editorial",
-    title: '"Inclusive Sans", "Bricolage Grotesque", sans-serif',
-    highlight: '"Oswald", "Inclusive Sans", sans-serif',
-  },
-];
-
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
   const t = translations[lang] || translations.pt;
-  const [fontPreset, setFontPreset] = useState(() => localStorage.getItem("hublox-font-preset") || "inclusive");
-  const [fontPanelOpen, setFontPanelOpen] = useState(false);
 
   const [creatorSession, setCreatorSession] = useState(() => {
     try { return JSON.parse(localStorage.getItem("hublox-creator-session")) || null; }
@@ -1133,10 +1086,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("hublox-lang", lang);
   }, [lang]);
-
-  useEffect(() => {
-    localStorage.setItem("hublox-font-preset", fontPreset);
-  }, [fontPreset]);
 
   useEffect(() => {
     if (creatorSession) localStorage.setItem("hublox-creator-session", JSON.stringify(creatorSession));
@@ -1442,7 +1391,6 @@ function App() {
   const ecoPending = ECO_KEYS.filter((k) => ecoProgress.pending[k] && !ecoProgress.done[k]).length;
   const earnedCount = ACHIEVEMENTS.filter((a) => achievements[a.id]).length;
   const railContent = CONTEXT_RAIL_I18N[lang] || CONTEXT_RAIL;
-  const activeFontPreset = FONT_PRESETS.find((preset) => preset.id === fontPreset) || FONT_PRESETS[0];
   const showRightRail = !isMobile && (
     tab === "sobre" ||
     tab === "eco" ||
@@ -1451,13 +1399,7 @@ function App() {
   );
 
   return (
-    <div
-      className="app-root"
-      style={{
-        "--font-title": activeFontPreset.title,
-        "--font-highlight": activeFontPreset.highlight,
-      }}
-    >
+    <div className="app-root">
       <LoadingOverlay loading={loading} hub={screen === "hub"} />
       {screen !== "hub" && <LangSwitch lang={lang} setLang={setLang} />}
 
@@ -2400,16 +2342,6 @@ function App() {
           </div>
         </div>
       )}
-
-      <FontControlPanel
-        isMobile={isMobile}
-        open={fontPanelOpen}
-        setOpen={setFontPanelOpen}
-        presets={FONT_PRESETS}
-        activePreset={activeFontPreset}
-        onChange={setFontPreset}
-        ui={t.ui}
-      />
     </div>
   );
 }
@@ -3088,47 +3020,6 @@ function Icon({ name, color = "currentColor", large = false }) {
 
 function navIcon(key) {
   return { sobre: "target", jornada: "stair", eco: "hex", pais: "shield" }[key];
-}
-
-function FontControlPanel({ isMobile, open, setOpen, presets, activePreset, onChange, ui }) {
-  return (
-    <div className={`font-panel-wrap ${open ? "open" : ""} ${isMobile ? "mobile" : ""}`}>
-      <button
-        type="button"
-        className="font-panel-toggle"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-expanded={open}
-        aria-controls="font-panel"
-      >
-        <span>{ui.fontsToggle}</span>
-        <strong>{activePreset.name.replace(/^\d+\s/, "")}</strong>
-      </button>
-
-      {open && (
-        <div id="font-panel" className="font-panel">
-          <div className="font-panel-head">
-            <span className="font-panel-kicker">{ui.fontsPanelKicker}</span>
-            <strong className="font-panel-title">{ui.fontsPanelTitle}</strong>
-            <p className="font-panel-copy">{ui.fontsPanelCopy}</p>
-          </div>
-
-          <div className="font-panel-list">
-            {presets.map((preset) => (
-              <button
-                key={preset.id}
-                type="button"
-                className={`font-option ${activePreset.id === preset.id ? "active" : ""}`}
-                onClick={() => onChange(preset.id)}
-              >
-                <span className="font-option-name">{preset.name}</span>
-                <span className="font-option-note">{preset.note}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
 }
 
 export default App;

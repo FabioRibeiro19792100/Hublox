@@ -21,10 +21,6 @@ const pt = {
     placeholderTag: "placeholder",
     askMore: "Quer saber mais?",
     talkToUs: "Fale com a gente",
-    fontsToggle: "Fontes",
-    fontsPanelKicker: "Painel de controle",
-    fontsPanelTitle: "6 sets para testar",
-    fontsPanelCopy: "Troque a voz dos títulos e destaques enquanto navega pela interface.",
   },
   entry: {
     title: ["Quer criar?", "Desce pro", "play."],
@@ -533,10 +529,6 @@ const en = {
     placeholderTag: "placeholder",
     askMore: "Want to know more?",
     talkToUs: "Talk to us",
-    fontsToggle: "Fonts",
-    fontsPanelKicker: "Control panel",
-    fontsPanelTitle: "6 sets to test",
-    fontsPanelCopy: "Switch the voice of titles and highlights while browsing the interface.",
   },
   entry: {
     title: ["Got an idea?", "Hit play."],
@@ -1045,10 +1037,6 @@ const es = {
     placeholderTag: "placeholder",
     askMore: "¿Quieres saber más?",
     talkToUs: "Habla con nosotros",
-    fontsToggle: "Fuentes",
-    fontsPanelKicker: "Panel de control",
-    fontsPanelTitle: "6 sets para probar",
-    fontsPanelCopy: "Cambia la voz de los títulos y destacados mientras recorres la interfaz.",
   },
   entry: {
     title: ["¿Listo para crear?", "Es hora de", "jugar."],
