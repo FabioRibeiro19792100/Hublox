@@ -1061,6 +1061,15 @@ function App() {
   const [screen, setScreen] = useState(() => (creatorSession ? "hub" : "entry"));
   const [welcomeBack, setWelcomeBack] = useState(() => !!creatorSession);
   const [robloxHandle, setRobloxHandle] = useState("");
+  const [idStep, setIdStep] = useState("username"); // "username" | "confirm" | "details"
+  const [resolvedHandle, setResolvedHandle] = useState("");
+  const [resolvedDisplayName, setResolvedDisplayName] = useState("");
+  const [resolvedId, setResolvedId] = useState(null);
+  const [robloxValidating, setRobloxValidating] = useState(false);
+  const [robloxError, setRobloxError] = useState("");
+  const [registerLoading, setRegisterLoading] = useState(false);
+  const [regEmail, setRegEmail] = useState("");
+  const [regBirthday, setRegBirthday] = useState("");
   const [pais, setPais] = useState("");
   const [estado, setEstado] = useState("");
   const [qDev, setQDev] = useState(null);
@@ -1276,6 +1285,58 @@ function App() {
     if (contentShellRef.current) contentShellRef.current.scrollTop = 0;
     if (rightRailRef.current) rightRailRef.current.scrollTop = 0;
   };
+
+  const API_URL = import.meta.env.VITE_API_URL || "https://roblox-api.mastertech.com.br";
+
+  async function validateRobloxHandle(handle) {
+    setRobloxValidating(true);
+    setRobloxError("");
+    try {
+      const res = await fetch(`${API_URL}/api/roblox/user/?username=${encodeURIComponent(handle)}`);
+      if (!res.ok) throw new Error("api_error");
+      const data = await res.json();
+      if (!data.found) {
+        setRobloxError(t.id.notFound || "Usuário não encontrado no Roblox. Verifique o username.");
+        return;
+      }
+      setResolvedHandle(data.name);
+      setResolvedDisplayName(data.displayName || data.name);
+      setResolvedId(data.id);
+      setIdStep("confirm");
+    } catch {
+      setRobloxError(t.id.noConnection || "Sem conexão. Verifique sua internet e tente novamente.");
+    } finally {
+      setRobloxValidating(false);
+    }
+  }
+
+  async function registerWithRoblox({ country, state, email, birthday } = {}) {
+    setRegisterLoading(true);
+    try {
+      const body = {
+        roblox_username: resolvedHandle.toLowerCase(),
+        roblox_id: resolvedId,
+        platform: "web",
+        avatar_url: `${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`,
+        ...(email ? { email } : {}),
+        ...(birthday ? { birthday } : {}),
+        ...(country ? { country } : {}),
+        ...(state ? { state } : {}),
+      };
+      const res = await fetch(`${API_URL}/api/user/register/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error("register_failed");
+      setCreatorSession({ handle: resolvedHandle, pais: country || "", estado: state || "" });
+      runLoading(() => setScreen("hub"));
+    } catch {
+      setRobloxError(t.id.saveError || "Erro ao salvar. Tente novamente.");
+    } finally {
+      setRegisterLoading(false);
+    }
+  }
 
   const runLoading = (cb, duration = 900) => {
     setLoading(true);
@@ -1730,7 +1791,7 @@ function App() {
         </section>
       )}
 
-      {screen === "creator-id" && (
+      {screen === "creator-id" && idStep === "username" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
             <Logo usage="entry" alt={t.common.logoAlt} />
@@ -1751,15 +1812,134 @@ function App() {
                     autoComplete="off"
                     placeholder={t.id.robloxPlaceholder}
                     value={robloxHandle}
-                    onChange={(e) => setRobloxHandle(e.target.value.replace(/^@+/, ""))}
+                    onChange={(e) => { setRobloxHandle(e.target.value.replace(/^@+/, "")); setRobloxError(""); }}
+                    onKeyDown={(e) => { if (e.key === "Enter" && robloxHandle.trim()) validateRobloxHandle(robloxHandle.trim()); }}
                   />
                 </div>
+                {robloxError && <div className="id-error">{robloxError}</div>}
                 <div className="id-hint">
                   {t.id.noAccount}{" "}
                   <a className="id-hint-link" href="https://www.roblox.com/" target="_blank" rel="noopener noreferrer">
                     {t.id.createFree}
                   </a>
                 </div>
+              </div>
+            </div>
+
+            <button
+              className="cta cta-red id-continue"
+              disabled={!robloxHandle.trim() || robloxValidating}
+              onClick={() => validateRobloxHandle(robloxHandle.trim())}
+            >
+              <span>{robloxValidating ? t.id.verifying : t.id.continue}</span>
+              <span className="cta-badge">→</span>
+            </button>
+          </div>
+        </section>
+      )}
+
+      {screen === "creator-id" && idStep === "confirm" && (
+        <section className="entry-shell dark-shell">
+          <div className="entry-card">
+            <Logo usage="entry" alt={t.common.logoAlt} />
+            <button className="back-link" onClick={() => { setIdStep("username"); setRobloxError(""); }}>{t.common.back}</button>
+
+            <div className="id-confirm-card">
+              <p className="id-confirm-eyebrow">{t.id.foundUser}</p>
+              <div className="id-confirm-avatar">
+                <img
+                  src={`${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`}
+                  alt={resolvedDisplayName}
+                  onError={(e) => { e.target.style.display = "none"; }}
+                />
+              </div>
+              <div className="id-confirm-display">{resolvedDisplayName}</div>
+              <div className="id-confirm-handle">@{resolvedHandle}</div>
+              <p className="id-confirm-question">{t.id.isYou}</p>
+              <div className="id-confirm-actions">
+                <button
+                  className="id-confirm-no"
+                  onClick={() => { setIdStep("username"); setRobloxError(""); }}
+                >
+                  {t.id.noCorrect}
+                </button>
+                <button
+                  className="id-confirm-yes cta cta-red"
+                  disabled={registerLoading}
+                  onClick={async () => {
+                    setRobloxHandle(resolvedHandle);
+                    setRegisterLoading(true);
+                    try {
+                      const res = await fetch(`${API_URL}/api/user/check/?roblox_id=${resolvedId}&roblox_username=${encodeURIComponent(resolvedHandle)}`);
+                      const data = await res.json();
+                      if (data.exists) {
+                        setCreatorSession({ handle: resolvedHandle, pais: "", estado: "" });
+                        runLoading(() => setScreen("hub"));
+                      } else {
+                        setIdStep("details");
+                      }
+                    } catch {
+                      setRobloxError(t.id.noConnection || "Erro ao verificar. Tente novamente.");
+                      setIdStep("username");
+                    } finally {
+                      setRegisterLoading(false);
+                    }
+                  }}
+                >
+                  {registerLoading ? t.id.verifying : t.id.yesMe}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {screen === "creator-id" && idStep === "details" && (
+        <section className="entry-shell dark-shell">
+          <div className="entry-card">
+            <Logo usage="entry" alt={t.common.logoAlt} />
+            <button className="back-link" onClick={() => setIdStep("confirm")}>{t.common.back}</button>
+
+            <h1 className="id-heading">{t.id.heading}</h1>
+            <p className="entry-text">{t.id.intro}</p>
+
+            <div className="id-roblox-preview">
+              <div className="id-roblox-preview-avatar">
+                <img
+                  src={`${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`}
+                  alt={resolvedDisplayName}
+                  onError={(e) => { e.target.style.display = "none"; }}
+                />
+              </div>
+              <div className="id-roblox-preview-info">
+                <span className="id-roblox-preview-display">{resolvedDisplayName}</span>
+                <span className="id-roblox-preview-handle">@{resolvedHandle}</span>
+              </div>
+            </div>
+
+            <div className="id-form">
+              <div className="id-field">
+                <label className="id-label" htmlFor="id-email">{t.id.emailLabel}</label>
+                <input
+                  id="id-email"
+                  className="id-input"
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t.id.emailPlaceholder}
+                  value={regEmail}
+                  onChange={(e) => setRegEmail(e.target.value)}
+                />
+              </div>
+
+              <div className="id-field">
+                <label className="id-label" htmlFor="id-birthday">{t.id.birthdayLabel}</label>
+                <input
+                  id="id-birthday"
+                  className="id-input"
+                  type="date"
+                  value={regBirthday}
+                  onChange={(e) => setRegBirthday(e.target.value)}
+                />
               </div>
 
               <div className="id-field">
@@ -1795,15 +1975,14 @@ function App() {
               )}
             </div>
 
+            {robloxError && <div className="id-error">{robloxError}</div>}
+
             <button
               className="cta cta-red id-continue"
-              disabled={!robloxHandle.trim() || !pais || (statesByCountry[pais] && !estado)}
-              onClick={() => {
-                setCreatorSession({ handle: robloxHandle.trim(), pais, estado });
-                runLoading(() => { setScreen("creator-q"); });
-              }}
+              disabled={!regBirthday || !pais || (statesByCountry[pais] && !estado) || registerLoading}
+              onClick={() => registerWithRoblox({ email: regEmail, birthday: regBirthday, country: pais, state: estado })}
             >
-              <span>{t.id.continue}</span>
+              <span>{registerLoading ? (t.id.saving || "Salvando...") : t.id.continue}</span>
               <span className="cta-badge">→</span>
             </button>
           </div>
