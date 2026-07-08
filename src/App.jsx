@@ -24,6 +24,7 @@ const externalLinks = {
   "Roblox Studio": "https://create.roblox.com/store/asset/125743081126783/Expedio-Roblox",
   "Roblox": "https://create.roblox.com/docs/pt-br/production/publishing/publish-games-and-places#publicar-jogos",
   "Comunidade no Discord": "https://discord.gg/exproblox",
+  "Guia para pais e educadores": "https://docs.google.com/document/d/e/2PACX-1vSiAvmcWNoNZUDhSlYMYeFnbKm0W-irUtdpwT0-zs1Jzp2OIA4rNEka9m9hSqD3Eu6w0UxHgIqbrkbq/pub",
 };
 
 // Rough heuristic for whether the machine can comfortably run Roblox Studio.
@@ -201,14 +202,887 @@ const ACHIEVEMENT_CLUSTERS = [
   },
 ];
 
+const CONTEXT_RAIL = {
+  expedition: {
+    variant: "editorial",
+    eyebrow: "Expedição",
+    title: "O que está acontecendo?",
+    intro: "A Expedição ganha forma em encontros, ativações, creators convidados, famílias presentes e caminhos que continuam depois de cada parada.",
+    highlight: {
+      kicker: "São Paulo · Rio · Brasília · gamescom",
+      title: "Uma mesma metodologia, territórios bem diferentes",
+      body: "Em formatos bem diferentes, a Expedição manteve a mesma espinha: mobilização local, criação guiada, referências concretas e continuidade possível depois da experiência presencial.",
+      stats: [
+        { value: "2.000", label: "pessoas na gamescom" },
+        { value: "135", label: "jovens em São Paulo" },
+        { value: "45", label: "jovens no Rio" },
+        { value: "30", label: "participantes em Brasília" },
+      ],
+    },
+    sections: [
+      {
+        label: "Onde a Expedição aconteceu",
+        items: [
+          {
+            kicker: "Rio de Janeiro",
+            title: "A primeira parada provou que o formato funcionava",
+            body: "A primeira parada aconteceu no 42 Rio, espaço que recebeu a ativação e contou com voluntários na mediação do dia. Vieram jovens mobilizados por organizações e coletivos como ViDançar, Comunidade da Mangueira, Novas Vozes e Instituto Paramitas, o que deu ao encontro um vínculo real com redes que já atuavam com esses participantes. Dali saíram desdobramentos que depois continuaram em formato de camp e presença local.",
+            image: {
+              src: "/context-rail/rio-42.jpg",
+              alt: "Encontro da Expedição Roblox no 42 Rio",
+              position: "center 44%",
+            },
+          },
+          {
+            kicker: "São Paulo",
+            title: "A operação cresceu sem perder a mediação",
+            body: "Em São Paulo, a Expedição reuniu jovens de escolas públicas e grupos que chegaram por hubs sociais e educacionais, com forte presença de redes como Instituto Paramitas / Technovation. Com 184 inscritos e 135 participantes, a cidade mostrou que era possível ganhar escala sem perder a mediação próxima, e ainda abriu espaço para que pais e responsáveis vissem a criação acontecendo ao vivo.",
+            image: {
+              src: "/context-rail/sao-paulo-atividade.jpg",
+              alt: "Atividade da Expedição Roblox em São Paulo",
+              position: "center 42%",
+            },
+          },
+          {
+            kicker: "Brasília",
+            title: "A ida ao Centro-Oeste ampliou a legitimidade do programa",
+            body: "Em Brasília, a Expedição encontrou no Brasília Game Hub o parceiro que articulou o território e conectou o programa a instituições como CRÊ Ceilândia e Centro Social Comunitário Tia Angelina. A parada trouxe famílias para mais perto da conversa e recebeu Elizabeth Milovidov, que conduziu uma fala sobre criação digital, segurança e mediação adulta, ampliando o peso público e formativo do encontro.",
+            image: {
+              src: "/context-rail/brasilia-familias.jpg",
+              alt: "Conversa com famílias e participantes em Brasília",
+              position: "center 42%",
+            },
+          },
+        ],
+      },
+      {
+        label: "Parcerias, creators e desdobramentos",
+        items: [
+          {
+            kicker: "gamescom latam",
+            title: "A ativação pública virou vitrine e funil",
+            body: "A gamescom latam, uma das maiores feiras de games da América Latina, colocou a Expedição diante de cerca de 2.000 pessoas em quatro dias. Dentro do estande da Roblox, a ativação testou o plugin em fluxo alto, funcionou como vitrine pública do programa e ainda gerou contatos que depois alimentaram a operação da própria Expedição em São Paulo.",
+            image: {
+              src: "/context-rail/gamescom-palco.jpg",
+              alt: "Ativação da Expedição Roblox na gamescom latam",
+              position: "center 28%",
+            },
+          },
+          {
+            kicker: "Creators e referências",
+            title: "Casos concretos aproximam criação de futuro",
+            body: "Caio Cabral, no Rio, apareceu como artista e creator brasileiro ligado ao universo 3D. Em São Paulo, Breno Luchesi levou essa conversa a partir de sua atuação na Voldex. Em Brasília, Chrystian Gabriel, conhecido como Christian PPP, compartilhou sua trajetória e falou de Primeval Earth, experiência que alcança mais de meio milhão de usuários por mês. Em comum, os três ajudaram a mostrar que autoria, comunidade e carreira não são abstrações distantes.",
+            image: {
+              src: "/context-rail/sao-paulo-lab.jpg",
+              alt: "Jovens participantes da Expedição Roblox em São Paulo",
+              position: "center 28%",
+            },
+          },
+          {
+            kicker: "Legitimação pública",
+            title: "Imprensa, governo e parceiros certos mudam o peso do encontro",
+            body: "Quando a operação encontra parceiros locais fortes, presença institucional e visibilidade pública, o programa muda de escala. No Rio, por exemplo, Gabriel Medina, secretário municipal de Ciência e Tecnologia, esteve presente. Em Brasília, a cobertura do Correio Braziliense e a articulação local reforçaram a percepção de que a Expedição dialoga com educação, cultura digital e oportunidade real.",
+            image: {
+              src: "/context-rail/gamescom-palco.jpg",
+              alt: "Momento público da Expedição Roblox em evento",
+              position: "center 20%",
+            },
+          },
+        ],
+      },
+    ],
+    cards: [
+      {
+        kicker: "Como a experiência funciona",
+        title: "Criação guiada dá mais corpo ao que os jovens conseguem fazer",
+        body: "Rio e São Paulo deixaram uma leitura consistente: quando a juventude cria em dupla, com mediação, tempo protegido e uma estrutura simples de começo, meio e fim, a curiosidade vira produção concreta com muito mais consistência.",
+        image: {
+          src: "/context-rail/rio-42.jpg",
+          alt: "Jovens criando em atividade guiada da Expedição Roblox",
+          position: "center 46%",
+        },
+      },
+      {
+        kicker: "Confiança em campo",
+        title: "Quando famílias veem o processo, a confiança deixa de ser abstrata",
+        body: "A confiança cresce quando responsáveis conseguem enxergar criação, mediação e segurança acontecendo de verdade, e não só ouvir uma explicação sobre isso.",
+        image: {
+          src: "/context-rail/brasilia-familias.jpg",
+          alt: "Conversa com famílias na Expedição Roblox em Brasília",
+          position: "center 42%",
+        },
+      },
+      {
+        kicker: "O que continua depois",
+        title: "Camps, materiais e desafios já aparecem como próximos desdobramentos",
+        body: "Camps, materiais para escolas, sessões remotas de programação e IA e desafios criativos contínuos já aparecem como extensões naturais do que começou em campo.",
+        image: {
+          src: "/context-rail/sao-paulo-atividade.jpg",
+          alt: "Participantes da Expedição Roblox em continuidade de criação",
+          position: "center 42%",
+        },
+        actionLabel: "Entrar na comunidade",
+        modalLabel: "Comunidade no Discord",
+      },
+    ],
+  },
+  ecosystem: {
+    variant: "editorial",
+    eyebrow: "Ecossistema",
+    title: "O que eu posso construir?",
+    intro: "Aqui a ideia não é explicar ferramenta por ferramenta. É mostrar o tipo de criação, continuidade e repertório que esse ecossistema pode colocar nas mãos de quem entra nele.",
+    sections: [
+      {
+        label: "Casos que já apareceram no ecossistema",
+        items: [
+          {
+            kicker: "São Paulo",
+            title: "A criação continuou viva depois do encontro",
+            body: "Na etapa de São Paulo, a adesão ao plugin foi a mais forte entre os encontros presenciais e o pós-evento deixou um sinal importante de continuidade: participantes quiseram seguir criando mesmo depois do encerramento. Isso ajuda a mostrar que o ecossistema não termina na mediação da oficina.",
+            image: {
+              src: "/context-rail/sao-paulo-atividade.jpg",
+              alt: "Jovens criando na etapa de São Paulo",
+              position: "center 40%",
+            },
+          },
+          {
+            kicker: "Brasília",
+            title: "Primeval Earth virou referência concreta de onde se pode chegar",
+            body: "Em Brasília, Chrystian Gabriel compartilhou sua trajetória como creator e falou de Primeval Earth, experiência ligada ao seu trabalho que alcança mais de meio milhão de usuários por mês. Para quem está começando, isso dá corpo à ideia de autoria, comunidade e escala dentro do universo Roblox.",
+            image: {
+              src: "/context-rail/brasilia-familias.jpg",
+              alt: "Participantes e convidados em Brasília",
+              position: "center 34%",
+            },
+          },
+        ],
+      },
+      {
+        label: "Como a criação continua depois",
+        items: [
+          {
+            kicker: "Rio de Janeiro",
+            title: "O que começa no evento pode virar presença contínua",
+            body: "Depois da ativação no Rio, a relação com a Comunidade da Mangueira continuou em formato de camp, com computadores adaptados para Roblox Studio, descoberta do plugin e acompanhamento do que estava funcionando. O ecossistema aparece aí como continuidade, não só como ferramenta.",
+            image: {
+              src: "/context-rail/rio-42.jpg",
+              alt: "Atividade da Expedição Roblox no Rio",
+              position: "center 44%",
+            },
+          },
+          {
+            kicker: "gamescom latam",
+            title: "A vitrine pública também alimenta novas entradas",
+            body: "Na gamescom latam, cerca de 2.000 pessoas passaram pela ativação da Expedição dentro do estande da Roblox. Além de visibilidade, isso gerou contatos que depois alimentaram a própria operação de São Paulo.",
+            image: {
+              src: "/context-rail/gamescom-palco.jpg",
+              alt: "Ativação pública da Expedição Roblox na gamescom",
+              position: "center 24%",
+            },
+          },
+        ],
+      },
+      {
+        label: "O que ainda pode entrar aqui",
+        items: [
+          {
+            kicker: "Criação em destaque",
+            title: "Jogo da semana ou criação visitada por estudantes",
+            body: "Aqui pode entrar uma criação concreta para mostrar linguagem, ambição e tipo de mundo que jovens reconhecem como possível dentro do ecossistema.",
+            placeholder: true,
+          },
+          {
+            kicker: "IA e plugin",
+            title: "Prompt interessante ou plugin do mês",
+            body: "Este espaço pode receber um recorte curto: um prompt que virou protótipo, uma missão que gerou resultado forte ou um plugin em destaque para puxar curiosidade.",
+            placeholder: true,
+          },
+        ],
+      },
+    ],
+    cards: [
+      {
+        icon: "mobile",
+        kicker: "Studio Mobile",
+        title: "O celular pode ser porta de entrada real para criar",
+        body: "Como boa parte dos jovens chega pelo celular, o Studio Mobile existe para reduzir a barreira inicial e fazer a criação começar antes mesmo do desktop entrar na história.",
+        actionLabel: "Ir para o Studio Mobile",
+        modalLabel: "Studio mobile",
+        actionKey: "studiomob",
+      },
+      {
+        icon: "chat",
+        kicker: "Comunidade",
+        title: "Entre uma etapa e outra, a comunidade segura o ritmo",
+        body: "Discord, creators de referência, plugin, Studio e oficinas não aparecem como peças soltas: juntos, eles mantêm a criação em movimento.",
+        actionLabel: "Entrar na comunidade",
+        modalLabel: "Comunidade no Discord",
+        actionKey: "comunidade",
+      },
+    ],
+  },
+  parents: {
+    variant: "editorial",
+    eyebrow: "Pais, responsáveis e educadores",
+    title: "Criar com segurança",
+    intro: "Aqui aparecem sinais concretos de cuidado, mediação e aprendizagem para quem acompanha adolescentes criando no universo Roblox.",
+    sections: [
+      {
+        label: "Cenas reais de cuidado e mediação",
+        items: [
+          {
+            kicker: "Brasília",
+            title: "Famílias entraram na conversa, não ficaram na borda",
+            body: "Na ativação de 27 de maio de 2026, sediada no Brasília Game Hub, a trilha prática aconteceu em paralelo a uma conversa conduzida por Elizabeth Milovidov sobre criação digital, segurança, mediação e controles parentais. O encontro ainda conectou CRÊ Ceilândia e Centro Social Comunitário Tia Angelina, dando à conversa um chão social bem identificável.",
+            image: {
+              src: "/context-rail/brasilia-familias.jpg",
+              alt: "Roda de conversa com famílias em Brasília",
+              position: "center 42%",
+            },
+          },
+          {
+            kicker: "São Paulo",
+            title: "Ver a criação acontecendo muda a percepção do programa",
+            body: "Na parada de 9 de maio de 2026, realizada no 42 São Paulo, pais e responsáveis puderam acompanhar a experiência no mesmo espaço em que os jovens criavam. Essa presença adulta lado a lado com a atividade tornou a proposta mais tangível: os responsáveis não ouviram apenas uma explicação, eles viram a experiência acontecendo.",
+            image: {
+              src: "/context-rail/sao-paulo-lab.jpg",
+              alt: "Participantes da Expedição Roblox em São Paulo",
+              position: "center 32%",
+            },
+          },
+        ],
+      },
+      {
+        label: "Por que famílias e educadores confiam",
+        items: [
+          {
+            kicker: "Rio de Janeiro",
+            title: "Parcerias locais deram lastro social ao encontro",
+            body: "Na primeira parada, em 11 de abril de 2026, o encontro aconteceu no 42 Rio com jovens mobilizados por redes como ViDançar, Comunidade da Mangueira, Novas Vozes e Instituto Paramitas. O fato de a entrada acontecer por organizações que já tinham vínculo com esses participantes deu ao programa uma base de confiança muito mais concreta do que um chamado aberto e genérico.",
+            image: {
+              src: "/context-rail/rio-42.jpg",
+              alt: "Atividade da Expedição Roblox no Rio de Janeiro",
+              position: "center 44%",
+            },
+          },
+          {
+            kicker: "Visibilidade pública",
+            title: "Imprensa e presença institucional aumentam a legibilidade",
+            body: "No Rio, Gabriel Medina, secretário municipal de Ciência e Tecnologia, acompanhou a ativação ao lado da conversa sobre carreiras criativas. Em Brasília, a cobertura do Correio Braziliense ajudou a dar forma pública ao que aconteceu no Brasília Game Hub. Quando esses sinais aparecem, o programa fica mais legível para famílias, educadores e parceiros externos.",
+            image: {
+              src: "/context-rail/gamescom-palco.jpg",
+              alt: "Momento público com mediação da Expedição Roblox",
+              position: "center 22%",
+            },
+          },
+        ],
+      },
+      {
+        label: "O que ainda pode entrar aqui",
+        items: [
+          {
+            kicker: "Linguagem pública",
+            title: "Posts recentes para mostrar tom e proximidade",
+            body: "Aqui podem entrar três ou quatro conteúdos recentes para mostrar como a Expedição fala com jovens, que temas aparecem e qual clima de comunicação realmente sustenta a comunidade.",
+            placeholder: true,
+          },
+          {
+            kicker: "Segurança",
+            title: "Atualização curta de boas práticas e controles",
+            body: "Este espaço pode receber um resumo curto sobre parental controls, segurança e boas práticas, com linguagem direta para quem precisa se orientar rápido.",
+            placeholder: true,
+          },
+        ],
+      },
+    ],
+    cards: [
+      {
+        kicker: "Confiança",
+        title: "A clareza cresce quando o processo fica visível",
+        body: "Famílias e educadores entendem melhor a proposta quando conseguem ver criação, mediação e autoria acontecendo de forma concreta.",
+        actionLabel: "Ver guia para pais e educadores",
+        modalLabel: "Guia para pais e educadores",
+      },
+    ],
+  },
+  journeyGuest: {
+    eyebrow: "Sua jornada",
+    title: "Como estou indo?",
+    intro: "Quando o creator entra, esta coluna passa a mostrar badges, passos concluídos e o que faz sentido explorar em seguida.",
+    cards: [
+      {
+        icon: "target",
+        kicker: "Progresso",
+        title: "Badges conquistados",
+        body: "Memorial dos badges do programa, com o que já foi alcançado e o que ainda falta destravar.",
+      },
+      {
+        icon: "stair",
+        kicker: "Próximo passo",
+        title: "Missões em andamento",
+        body: "Espaço para a próxima etapa da jornada, com orientação curta e acionável.",
+      },
+      {
+        icon: "compass",
+        kicker: "Ritmo",
+        title: "Seu caminho no programa",
+        body: "A coluna pode ajudar o creator a entender onde está e o que faz sentido explorar em seguida.",
+      },
+    ],
+  },
+};
+
+const CONTEXT_RAIL_I18N = {
+  pt: CONTEXT_RAIL,
+  en: {
+    expedition: {
+      variant: "editorial",
+      eyebrow: "Expedition",
+      title: "What's happening?",
+      intro: "The Expedition takes shape through meetups, activations, invited creators, families on site and paths that continue after each stop.",
+      highlight: {
+        kicker: "São Paulo · Rio · Brasília · gamescom",
+        title: "One method, very different territories",
+        body: "Across very different formats, the Expedition kept the same backbone: local mobilization, guided creation, concrete references and possible continuity after the in-person experience.",
+        stats: [
+          { value: "2,000", label: "people at gamescom" },
+          { value: "135", label: "young people in São Paulo" },
+          { value: "45", label: "young people in Rio" },
+          { value: "30", label: "participants in Brasília" },
+        ],
+      },
+      sections: [
+        {
+          label: "Where the Expedition has already happened",
+          items: [
+            {
+              kicker: "Rio de Janeiro",
+              title: "The first stop proved the format worked",
+              body: "The first stop took place at 42 Rio with volunteers mediating the day. Young people arrived through local organizations and collectives such as ViDançar, Comunidade da Mangueira, Novas Vozes and Instituto Paramitas, giving the experience a real social anchor.",
+              image: { src: "/context-rail/rio-42.jpg", alt: "Roblox Expedition gathering at 42 Rio", position: "center 44%" },
+            },
+            {
+              kicker: "São Paulo",
+              title: "The operation scaled without losing mediation",
+              body: "In São Paulo, the Expedition brought together public-school youth and participants mobilized by social and educational hubs. The city showed that scale was possible without losing close mediation, while families could watch creation happen live.",
+              image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Roblox Expedition activity in São Paulo", position: "center 42%" },
+            },
+            {
+              kicker: "Brasília",
+              title: "Going to the Center-West expanded the program's legitimacy",
+              body: "In Brasília, Brasília Game Hub helped connect the program to local institutions and families. Elizabeth Milovidov led a conversation on digital creation, safety and adult mediation, adding public and educational weight to the event.",
+              image: { src: "/context-rail/brasilia-familias.jpg", alt: "Conversation with families and participants in Brasília", position: "center 42%" },
+            },
+          ],
+        },
+        {
+          label: "Partnerships, creators and next steps",
+          items: [
+            {
+              kicker: "gamescom latam",
+              title: "The public activation became both showcase and funnel",
+              body: "At gamescom latam, one of the largest gaming fairs in Latin America, the Expedition reached around 2,000 people in four days. Inside the Roblox booth, it worked as a public showcase and also generated leads that later fed the São Paulo operation.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Roblox Expedition activation at gamescom latam", position: "center 28%" },
+            },
+            {
+              kicker: "Creators and references",
+              title: "Real cases make creation feel like a future",
+              body: "Caio Cabral in Rio, Breno Luchesi in São Paulo and Chrystian Gabriel in Brasília helped make authorship, community and career feel tangible rather than distant abstractions.",
+              image: { src: "/context-rail/sao-paulo-lab.jpg", alt: "Young participants in São Paulo", position: "center 28%" },
+            },
+            {
+              kicker: "Public legitimacy",
+              title: "Press, government and the right partners change the weight of the encounter",
+              body: "When the operation finds strong local partners, institutional presence and public visibility, the program changes scale and becomes easier to trust.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Public moment of Roblox Expedition", position: "center 20%" },
+            },
+          ],
+        },
+      ],
+      cards: [
+        {
+          kicker: "How the experience works",
+          title: "Guided creation gives more shape to what young people can do",
+          body: "Rio and São Paulo pointed to the same pattern: when youth create in pairs, with mediation, protected time and a clear beginning, middle and end, curiosity turns into much more consistent output.",
+          image: { src: "/context-rail/rio-42.jpg", alt: "Young people creating in a guided Expedition activity", position: "center 46%" },
+        },
+        {
+          kicker: "Trust in the field",
+          title: "When families see the process, trust stops being abstract",
+          body: "Trust grows when guardians can actually see creation, mediation and safety happening, not just hear an explanation about it.",
+          image: { src: "/context-rail/brasilia-familias.jpg", alt: "Conversation with families in Brasília", position: "center 42%" },
+        },
+        {
+          kicker: "What continues afterwards",
+          title: "Camps, materials and challenges already appear as next steps",
+          body: "Camps, school materials, remote programming and AI sessions, and ongoing creative challenges are already showing up as natural extensions of what started in the field.",
+          image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Participants continuing to create", position: "center 42%" },
+          actionLabel: "Join the community",
+          modalLabel: "Comunidade no Discord",
+        },
+      ],
+    },
+    ecosystem: {
+      variant: "editorial",
+      eyebrow: "Ecosystem",
+      title: "What can I build?",
+      intro: "The point here is not to explain tool by tool. It is to show the kind of creation, continuity and repertoire this ecosystem can put into the hands of whoever enters it.",
+      sections: [
+        {
+          label: "Cases already visible in this ecosystem",
+          items: [
+            {
+              kicker: "São Paulo",
+              title: "Creation stayed alive after the event",
+              body: "In São Paulo, adoption of the plugin was strongest among the in-person events and the post-event period showed a clear sign of continuity: participants wanted to keep creating after the official end.",
+              image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Young people creating in São Paulo", position: "center 40%" },
+            },
+            {
+              kicker: "Brasília",
+              title: "Primeval Earth became a concrete reference for what is possible",
+              body: "In Brasília, Chrystian Gabriel shared his creator journey and spoke about Primeval Earth, showing that authorship, community and scale are real possibilities inside the Roblox universe.",
+              image: { src: "/context-rail/brasilia-familias.jpg", alt: "Participants and guests in Brasília", position: "center 34%" },
+            },
+          ],
+        },
+        {
+          label: "How creation keeps going after the event",
+          items: [
+            {
+              kicker: "Rio de Janeiro",
+              title: "What starts at the event can become ongoing presence",
+              body: "After the Rio activation, the relationship with the local community continued in camp format, with computers adapted for Roblox Studio, discovery of the plugin and follow-up on what was working.",
+              image: { src: "/context-rail/rio-42.jpg", alt: "Expedition activity in Rio", position: "center 44%" },
+            },
+            {
+              kicker: "gamescom latam",
+              title: "The public showcase also feeds new entries",
+              body: "At gamescom latam, around 2,000 people passed through the Expedition activation inside the Roblox booth. Beyond visibility, it also generated contacts that later fed the São Paulo operation.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Public Roblox Expedition activation at gamescom", position: "center 24%" },
+            },
+          ],
+        },
+        {
+          label: "What could still live here",
+          items: [
+            {
+              kicker: "Featured creation",
+              title: "Game of the week or a build visited by students",
+              body: "A concrete creation can sit here to show language, ambition and the kind of world young people can imagine as possible inside the ecosystem.",
+              placeholder: true,
+            },
+            {
+              kicker: "AI and plugin",
+              title: "Interesting prompt or plugin of the month",
+              body: "This space can host a short slice: a prompt that became a prototype, a mission with a strong outcome or a highlighted plugin that pulls curiosity forward.",
+              placeholder: true,
+            },
+          ],
+        },
+      ],
+      cards: [
+        {
+          icon: "mobile",
+          kicker: "Studio Mobile",
+          title: "The phone can be a real doorway into creation",
+          body: "Because many young people arrive through the phone, Studio Mobile exists to lower the initial barrier and let creation begin before desktop even enters the story.",
+          actionLabel: "Go to Studio Mobile",
+          modalLabel: "Studio mobile",
+          actionKey: "studiomob",
+        },
+        {
+          icon: "chat",
+          kicker: "Community",
+          title: "Between one step and the next, the community keeps the rhythm",
+          body: "Discord, reference creators, plugin, Studio and workshops do not appear as isolated pieces: together they keep creation moving.",
+          actionLabel: "Join the community",
+          modalLabel: "Comunidade no Discord",
+          actionKey: "comunidade",
+        },
+      ],
+    },
+    parents: {
+      variant: "editorial",
+      eyebrow: "Parents, guardians and educators",
+      title: "Create with safety",
+      intro: "Here you can see concrete signs of care, mediation and learning for anyone following teenagers creating inside the Roblox universe.",
+      sections: [
+        {
+          label: "Real scenes of care and mediation",
+          items: [
+            {
+              kicker: "Brasília",
+              title: "Families were brought into the conversation, not left at the edge",
+              body: "At the Brasília activation, the hands-on track happened alongside a conversation led by Elizabeth Milovidov on digital creation, safety, mediation and parental controls, giving the discussion a very concrete social ground.",
+              image: { src: "/context-rail/brasilia-familias.jpg", alt: "Conversation with families in Brasília", position: "center 42%" },
+            },
+            {
+              kicker: "São Paulo",
+              title: "Watching creation happen changes how the program is perceived",
+              body: "In São Paulo, parents and guardians could follow the experience inside the same space where young people were creating. That made the proposal tangible rather than abstract.",
+              image: { src: "/context-rail/sao-paulo-lab.jpg", alt: "Participants in São Paulo", position: "center 32%" },
+            },
+          ],
+        },
+        {
+          label: "Why families and educators trust it",
+          items: [
+            {
+              kicker: "Rio de Janeiro",
+              title: "Local partnerships gave the meeting a real social base",
+              body: "The first stop in Rio happened with young people mobilized by networks such as ViDançar, Comunidade da Mangueira, Novas Vozes and Instituto Paramitas, giving the program a more concrete layer of trust.",
+              image: { src: "/context-rail/rio-42.jpg", alt: "Expedition activity in Rio de Janeiro", position: "center 44%" },
+            },
+            {
+              kicker: "Public visibility",
+              title: "Press and institutional presence make the program easier to read",
+              body: "In Rio, the municipal secretary of Science and Technology was present. In Brasília, coverage from Correio Braziliense helped give public shape to what happened. Signals like these make the program more legible for families and educators.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Public moment with Expedition mediation", position: "center 22%" },
+            },
+          ],
+        },
+        {
+          label: "What could still live here",
+          items: [
+            {
+              kicker: "Public language",
+              title: "Recent posts to show tone and proximity",
+              body: "Three or four recent pieces can live here to show how the Expedition speaks with young people, what themes appear and what communication climate sustains the community.",
+              placeholder: true,
+            },
+            {
+              kicker: "Safety",
+              title: "Short updates on controls and good practices",
+              body: "This space can host a short summary on parental controls, safety and good practices in direct language for whoever needs quick guidance.",
+              placeholder: true,
+            },
+          ],
+        },
+      ],
+      cards: [
+        {
+          kicker: "Trust",
+          title: "Clarity grows when the process becomes visible",
+          body: "Families and educators understand the proposal better when they can actually see creation, mediation and authorship happening.",
+          actionLabel: "See the guide for parents and educators",
+          modalLabel: "Guia para pais e educadores",
+        },
+      ],
+    },
+    journeyGuest: {
+      eyebrow: "Your journey",
+      title: "How am I doing?",
+      intro: "Once the creator enters, this column starts showing badges, completed steps and what makes sense to explore next.",
+      cards: [
+        { icon: "target", kicker: "Progress", title: "Earned badges", body: "A memory of program badges, with what has already been reached and what still needs to be unlocked." },
+        { icon: "stair", kicker: "Next step", title: "Missions in progress", body: "Space for the next step in the journey, with short and actionable guidance." },
+        { icon: "compass", kicker: "Rhythm", title: "Your path in the program", body: "The column can help the creator understand where they are and what makes sense to explore next." },
+      ],
+    },
+  },
+  es: {
+    expedition: {
+      variant: "editorial",
+      eyebrow: "Expedición",
+      title: "¿Qué está pasando?",
+      intro: "La Expedición toma forma en encuentros, activaciones, creators invitados, familias presentes y caminos que continúan después de cada parada.",
+      highlight: {
+        kicker: "São Paulo · Rio · Brasília · gamescom",
+        title: "Una misma metodología, territorios muy distintos",
+        body: "En formatos muy diferentes, la Expedición mantuvo la misma columna vertebral: movilización local, creación guiada, referencias concretas y continuidad posible después de la experiencia presencial.",
+        stats: [
+          { value: "2.000", label: "personas en gamescom" },
+          { value: "135", label: "jóvenes en São Paulo" },
+          { value: "45", label: "jóvenes en Río" },
+          { value: "30", label: "participantes en Brasília" },
+        ],
+      },
+      sections: [
+        {
+          label: "Dónde ya pasó la Expedición",
+          items: [
+            {
+              kicker: "Rio de Janeiro",
+              title: "La primera parada probó que el formato funcionaba",
+              body: "La primera parada ocurrió en 42 Rio con voluntarios mediando la jornada. Llegaron jóvenes movilizados por organizaciones y colectivos locales, lo que dio a la experiencia un anclaje social real.",
+              image: { src: "/context-rail/rio-42.jpg", alt: "Encuentro de la Expedición Roblox en 42 Rio", position: "center 44%" },
+            },
+            {
+              kicker: "São Paulo",
+              title: "La operación creció sin perder mediación",
+              body: "En São Paulo, la Expedición reunió a jóvenes de escuelas públicas y de hubs sociales y educativos. La ciudad mostró que era posible ganar escala sin perder la mediación cercana, mientras las familias veían la creación en vivo.",
+              image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Actividad de la Expedición Roblox en São Paulo", position: "center 42%" },
+            },
+            {
+              kicker: "Brasília",
+              title: "Ir al Centro-Oeste amplió la legitimidad del programa",
+              body: "En Brasília, Brasília Game Hub ayudó a conectar el programa con instituciones locales y familias. Elizabeth Milovidov condujo una conversación sobre creación digital, seguridad y mediación adulta, ampliando el peso público y formativo del encuentro.",
+              image: { src: "/context-rail/brasilia-familias.jpg", alt: "Conversación con familias y participantes en Brasília", position: "center 42%" },
+            },
+          ],
+        },
+        {
+          label: "Alianzas, creators y continuidad",
+          items: [
+            {
+              kicker: "gamescom latam",
+              title: "La activación pública se volvió vitrina y embudo",
+              body: "En gamescom latam, una de las mayores ferias de videojuegos de América Latina, la Expedición llegó a cerca de 2.000 personas en cuatro días. Dentro del estand de Roblox, funcionó como vitrina pública y también generó contactos que luego alimentaron la operación en São Paulo.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Activación de la Expedición Roblox en gamescom latam", position: "center 28%" },
+            },
+            {
+              kicker: "Creators y referencias",
+              title: "Casos concretos acercan la creación al futuro",
+              body: "Caio Cabral en Río, Breno Luchesi en São Paulo y Chrystian Gabriel en Brasília ayudaron a hacer tangible la idea de autoría, comunidad y carrera.",
+              image: { src: "/context-rail/sao-paulo-lab.jpg", alt: "Participantes jóvenes en São Paulo", position: "center 28%" },
+            },
+            {
+              kicker: "Legitimidad pública",
+              title: "Prensa, gobierno y socios adecuados cambian el peso del encuentro",
+              body: "Cuando la operación encuentra socios locales fuertes, presencia institucional y visibilidad pública, el programa cambia de escala y se vuelve más confiable.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Momento público de la Expedición Roblox", position: "center 20%" },
+            },
+          ],
+        },
+      ],
+      cards: [
+        {
+          kicker: "Cómo funciona la experiencia",
+          title: "La creación guiada da más cuerpo a lo que los jóvenes pueden hacer",
+          body: "Río y São Paulo dejaron la misma lectura: cuando la juventud crea en dupla, con mediación, tiempo protegido y una estructura clara, la curiosidad se convierte en producción mucho más consistente.",
+          image: { src: "/context-rail/rio-42.jpg", alt: "Jóvenes creando en actividad guiada", position: "center 46%" },
+        },
+        {
+          kicker: "Confianza en campo",
+          title: "Cuando las familias ven el proceso, la confianza deja de ser abstracta",
+          body: "La confianza crece cuando responsables pueden ver creación, mediación y seguridad ocurriendo de verdad, y no solo escuchar una explicación.",
+          image: { src: "/context-rail/brasilia-familias.jpg", alt: "Conversación con familias en Brasília", position: "center 42%" },
+        },
+        {
+          kicker: "Lo que sigue después",
+          title: "Camps, materiales y desafíos ya aparecen como próximos pasos",
+          body: "Camps, materiales para escuelas, sesiones remotas de programación e IA y desafíos creativos continuos ya aparecen como extensiones naturales de lo que empezó en campo.",
+          image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Participantes continuando la creación", position: "center 42%" },
+          actionLabel: "Entrar en la comunidad",
+          modalLabel: "Comunidade no Discord",
+        },
+      ],
+    },
+    ecosystem: {
+      variant: "editorial",
+      eyebrow: "Ecosistema",
+      title: "¿Qué puedo construir?",
+      intro: "La idea aquí no es explicar herramienta por herramienta. Es mostrar el tipo de creación, continuidad y repertorio que este ecosistema puede poner en manos de quien entra en él.",
+      sections: [
+        {
+          label: "Casos que ya aparecieron en el ecosistema",
+          items: [
+            {
+              kicker: "São Paulo",
+              title: "La creación siguió viva después del encuentro",
+              body: "En São Paulo, la adhesión al plugin fue la más fuerte entre los encuentros presenciales y el posevento dejó una señal clara de continuidad: los participantes quisieron seguir creando después del cierre.",
+              image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Jóvenes creando en São Paulo", position: "center 40%" },
+            },
+            {
+              kicker: "Brasília",
+              title: "Primeval Earth se volvió una referencia concreta de hasta dónde se puede llegar",
+              body: "En Brasília, Chrystian Gabriel compartió su trayectoria como creator y habló de Primeval Earth, mostrando que autoría, comunidad y escala son posibilidades reales dentro del universo Roblox.",
+              image: { src: "/context-rail/brasilia-familias.jpg", alt: "Participantes e invitados en Brasília", position: "center 34%" },
+            },
+          ],
+        },
+        {
+          label: "Cómo la creación sigue después",
+          items: [
+            {
+              kicker: "Rio de Janeiro",
+              title: "Lo que empieza en el evento puede volverse presencia continua",
+              body: "Después de la activación en Río, la relación con la comunidad local siguió en formato camp, con computadoras adaptadas para Roblox Studio, descubrimiento del plugin y acompañamiento de lo que estaba funcionando.",
+              image: { src: "/context-rail/rio-42.jpg", alt: "Actividad de la Expedición en Río", position: "center 44%" },
+            },
+            {
+              kicker: "gamescom latam",
+              title: "La vitrina pública también alimenta nuevas entradas",
+              body: "En gamescom latam, cerca de 2.000 personas pasaron por la activación de la Expedición dentro del estand de Roblox. Además de visibilidad, generó contactos que después alimentaron la operación en São Paulo.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Activación pública en gamescom", position: "center 24%" },
+            },
+          ],
+        },
+        {
+          label: "Lo que todavía puede entrar aquí",
+          items: [
+            {
+              kicker: "Creación destacada",
+              title: "Juego de la semana o creación visitada por estudiantes",
+              body: "Aquí puede entrar una creación concreta para mostrar lenguaje, ambición y el tipo de mundo que los jóvenes reconocen como posible dentro del ecosistema.",
+              placeholder: true,
+            },
+            {
+              kicker: "IA y plugin",
+              title: "Prompt interesante o plugin del mes",
+              body: "Este espacio puede recibir un recorte corto: un prompt que se volvió prototipo, una misión con resultado fuerte o un plugin destacado que despierte curiosidad.",
+              placeholder: true,
+            },
+          ],
+        },
+      ],
+      cards: [
+        {
+          icon: "mobile",
+          kicker: "Studio Mobile",
+          title: "El celular puede ser una puerta real para crear",
+          body: "Como muchos jóvenes llegan por el celular, Studio Mobile existe para reducir la barrera inicial y hacer que la creación empiece incluso antes de que el desktop entre en escena.",
+          actionLabel: "Ir al Studio Mobile",
+          modalLabel: "Studio mobile",
+          actionKey: "studiomob",
+        },
+        {
+          icon: "chat",
+          kicker: "Comunidad",
+          title: "Entre una etapa y otra, la comunidad sostiene el ritmo",
+          body: "Discord, creators de referencia, plugin, Studio y talleres no aparecen como piezas sueltas: juntos, mantienen la creación en movimiento.",
+          actionLabel: "Entrar en la comunidad",
+          modalLabel: "Comunidade no Discord",
+          actionKey: "comunidade",
+        },
+      ],
+    },
+    parents: {
+      variant: "editorial",
+      eyebrow: "Padres, responsables y educadores",
+      title: "Crear con seguridad",
+      intro: "Aquí aparecen señales concretas de cuidado, mediación y aprendizaje para quien acompaña a adolescentes creando dentro del universo Roblox.",
+      sections: [
+        {
+          label: "Escenas reales de cuidado y mediación",
+          items: [
+            {
+              kicker: "Brasília",
+              title: "Las familias entraron en la conversación, no quedaron al margen",
+              body: "En la activación de Brasília, la ruta práctica ocurrió en paralelo a una conversación conducida por Elizabeth Milovidov sobre creación digital, seguridad, mediación y controles parentales, dando a la conversación un suelo social muy concreto.",
+              image: { src: "/context-rail/brasilia-familias.jpg", alt: "Ronda de conversación con familias en Brasília", position: "center 42%" },
+            },
+            {
+              kicker: "São Paulo",
+              title: "Ver la creación ocurriendo cambia la percepción del programa",
+              body: "En São Paulo, padres y responsables pudieron seguir la experiencia dentro del mismo espacio en que los jóvenes creaban. Eso volvió la propuesta tangible.",
+              image: { src: "/context-rail/sao-paulo-lab.jpg", alt: "Participantes en São Paulo", position: "center 32%" },
+            },
+          ],
+        },
+        {
+          label: "Por qué familias y educadores confían",
+          items: [
+            {
+              kicker: "Rio de Janeiro",
+              title: "Las alianzas locales dieron base social real al encuentro",
+              body: "La primera parada en Río ocurrió con jóvenes movilizados por redes como ViDançar, Comunidade da Mangueira, Novas Vozes e Instituto Paramitas, dando al programa una capa de confianza mucho más concreta.",
+              image: { src: "/context-rail/rio-42.jpg", alt: "Actividad de la Expedición en Rio de Janeiro", position: "center 44%" },
+            },
+            {
+              kicker: "Visibilidad pública",
+              title: "Prensa y presencia institucional vuelven el programa más legible",
+              body: "En Río estuvo presente el secretario municipal de Ciencia y Tecnología. En Brasília, la cobertura de Correio Braziliense ayudó a dar forma pública a lo ocurrido. Señales así hacen el programa más legible para familias y educadores.",
+              image: { src: "/context-rail/gamescom-palco.jpg", alt: "Momento público con mediación de la Expedición", position: "center 22%" },
+            },
+          ],
+        },
+        {
+          label: "Lo que todavía puede entrar aquí",
+          items: [
+            {
+              kicker: "Lenguaje público",
+              title: "Posts recientes para mostrar tono y cercanía",
+              body: "Aquí pueden entrar tres o cuatro contenidos recientes para mostrar cómo la Expedición habla con jóvenes, qué temas aparecen y qué clima de comunicación sostiene la comunidad.",
+              placeholder: true,
+            },
+            {
+              kicker: "Seguridad",
+              title: "Actualización breve sobre controles y buenas prácticas",
+              body: "Este espacio puede recibir un resumen corto sobre parental controls, seguridad y buenas prácticas con lenguaje directo para quien necesita orientación rápida.",
+              placeholder: true,
+            },
+          ],
+        },
+      ],
+      cards: [
+        {
+          kicker: "Confianza",
+          title: "La claridad crece cuando el proceso se vuelve visible",
+          body: "Familias y educadores entienden mejor la propuesta cuando consiguen ver creación, mediación y autoría ocurriendo de forma concreta.",
+          actionLabel: "Ver guía para padres y educadores",
+          modalLabel: "Guia para pais e educadores",
+        },
+      ],
+    },
+    journeyGuest: {
+      eyebrow: "Tu jornada",
+      title: "¿Cómo voy?",
+      intro: "Cuando el creator entra, esta columna pasa a mostrar badges, pasos concluidos y lo que tiene sentido explorar después.",
+      cards: [
+        { icon: "target", kicker: "Progreso", title: "Badges conquistados", body: "Memoria de los badges del programa, con lo que ya se alcanzó y lo que aún falta desbloquear." },
+        { icon: "stair", kicker: "Siguiente paso", title: "Misiones en curso", body: "Espacio para la próxima etapa de la jornada, con orientación corta y accionable." },
+        { icon: "compass", kicker: "Ritmo", title: "Tu camino en el programa", body: "La columna puede ayudar al creator a entender dónde está y qué vale la pena explorar después." },
+      ],
+    },
+  },
+};
+
 const responsaveisDocIcons = {
   responsaveis: ["home", "laptop", "book-open"],
   educadores: ["book-open", "classroom", "pathway"],
 };
 
+const FONT_PRESETS = [
+  {
+    id: "inclusive",
+    name: "01 Inclusive Sans",
+    note: "limpo e sofisticado",
+    title: '"Inclusive Sans", "Bricolage Grotesque", sans-serif',
+    highlight: '"Inclusive Sans", "Bricolage Grotesque", sans-serif',
+  },
+  {
+    id: "manrope",
+    name: "02 Manrope",
+    note: "sólido e contemporâneo",
+    title: '"Manrope", "Bricolage Grotesque", sans-serif',
+    highlight: '"Manrope", "Bricolage Grotesque", sans-serif',
+  },
+  {
+    id: "sora",
+    name: "03 Sora",
+    note: "editorial sem ficar dura",
+    title: '"Sora", "Bricolage Grotesque", sans-serif',
+    highlight: '"Sora", "Bricolage Grotesque", sans-serif',
+  },
+  {
+    id: "jakarta",
+    name: "04 Plus Jakarta Sans",
+    note: "humano e elegante",
+    title: '"Plus Jakarta Sans", "Bricolage Grotesque", sans-serif',
+    highlight: '"Plus Jakarta Sans", "Bricolage Grotesque", sans-serif',
+  },
+  {
+    id: "inter-tight",
+    name: "05 Inter Tight",
+    note: "técnico e premium",
+    title: '"Inter Tight", "Bricolage Grotesque", sans-serif',
+    highlight: '"Inter Tight", "Bricolage Grotesque", sans-serif',
+  },
+  {
+    id: "editorial",
+    name: "06 Oswald + Inclusive",
+    note: "impacto editorial",
+    title: '"Inclusive Sans", "Bricolage Grotesque", sans-serif',
+    highlight: '"Oswald", "Inclusive Sans", sans-serif',
+  },
+];
+
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem("hublox-lang") || "pt");
   const t = translations[lang] || translations.pt;
+  const [fontPreset, setFontPreset] = useState(() => localStorage.getItem("hublox-font-preset") || "inclusive");
+  const [fontPanelOpen, setFontPanelOpen] = useState(false);
 
   const [creatorSession, setCreatorSession] = useState(() => {
     try { return JSON.parse(localStorage.getItem("hublox-creator-session")) || null; }
@@ -246,13 +1120,23 @@ function App() {
   const [videoModal, setVideoModal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 880);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuIntroActive, setMobileMenuIntroActive] = useState(false);
+  const [mobileMenuIntroHighlight, setMobileMenuIntroHighlight] = useState(null);
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const activeJourneyDetailRef = useRef(null);
   const responsaveisMediaRef = useRef(null);
   const responsaveisCommunityRef = useRef(null);
+  const contentShellRef = useRef(null);
+  const rightRailRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("hublox-lang", lang);
   }, [lang]);
+
+  useEffect(() => {
+    localStorage.setItem("hublox-font-preset", fontPreset);
+  }, [fontPreset]);
 
   useEffect(() => {
     if (creatorSession) localStorage.setItem("hublox-creator-session", JSON.stringify(creatorSession));
@@ -342,6 +1226,56 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!isMobile && mobileMenuOpen) setMobileMenuOpen(false);
+  }, [isMobile, mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!isMobile || screen !== "hub") return undefined;
+    if (localStorage.getItem("hublox-mobile-menu-intro-seen")) return undefined;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) {
+      localStorage.setItem("hublox-mobile-menu-intro-seen", "1");
+      return undefined;
+    }
+
+    let cancelled = false;
+    const timers = [];
+    const schedule = (fn, delay) => {
+      const id = setTimeout(() => { if (!cancelled) fn(); }, delay);
+      timers.push(id);
+    };
+
+    schedule(() => {
+      setMobileMenuIntroActive(true);
+      setMobileMenuOpen(true);
+    }, 350);
+    schedule(() => {
+      setMobileMenuIntroHighlight("sobre");
+    }, 1100);
+    schedule(() => {
+      setMobileMenuOpen(false);
+    }, 2450);
+    schedule(() => {
+      setMobileMenuIntroActive(false);
+      setMobileMenuIntroHighlight(null);
+      localStorage.setItem("hublox-mobile-menu-intro-seen", "1");
+    }, 2850);
+
+    return () => {
+      cancelled = true;
+      timers.forEach(clearTimeout);
+    };
+  }, [isMobile, screen]);
+
+  useEffect(() => {
+    if (!isMobile) return undefined;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : prevOverflow || "";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isMobile, mobileMenuOpen]);
+
+  useEffect(() => {
     if (tab !== "jornada" || sub === "main" || !activeJourneyDetailRef.current) return;
     activeJourneyDetailRef.current.scrollIntoView({
       behavior: "smooth",
@@ -360,16 +1294,23 @@ function App() {
     }
   }, [tab, audience]);
 
+  const resetHubScrolls = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    if (contentShellRef.current) contentShellRef.current.scrollTop = 0;
+    if (rightRailRef.current) rightRailRef.current.scrollTop = 0;
+  };
+
   const runLoading = (cb, duration = 900) => {
     setLoading(true);
     cb();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    resetHubScrolls();
     setTimeout(() => setLoading(false), duration);
   };
 
   const runSectionLoading = (cb, duration = 420) => {
     setLoading(true);
     cb();
+    resetHubScrolls();
     setTimeout(() => setLoading(false), duration);
   };
 
@@ -416,6 +1357,45 @@ function App() {
       }
     });
 
+  const navigateHub = (nextTab) =>
+    runLoading(() => {
+      setMobileMenuOpen(false);
+      setTab(nextTab);
+      setSub("main");
+      setJourneyView("inline");
+      setJourneyDevice(null);
+    });
+
+  const cycleLang = () => {
+    const currentIndex = langOrder.indexOf(lang);
+    const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % langOrder.length : 0;
+    setLang(langOrder[nextIndex]);
+  };
+
+  const logoutDialogCopy = {
+    pt: {
+      kicker: "Sair da conta",
+      title: "Quer encerrar sua sessão?",
+      body: "Você volta para a entrada do hub e limpa o progresso salvo desta conta neste aparelho.",
+      stay: "Continuar aqui",
+      confirm: "Sair da conta",
+    },
+    en: {
+      kicker: "Log out",
+      title: "Do you want to leave your session?",
+      body: "You will return to the hub entry and clear this account's saved progress on this device.",
+      stay: "Stay here",
+      confirm: "Log out",
+    },
+    es: {
+      kicker: "Cerrar sesión",
+      title: "¿Quieres cerrar tu sesión?",
+      body: "Volverás a la entrada del hub y se limpiará el progreso guardado de esta cuenta en este dispositivo.",
+      stay: "Seguir aquí",
+      confirm: "Cerrar sesión",
+    },
+  }[lang];
+
   const icon = (name, color = "currentColor") => <Icon name={name} color={color} />;
 
   const detailProps = (kind) => {
@@ -461,9 +1441,23 @@ function App() {
   const ecoDone = ECO_KEYS.filter((k) => ecoProgress.done[k]).length;
   const ecoPending = ECO_KEYS.filter((k) => ecoProgress.pending[k] && !ecoProgress.done[k]).length;
   const earnedCount = ACHIEVEMENTS.filter((a) => achievements[a.id]).length;
+  const railContent = CONTEXT_RAIL_I18N[lang] || CONTEXT_RAIL;
+  const activeFontPreset = FONT_PRESETS.find((preset) => preset.id === fontPreset) || FONT_PRESETS[0];
+  const showRightRail = !isMobile && (
+    tab === "sobre" ||
+    tab === "eco" ||
+    (tab === "pais" && !!audience) ||
+    (tab === "jornada" && !!creatorSession && !!journeyDevice)
+  );
 
   return (
-    <div className="app-root">
+    <div
+      className="app-root"
+      style={{
+        "--font-title": activeFontPreset.title,
+        "--font-highlight": activeFontPreset.highlight,
+      }}
+    >
       <LoadingOverlay loading={loading} hub={screen === "hub"} />
       {screen !== "hub" && <LangSwitch lang={lang} setLang={setLang} />}
 
@@ -671,79 +1665,118 @@ function App() {
       )}
 
       {screen === "hub" && (
-        <div className={`hub-shell ${isMobile ? "mobile" : ""}`}>
-          {!isMobile && (
-            <aside className="sidebar">
-              <div className="sidebar-logo">
-                <Logo usage="sidebar" alt={t.common.logoAlt} />
-                <LangSwitch lang={lang} setLang={setLang} className="sidebar-lang-switch" />
-              </div>
-              <div className="sidebar-nav">
-                {activeNav.map((item) => (
+        <div className="hub-frame">
+          <div className={`hub-shell ${isMobile ? "mobile" : ""}`}>
+            {!isMobile && (
+              <aside className="sidebar">
+                <div className="sidebar-logo">
+                  <Logo usage="sidebar" alt={t.common.logoAlt} />
+                  <LangSwitch lang={lang} setLang={setLang} className="sidebar-lang-switch" />
+                </div>
+                <div className="sidebar-nav">
+                  {activeNav.map((item) => (
+                    <button
+                      key={item.key}
+                      className={`side-link ${tab === item.key ? "active" : ""}`}
+                      onClick={() => runLoading(() => { setTab(item.key); setSub("main"); setJourneyView("inline"); setJourneyDevice(null); })}
+                    >
+                      <span className="side-icon">{icon(navIcon(item.key), "rgba(255,255,255,.75)")}</span>
+                      <span className="side-copy">
+                        <span>{item.label}</span>
+                        <small>{item.subtitle}</small>
+                      </span>
+                      {tab === item.key && <span className="nav-dot" />}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="sidebar-footer">
                   <button
-                    key={item.key}
-                    className={`side-link ${tab === item.key ? "active" : ""}`}
-                    onClick={() => runLoading(() => { setTab(item.key); setSub("main"); setJourneyView("inline"); setJourneyDevice(null); })}
+                    className="sidebar-exit"
+                    onClick={creatorSession ? logout : () => runLoading(() => setScreen("entry"))}
                   >
-                    <span className="side-icon">{icon(navIcon(item.key), "rgba(255,255,255,.75)")}</span>
-                    <span className="side-copy">
-                      <span>{item.label}</span>
-                      <small>{item.subtitle}</small>
-                    </span>
-                    {tab === item.key && <span className="nav-dot" />}
+                    <span className="sidebar-exit-icon">{icon("logout", "rgba(255,255,255,.9)")}</span>
+                    <span>{creatorSession ? t.account.logout : t.common.exit}</span>
                   </button>
-                ))}
-              </div>
+                </div>
+              </aside>
+            )}
 
-              <div className="sidebar-footer">
-                <button
-                  className="sidebar-exit"
-                  onClick={creatorSession ? logout : () => runLoading(() => setScreen("entry"))}
-                >
-                  {creatorSession ? t.account.logout : t.common.exit}
-                </button>
-              </div>
-            </aside>
-          )}
-
-          <main className="main-panel">
+            <main className="main-panel">
             {welcomeBack && creatorSession && (
               <div className="welcome-back" role="status" onClick={() => setWelcomeBack(false)}>
                 <span>{t.account.welcomeBack} <strong>@{creatorSession.handle}</strong></span>
-                <button className="welcome-back-close" aria-label="Fechar" onClick={(e) => { e.stopPropagation(); setWelcomeBack(false); }}>✕</button>
+                <button className="welcome-back-close" aria-label={t.common.close} onClick={(e) => { e.stopPropagation(); setWelcomeBack(false); }}>✕</button>
               </div>
             )}
             {isMobile && (
               <>
                 <header className="mobile-topbar">
                   <div className="mobile-head">
-                    <Logo usage="topbar" alt={t.common.logoAlt} />
-                    {creatorSession
-                      ? <button className="mobile-logout" onClick={logout}>{t.account.logout}</button>
-                      : <span className="mobile-tag">{t.common.creatorTag}</span>}
+                    <button
+                      className="mobile-lang-cycle"
+                      type="button"
+                      onClick={cycleLang}
+                      aria-label={`Switch language from ${langLabels[lang]}`}
+                    >
+                      {langLabels[lang]}
+                    </button>
+                    <div className="mobile-brand">
+                      <Logo usage="topbar" alt={t.common.logoAlt} />
+                    </div>
+                    <button
+                      className="mobile-logout-toggle"
+                      type="button"
+                      onClick={() => setLogoutConfirmOpen(true)}
+                      aria-label={t.account.logout}
+                    >
+                      {icon("logout", "#FFFFFF")}
+                    </button>
                   </div>
-                  <div className="mobile-tabs">
-                    {activeNav.map((item) => (
+                </header>
+
+                <div
+                  className={`mobile-speed-dial-backdrop ${mobileMenuOpen ? "open" : ""}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                />
+                <div className={`mobile-speed-dial ${mobileMenuOpen ? "open" : ""} ${mobileMenuIntroActive ? "intro-active" : ""}`} aria-hidden={!mobileMenuOpen}>
+                  <div className="mobile-speed-dial-menu">
+                    {activeNav.map((item, index) => (
                       <button
                         key={item.key}
-                        className={`mobile-tab ${tab === item.key ? "active" : ""}`}
-                        onClick={() => runLoading(() => { setTab(item.key); setSub("main"); setJourneyView("inline"); setJourneyDevice(null); })}
+                        className={`mobile-speed-item ${tab === item.key ? "active" : ""} ${mobileMenuIntroHighlight === item.key ? "intro-highlight" : ""}`}
+                        onClick={() => navigateHub(item.key)}
+                        style={{ "--speed-index": index }}
                       >
-                        {item.label}
+                        <span className="mobile-speed-item-label">
+                          <strong>{item.label}</strong>
+                          <small>{item.subtitle}</small>
+                        </span>
+                        <span className="mobile-speed-item-icon">
+                          {icon(navIcon(item.key), tab === item.key ? "#FFFFFF" : "#0D1117")}
+                        </span>
                       </button>
                     ))}
                   </div>
-                </header>
+                </div>
+                <button
+                  className={`mobile-speed-dial-toggle ${mobileMenuOpen ? "open" : ""}`}
+                  aria-label={mobileMenuOpen ? t.common.closeMenu : t.common.openMenu}
+                  aria-expanded={mobileMenuOpen}
+                  onClick={() => setMobileMenuOpen((open) => !open)}
+                >
+                  {icon(mobileMenuOpen ? "close" : "menu", "#FFFFFF")}
+                </button>
               </>
             )}
 
             <div className="main-layout">
-              <div className="content-shell">
+              <div className="content-shell" ref={contentShellRef}>
                 {tab === "jornada" && journeyView === "detail" && sub !== "main" && (
                 <section>
-                  {sub === "mob" && renderDetail("mob", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
-                  {sub === "bilde" && renderDetail("bilde", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
-                  {sub === "tut" && renderDetail("tut", { inline: false, onBack: () => { setJourneyView("inline"); setSub("main"); } })}
+                  {sub === "mob" && renderDetail("mob", { inline: false, onBack: () => runSectionLoading(() => { setJourneyView("inline"); setSub("main"); }) })}
+                  {sub === "bilde" && renderDetail("bilde", { inline: false, onBack: () => runSectionLoading(() => { setJourneyView("inline"); setSub("main"); }) })}
+                  {sub === "tut" && renderDetail("tut", { inline: false, onBack: () => runSectionLoading(() => { setJourneyView("inline"); setSub("main"); }) })}
                 </section>
               )}
 
@@ -755,10 +1788,10 @@ function App() {
                   <div className="device-switch" role="tablist" aria-label={t.journey.deviceAria}>
                     <button
                       className={`device-switch-option ${journeyDevice === "mobile" ? "active yellow" : ""}`}
-                      onClick={() => {
+                      onClick={() => runSectionLoading(() => {
                         setJourneyDevice("mobile");
                         if (sub === "bilde" || sub === "tut") setSub("main");
-                      }}
+                      })}
                     >
                       <span className="device-switch-icon">{icon("mobile", journeyDevice === "mobile" ? palette.yellowText : "#8A8A8A")}</span>
                       <span className="device-switch-copy">
@@ -768,10 +1801,10 @@ function App() {
                     </button>
                     <button
                       className={`device-switch-option ${journeyDevice === "computer" ? "active dark" : ""}`}
-                      onClick={() => {
+                      onClick={() => runSectionLoading(() => {
                         setJourneyDevice("computer");
                         if (sub === "mob") setSub("main");
-                      }}
+                      })}
                     >
                       <span className="device-switch-icon">{icon("laptop", journeyDevice === "computer" ? palette.text : "#8A8A8A")}</span>
                       <span className="device-switch-copy">
@@ -791,6 +1824,7 @@ function App() {
                     <div className="journey-stack">
                       {journeyDevice === "mobile" && (
                         <div className="journey-step">
+                          <div className="journey-step-label">{t.journey.stepLabel} 1</div>
                           <div className="journey-node">
                             <JourneyCard
                               accent="yellow"
@@ -803,7 +1837,7 @@ function App() {
                             />
                             {sub === "mob" && (
                               <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                                {renderDetail("mob", { inline: true, onBack: () => setSub("main") })}
+                                {renderDetail("mob", { inline: true, onBack: () => runSectionLoading(() => setSub("main")) })}
                               </InlineJourneyDetail>
                             )}
                           </div>
@@ -812,6 +1846,7 @@ function App() {
 
                       {journeyDevice === "computer" && (
                         <div className="journey-step">
+                          <div className="journey-step-label">{t.journey.stepLabel} 1</div>
                           <div className="journey-node">
                             <JourneyCard
                               accent="red"
@@ -824,7 +1859,7 @@ function App() {
                             />
                             {sub === "bilde" && (
                               <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                                {renderDetail("bilde", { inline: true, onBack: () => setSub("main") })}
+                                {renderDetail("bilde", { inline: true, onBack: () => runSectionLoading(() => setSub("main")) })}
                               </InlineJourneyDetail>
                             )}
                           </div>
@@ -833,6 +1868,7 @@ function App() {
                             <div className="or-separator"><span>{t.journey.or}</span></div>
                           </div>
 
+                          <div className="journey-step-label">{t.journey.stepLabel} 2</div>
                           <div className="journey-node">
                             <JourneyCard
                               accent="blue"
@@ -845,7 +1881,7 @@ function App() {
                             />
                             {sub === "tut" && (
                               <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
-                              {renderDetail("tut", { inline: true, onBack: () => setSub("main") })}
+                              {renderDetail("tut", { inline: true, onBack: () => runSectionLoading(() => setSub("main")) })}
                               </InlineJourneyDetail>
                             )}
                           </div>
@@ -853,12 +1889,18 @@ function App() {
                       )}
 
                       <div className="journey-step">
+                        <div className="journey-step-label">
+                          Passo {journeyDevice === "computer" ? "3" : "2"}
+                        </div>
                         <div className="journey-node">
                           <PublishJourneyCard dict={t.publish} onClick={() => setModal({ label: "Roblox" })} />
                         </div>
                       </div>
 
                       <div className="journey-step">
+                        <div className="journey-step-label">
+                          Passo {journeyDevice === "computer" ? "4" : "3"}
+                        </div>
                         <div className="journey-node">
                           <CommunityJourneyCard dict={t.community} onClick={() => setModal({ label: "Comunidade no Discord" })} />
                         </div>
@@ -887,7 +1929,7 @@ function App() {
                     <InfoRows accent="yellow" rows={t.eco.studiomob.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.studiomob.ctaCopy}</div>
-                      <button className="small-action yellow" onClick={(e) => { e.stopPropagation(); runEcoAction("studiomob"); setModal({ label: "Studio mobile" }); }}>
+                      <button className="small-action yellow ecosystem-cta-button" onClick={(e) => { e.stopPropagation(); runEcoAction("studiomob"); setModal({ label: "Studio mobile" }); }}>
                         {t.eco.studiomob.cta}
                       </button>
                       <EcoStatus item="studiomob" progress={ecoProgress} t={t} />
@@ -960,7 +2002,7 @@ function App() {
                     <InfoRows accent="red" rows={t.eco.roblox.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.roblox.ctaCopy}</div>
-                      <button className="small-action red" onClick={(e) => { e.stopPropagation(); markEco("roblox", "done"); setModal({ label: "Roblox" }); }}>
+                      <button className="small-action red ecosystem-cta-button" onClick={(e) => { e.stopPropagation(); markEco("roblox", "done"); setModal({ label: "Roblox" }); }}>
                         {t.eco.roblox.cta}
                       </button>
                     </div>
@@ -977,7 +2019,7 @@ function App() {
                     <InfoRows accent="purple" rows={t.eco.comunidade.rows} />
                     <div className="ecosystem-cta-area">
                       <div className="ecosystem-cta-copy">{t.eco.comunidade.ctaCopy}</div>
-                      <button className="small-action purple" onClick={(e) => { e.stopPropagation(); runEcoAction("comunidade"); setModal({ label: "Comunidade no Discord" }); }}>
+                      <button className="small-action purple ecosystem-cta-button discord-cta-button" onClick={(e) => { e.stopPropagation(); runEcoAction("comunidade"); setModal({ label: "Comunidade no Discord" }); }}>
                         {t.eco.comunidade.cta}
                       </button>
                       <EcoStatus item="comunidade" progress={ecoProgress} t={t} />
@@ -1149,9 +2191,9 @@ function App() {
                               <p>{t.responsaveis.community.body}</p>
                             </div>
                             <div className="resp-community-bottom">
-                              <div className="resp-community-note">A comunidade acompanha antes, durante e depois da jornada.</div>
-                              <button className="small-action purple" onClick={() => setModal({ label: "Comunidade no Discord" })}>
-                              {t.responsaveis.community.button}
+                              <div className="resp-community-note">{t.responsaveis.communityNote}</div>
+                              <button className="small-action purple discord-cta-button" onClick={() => setModal({ label: "Comunidade no Discord" })}>
+                                {t.responsaveis.community.button}
                               </button>
                             </div>
                           </div>
@@ -1163,110 +2205,137 @@ function App() {
                 })()}
               </div>
 
-              {!isMobile && creatorSession && (
-                <aside className="right-rail">
-                  <div className="rail-achievements">
-                    <div className="sa-head">
-                      <span className="sa-title">{t.achievements.title}</span>
-                      <span className="sa-count">{earnedCount}/{ACHIEVEMENTS.length}</span>
-                    </div>
-                    {t.achievements.intro && (
-                      <p className="sa-intro">{t.achievements.intro}</p>
-                    )}
-                    <div className="sa-clusters">
-                      {ACHIEVEMENT_CLUSTERS.map((cluster) => {
-                        if (cluster.hidden) return null;
-                        const clusterText = t.achievements.clusters?.[cluster.id];
-                        if (!clusterText) return null;
-                        return (
-                          <section
-                            key={cluster.id}
-                            className="sa-cluster"
-                            style={{
-                              color: cluster.style.textColor,
-                              borderColor: cluster.style.borderColor,
-                            }}
-                          >
-                            <div className="sa-cluster-head">
-                              <h3 className="sa-cluster-name" style={{ color: cluster.style.titleColor }}>
-                                {clusterText.name}
-                              </h3>
-                              <span
-                                className="sa-cluster-tag"
-                                style={{
-                                  color: cluster.style.textColor,
-                                  borderColor: cluster.style.borderColor,
-                                }}
-                              >
-                                {clusterText.tag}
-                              </span>
-                            </div>
-                            <p className="sa-cluster-desc" style={{ color: cluster.style.textColor }}>
-                              {clusterText.desc}
-                            </p>
-                            <div className="sa-grid">
-                              {cluster.badgeIds.map((badgeId) => {
-                                const a = ACHIEVEMENTS.find((item) => item.id === badgeId);
-                                if (!a) return null;
-                                const earned = !!achievements[a.id];
-                                const label = t.achievements.items[a.id];
-                                const desc = t.achievements.descriptions?.[a.id];
-                                return (
-                                  <div
-                                    key={a.id}
-                                    className={`sa-item-row ${earned ? "earned" : "locked"}`}
-                                    title={`${label} — ${earned ? t.achievements.earnedHint : t.achievements.lockedHint}`}
-                                  >
-                                    <div className={`sa-item ${a.frame} ${earned ? "earned" : "locked"}`}>
-                                      {a.kind === "symbol" ? (
-                                        <svg className="sa-badge-svg" viewBox="0 0 120 120" aria-hidden="true">
-                                          <use href={`${earned ? badgesCorUrl : badgesLinhaUrl}#${a.symbol}`} />
-                                        </svg>
-                                      ) : a.kind === "badge" ? (
-                                        <img src={a.img} alt={label} onError={(e) => { e.currentTarget.src = MEDAL_FALLBACK; }} />
-                                      ) : (
-                                        <span className="sa-emoji">{a.emoji}</span>
-                                      )}
-                                    </div>
-                                    <div className="sa-copy">
-                                      <strong>
-                                        {label}
+              {showRightRail && (
+                <aside className="right-rail" ref={rightRailRef}>
+                  {tab === "jornada" && creatorSession ? (
+                    <div className="rail-achievements">
+                      <div className="sa-head">
+                        <span className="sa-title">{t.achievements.title}</span>
+                        <span className="sa-count">{earnedCount}/{ACHIEVEMENTS.length}</span>
+                      </div>
+                      {t.achievements.intro && (
+                        <p className="sa-intro">{t.achievements.intro}</p>
+                      )}
+                      <div className="sa-clusters">
+                        {ACHIEVEMENT_CLUSTERS.map((cluster) => {
+                          if (cluster.hidden) return null;
+                          const clusterText = t.achievements.clusters?.[cluster.id];
+                          if (!clusterText) return null;
+                          return (
+                            <section
+                              key={cluster.id}
+                              className="sa-cluster"
+                              style={{
+                                color: cluster.style.textColor,
+                                borderColor: cluster.style.borderColor,
+                              }}
+                            >
+                              <div className="sa-cluster-head">
+                                <h3 className="sa-cluster-name" style={{ color: cluster.style.titleColor }}>
+                                  {clusterText.name}
+                                </h3>
+                                <span
+                                  className="sa-cluster-tag"
+                                  style={{
+                                    color: cluster.style.textColor,
+                                    borderColor: cluster.style.borderColor,
+                                  }}
+                                >
+                                  {clusterText.tag}
+                                </span>
+                              </div>
+                              <p className="sa-cluster-desc" style={{ color: cluster.style.textColor }}>
+                                {clusterText.desc}
+                              </p>
+                              <div className="sa-grid">
+                                {cluster.badgeIds.map((badgeId) => {
+                                  const a = ACHIEVEMENTS.find((item) => item.id === badgeId);
+                                  if (!a) return null;
+                                  const earned = !!achievements[a.id];
+                                  const label = t.achievements.items[a.id];
+                                  const desc = t.achievements.descriptions?.[a.id];
+                                  return (
+                                    <div
+                                      key={a.id}
+                                      className={`sa-item-row ${earned ? "earned" : "locked"}`}
+                                      title={`${label} — ${earned ? t.achievements.earnedHint : t.achievements.lockedHint}`}
+                                    >
+                                      <div className={`sa-item ${a.frame} ${earned ? "earned" : "locked"}`}>
                                         {!earned && (
-                                          <span className="sa-lock" aria-hidden="true">
-                                            <Icon name="lock" color="#6D6D74" />
+                                          <span className="sa-lock sa-lock-badge" aria-hidden="true">
+                                            <Icon name="lock" color="#E31837" />
                                           </span>
                                         )}
-                                      </strong>
-                                      <small>{desc || (earned ? t.achievements.earnedHint : t.achievements.lockedHint)}</small>
+                                        {a.kind === "symbol" ? (
+                                          <svg className="sa-badge-svg" viewBox="0 0 120 120" aria-hidden="true">
+                                            <use href={`${earned ? badgesCorUrl : badgesLinhaUrl}#${a.symbol}`} />
+                                          </svg>
+                                        ) : a.kind === "badge" ? (
+                                          <img src={a.img} alt={label} onError={(e) => { e.currentTarget.src = MEDAL_FALLBACK; }} />
+                                        ) : (
+                                          <span className="sa-emoji">{a.emoji}</span>
+                                        )}
+                                      </div>
+                                      <div className="sa-copy">
+                                        <strong>
+                                          <span className="sa-label">{label}</span>
+                                        </strong>
+                                        <small>{desc || (earned ? t.achievements.earnedHint : t.achievements.lockedHint)}</small>
+                                      </div>
                                     </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </section>
-                        );
-                      })}
+                                  );
+                                })}
+                              </div>
+                            </section>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  ) : tab === "sobre" ? (
+                    <ContextRailPanel
+                      icon={icon}
+                      content={railContent.expedition}
+                      ui={t.ui}
+                      onAction={(card) => {
+                        if (card.actionKey) runEcoAction(card.actionKey);
+                        if (card.modalLabel) setModal({ label: card.modalLabel });
+                      }}
+                    />
+                  ) : tab === "eco" ? (
+                    <ContextRailPanel
+                      icon={icon}
+                      content={railContent.ecosystem}
+                      ui={t.ui}
+                      onAction={(card) => {
+                        if (card.actionKey) runEcoAction(card.actionKey);
+                        if (card.modalLabel) setModal({ label: card.modalLabel });
+                      }}
+                    />
+                  ) : tab === "pais" ? (
+                    <ContextRailPanel
+                      icon={icon}
+                      content={railContent.parents}
+                      ui={t.ui}
+                      onAction={(card) => {
+                        if (card.actionKey) runEcoAction(card.actionKey);
+                        if (card.modalLabel) setModal({ label: card.modalLabel });
+                      }}
+                    />
+                  ) : (
+                    <ContextRailPanel icon={icon} content={railContent.journeyGuest} ui={t.ui} />
+                  )}
                 </aside>
               )}
             </div>
+            </main>
+          </div>
 
-            {isMobile && (
-              <nav className="bottom-nav">
-                {activeNav.map((item) => (
-                  <button
-                    key={item.key}
-                    className={`bottom-item ${tab === item.key ? "active" : ""}`}
-                    onClick={() => runLoading(() => { setTab(item.key); setSub("main"); setJourneyView("inline"); setJourneyDevice(null); })}
-                  >
-                    <span>{bottomSymbol(item.key)}</span>
-                    <span>{item.label}</span>
-                  </button>
-                ))}
-              </nav>
-            )}
-          </main>
+          <footer className="hub-footer">
+            <div className="hub-footer-inner">
+              <strong>{t.common.footerTitle}</strong>
+              <span>{t.common.footerNote}</span>
+            </div>
+          </footer>
         </div>
       )}
 
@@ -1299,7 +2368,7 @@ function App() {
       {videoModal && (
         <div className="modal-backdrop video-backdrop" onClick={() => setVideoModal(null)}>
           <div className="video-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="video-modal-close" onClick={() => setVideoModal(null)} aria-label="Fechar">✕</button>
+            <button className="video-modal-close" onClick={() => setVideoModal(null)} aria-label={t.common.close}>✕</button>
             <div className="video-modal-frame">
               <iframe
                 src={`https://www.youtube.com/embed/${videoModal.id}?autoplay=1&rel=0`}
@@ -1312,6 +2381,35 @@ function App() {
           </div>
         </div>
       )}
+
+      {logoutConfirmOpen && (
+        <div className="modal-backdrop" onClick={() => setLogoutConfirmOpen(false)}>
+          <div className="modal-sheet logout-confirm-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="sheet-handle" />
+            <div className="modal-kicker">{logoutDialogCopy.kicker}</div>
+            <h3 className="modal-title">{logoutDialogCopy.title}</h3>
+            <p className="modal-copy">{logoutDialogCopy.body}</p>
+            <div className="modal-actions">
+              <button className="modal-primary" onClick={() => { setLogoutConfirmOpen(false); logout(); }}>
+                {logoutDialogCopy.confirm}
+              </button>
+              <button className="modal-secondary" onClick={() => setLogoutConfirmOpen(false)}>
+                {logoutDialogCopy.stay}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <FontControlPanel
+        isMobile={isMobile}
+        open={fontPanelOpen}
+        setOpen={setFontPanelOpen}
+        presets={FONT_PRESETS}
+        activePreset={activeFontPreset}
+        onChange={setFontPreset}
+        ui={t.ui}
+      />
     </div>
   );
 }
@@ -1596,17 +2694,19 @@ function AccordionCard({ accent, title, subtitle, body, open, onToggle, children
             <div className="accordion-title">{title}</div>
             <div className="accordion-body">{body}</div>
           </div>
-          {deviceIcon && (
-            <div className="accordion-device-icon">
-              <Icon
-                name={deviceIcon}
-                color={accent === "yellow" ? "#1A1A1A" : "#FFFFFF"}
-                large
-              />
-            </div>
-          )}
+          <div className="accordion-head-tools">
+            {deviceIcon && (
+              <div className="accordion-device-icon">
+                <Icon
+                  name={deviceIcon}
+                  color={accent === "yellow" ? "#1A1A1A" : "#FFFFFF"}
+                  large
+                />
+              </div>
+            )}
+            <div className="accordion-chevron">{open ? "∧" : "∨"}</div>
+          </div>
         </div>
-        <div className="accordion-chevron">{open ? "∧" : "∨"}</div>
       </button>
       {open && <div className="accordion-content">{children}</div>}
     </div>
@@ -1638,17 +2738,56 @@ function RowGlyph({ glyph, accent }) {
     blue: "#2468B8",
   };
   const color = colorMap[accent] || "#1A1A1A";
+  const stroke = {
+    stroke: color,
+    strokeWidth: 1.85,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
 
   if (glyph === "what") {
-    return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke={color} strokeWidth="1.9"/><path d="M12 15V11.5C12 9.7 14.8 9.7 14.8 7.9C14.8 6.4 13.5 5.5 12.1 5.5C10.6 5.5 9.3 6.4 9.3 7.9" stroke={color} strokeWidth="1.9" strokeLinecap="round"/><circle cx="12" cy="18" r="1.2" fill={color}/></svg>;
+    return (
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" {...stroke} />
+        <path d="M12.7 12.2C12.7 10.1 14.4 8.7 16.4 8.7C18.3 8.7 20 9.9 20 11.9C20 14.2 17.4 14.4 17.1 16.6" {...stroke} />
+        <circle cx="16" cy="21.8" r="1.35" fill={color} />
+      </svg>
+    );
   }
   if (glyph === "do") {
-    return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5.5 12.2L9.8 16.4L18.3 7.9" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 3.8V5.8M20.2 12H18.2M5.8 12H3.8M17.8 6.2L16.4 7.6" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+    return (
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M7 17L11.8 21.8L21.8 11.8" {...stroke} />
+        <path d="M22.4 8.2V11.6H25.8" {...stroke} />
+        <path d="M15.6 7.2V5.2" {...stroke} />
+        <path d="M25.2 16H27.2" {...stroke} />
+      </svg>
+    );
   }
   if (glyph === "platform") {
-    return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4.5" y="5.5" width="15" height="9.5" rx="2.2" stroke={color} strokeWidth="1.9"/><path d="M2.5 18.5H21.5M9.2 15.8V18.5M14.8 15.8V18.5" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+    return (
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="5" y="6.5" width="22" height="13.5" rx="3" {...stroke} />
+        <path d="M3.8 24.5H28.2" {...stroke} />
+        <path d="M13 20.6V24.5" {...stroke} />
+        <path d="M19 20.6V24.5" {...stroke} />
+      </svg>
+    );
   }
-  return <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 4L18.5 7V12.8C18.5 16.1 15.7 18.3 12 20C8.3 18.3 5.5 16.1 5.5 12.8V7L12 4Z" stroke={color} strokeWidth="1.9" strokeLinejoin="round"/><path d="M9.2 12.4L11.2 14.4L14.9 10.7" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+  if (glyph === "who") {
+    return (
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 4.5L24 8.3V15.2C24 19.3 20.6 21.9 16 24C11.4 21.9 8 19.3 8 15.2V8.3L16 4.5Z" {...stroke} />
+        <path d="M12.6 15.3L15 17.7L19.5 13.2" {...stroke} />
+      </svg>
+    );
+  }
+  return (
+    <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16 4.5L24 8.3V15.2C24 19.3 20.6 21.9 16 24C11.4 21.9 8 19.3 8 15.2V8.3L16 4.5Z" {...stroke} />
+      <path d="M12.6 15.3L15 17.7L19.5 13.2" {...stroke} />
+    </svg>
+  );
 }
 
 function SubToolCard({ accent, title, open, onToggle, body, rows, cta, onAction, meta }) {
@@ -1730,6 +2869,151 @@ function SafetyCard({ label, title, body }) {
   );
 }
 
+function ContextRailPanel({ icon, content, onAction, ui }) {
+  const renderAction = (entry) => (
+    entry.actionLabel && onAction ? (
+      <button
+        className="rail-context-card-action"
+        onClick={() => onAction(entry)}
+      >
+        <span>{entry.actionLabel}</span>
+        <span aria-hidden="true">↗</span>
+      </button>
+    ) : null
+  );
+
+  const renderRailImage = (entry) => (
+    entry.image ? (
+      <figure className="rail-media-figure">
+        <img
+          src={entry.image.src}
+          alt={entry.image.alt}
+          style={entry.image.position ? { objectPosition: entry.image.position } : undefined}
+        />
+      </figure>
+    ) : null
+  );
+
+  if (content.variant === "editorial") {
+    return (
+      <div className="rail-context rail-context-editorial">
+        <div className="rail-context-head">
+          <span className="rail-context-eyebrow">{content.eyebrow}</span>
+          <h3 className="rail-context-title">{content.title}</h3>
+          {content.intro && <p className="rail-context-intro">{content.intro}</p>}
+        </div>
+
+        {content.highlight && (
+          <section className="rail-editorial-feature">
+            <span className="rail-feature-kicker">{content.highlight.kicker}</span>
+            <h4 className="rail-feature-title">{content.highlight.title}</h4>
+            <p className="rail-feature-body">{content.highlight.body}</p>
+        </section>
+      )}
+
+        {content.sections && (
+          <div className="rail-editorial-sections">
+            {content.sections.map((section) => (
+              <section key={section.label} className="rail-editorial-section">
+                <div className="rail-editorial-section-label">{section.label}</div>
+                <div className="rail-editorial-list">
+                  {section.items.map((item) => (
+                    <article
+                      key={item.title}
+                      className={`rail-editorial-item${item.placeholder ? " is-placeholder" : ""}`}
+                    >
+                      <div className="rail-item-topline">
+                        <span className="rail-context-card-kicker">{item.kicker}</span>
+                        {item.placeholder && <span className="rail-placeholder-tag">{ui.placeholderTag}</span>}
+                      </div>
+                      {renderRailImage(item)}
+                      <h4 className="rail-context-card-title">{item.title}</h4>
+                      <p className="rail-context-card-body">{item.body}</p>
+                      {renderAction(item)}
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
+
+        <div className="rail-editorial-list">
+          {content.cards.map((card) => (
+            <section
+              key={card.title}
+              className={`rail-editorial-item${card.placeholder ? " is-placeholder" : ""}`}
+            >
+              <div className="rail-item-topline">
+                <span className="rail-context-card-kicker">{card.kicker}</span>
+                {card.placeholder && <span className="rail-placeholder-tag">{ui.placeholderTag}</span>}
+              </div>
+              {renderRailImage(card)}
+              <h4 className="rail-context-card-title">{card.title}</h4>
+              <p className="rail-context-card-body">{card.body}</p>
+              {renderAction(card)}
+            </section>
+          ))}
+        </div>
+
+        <div className="rail-editorial-end">
+          <div className="rail-whatsapp-cta" aria-label={ui.askMore}>
+            <span className="rail-whatsapp-cta-icon">
+              <img src="/whatsapp-icon.png" alt="WhatsApp" className="rail-whatsapp-cta-icon-img" />
+            </span>
+            <span className="rail-whatsapp-cta-copy">
+              <small>{ui.askMore}</small>
+              <strong>{ui.talkToUs}</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rail-context">
+      <div className="rail-context-head">
+        <span className="rail-context-eyebrow">{content.eyebrow}</span>
+        <h3 className="rail-context-title">{content.title}</h3>
+        {content.intro && <p className="rail-context-intro">{content.intro}</p>}
+      </div>
+
+      {content.highlight && (
+        <section className="rail-feature-card">
+          <span className="rail-feature-kicker">{content.highlight.kicker}</span>
+          <h4 className="rail-feature-title">{content.highlight.title}</h4>
+          <p className="rail-feature-body">{content.highlight.body}</p>
+          {content.highlight.stats && (
+            <div className="rail-feature-stats">
+              {content.highlight.stats.map((stat) => (
+                <div key={stat.label} className="rail-feature-stat">
+                  <strong>{stat.value}</strong>
+                  <small>{stat.label}</small>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
+      <div className="rail-context-grid">
+        {content.cards.map((card) => (
+          <section key={card.title} className="rail-context-card">
+            <div className="rail-context-card-icon">{icon(card.icon, "#4B4F64")}</div>
+            <div className="rail-context-card-copy">
+              <span className="rail-context-card-kicker">{card.kicker}</span>
+              <h4 className="rail-context-card-title">{card.title}</h4>
+              <p className="rail-context-card-body">{card.body}</p>
+              {renderAction(card)}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Icon({ name, color = "currentColor", large = false }) {
   const size = large ? 52 : 34;
 
@@ -1766,6 +3050,15 @@ function Icon({ name, color = "currentColor", large = false }) {
   if (name === "arrow") {
     return <svg width="36" height="36" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="18" stroke={color} strokeWidth="1.5"/><path d="M16 22 L28 22 M23 16 L28 22 L23 28" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>;
   }
+  if (name === "logout") {
+    return <svg width="28" height="28" viewBox="0 0 44 44" fill="none"><path d="M18 11.5H13.5C12.4 11.5 11.5 12.4 11.5 13.5V30.5C11.5 31.6 12.4 32.5 13.5 32.5H18" stroke={color} strokeWidth="1.9" strokeLinecap="round"/><path d="M22 14.5L29.5 22L22 29.5" stroke={color} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/><path d="M18 22H29" stroke={color} strokeWidth="1.9" strokeLinecap="round"/></svg>;
+  }
+  if (name === "menu") {
+    return <svg width="28" height="28" viewBox="0 0 44 44" fill="none"><path d="M11 15H33" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M11 22H33" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M11 29H33" stroke={color} strokeWidth="2" strokeLinecap="round"/></svg>;
+  }
+  if (name === "close") {
+    return <svg width="28" height="28" viewBox="0 0 44 44" fill="none"><path d="M14 14L30 30" stroke={color} strokeWidth="2" strokeLinecap="round"/><path d="M30 14L14 30" stroke={color} strokeWidth="2" strokeLinecap="round"/></svg>;
+  }
   if (name === "mobile") {
     return <svg width={size} height={size} viewBox="0 0 48 48" fill="none"><rect x="13" y="5" width="22" height="38" rx="5" stroke={color} strokeWidth="2.2"/><rect x="17" y="11" width="14" height="22" rx="2.5" stroke={color} strokeWidth="1.8" opacity="0.45"/><circle cx="24" cy="37.2" r="1.8" fill={color}/><line x1="20" y1="8.3" x2="28" y2="8.3" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>;
   }
@@ -1797,8 +3090,45 @@ function navIcon(key) {
   return { sobre: "target", jornada: "stair", eco: "hex", pais: "shield" }[key];
 }
 
-function bottomSymbol(key) {
-  return { sobre: "△", jornada: "⬡", eco: "◉", pais: "◈" }[key];
+function FontControlPanel({ isMobile, open, setOpen, presets, activePreset, onChange, ui }) {
+  return (
+    <div className={`font-panel-wrap ${open ? "open" : ""} ${isMobile ? "mobile" : ""}`}>
+      <button
+        type="button"
+        className="font-panel-toggle"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+        aria-controls="font-panel"
+      >
+        <span>{ui.fontsToggle}</span>
+        <strong>{activePreset.name.replace(/^\d+\s/, "")}</strong>
+      </button>
+
+      {open && (
+        <div id="font-panel" className="font-panel">
+          <div className="font-panel-head">
+            <span className="font-panel-kicker">{ui.fontsPanelKicker}</span>
+            <strong className="font-panel-title">{ui.fontsPanelTitle}</strong>
+            <p className="font-panel-copy">{ui.fontsPanelCopy}</p>
+          </div>
+
+          <div className="font-panel-list">
+            {presets.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                className={`font-option ${activePreset.id === preset.id ? "active" : ""}`}
+                onClick={() => onChange(preset.id)}
+              >
+                <span className="font-option-name">{preset.name}</span>
+                <span className="font-option-note">{preset.note}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App;

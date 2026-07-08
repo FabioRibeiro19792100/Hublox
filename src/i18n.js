@@ -11,6 +11,20 @@ const pt = {
     exit: "← Sair",
     creatorTag: "creator",
     logoAlt: "Expedição Roblox",
+    openMenu: "Abrir menu",
+    closeMenu: "Fechar menu",
+    close: "Fechar",
+    footerTitle: "Expedição Roblox é um projeto da Mastertech e da Roblox.",
+    footerNote: "Conteúdos, trilhas e mediação para criação digital com jovens · 2026",
+  },
+  ui: {
+    placeholderTag: "placeholder",
+    askMore: "Quer saber mais?",
+    talkToUs: "Fale com a gente",
+    fontsToggle: "Fontes",
+    fontsPanelKicker: "Painel de controle",
+    fontsPanelTitle: "6 sets para testar",
+    fontsPanelCopy: "Troque a voz dos títulos e destaques enquanto navega pela interface.",
   },
   entry: {
     title: ["Quer criar?", "Desce pro", "play."],
@@ -58,7 +72,7 @@ const pt = {
     results: {
       mobile: {
         kicker: "no celular, seu caminho é",
-        title: "Use seu próprio celular",
+        title: "Crie no celular",
         body: "Studio mobile — app de criação da Mastertech para celular.",
         button: "Ir para o Studio mobile →",
       },
@@ -86,6 +100,7 @@ const pt = {
   journey: {
     pageTitle: "Sua jornada",
     pageSubtitle: "Três caminhos para criar.\nUm destino: seu jogo no ar.",
+    stepLabel: "Passo",
     deviceAria: "Escolha o dispositivo",
     deviceMobileStrong: "No celular",
     deviceMobileSmall: "Studio mobile",
@@ -97,19 +112,19 @@ const pt = {
     or: "OU",
     cardMobile: {
       kicker: "Criar",
-      title: "Use seu próprio celular",
+      title: "Crie no celular",
       body: "Cria e exporta sem computador",
       note: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio.",
     },
     cardBilde: {
       kicker: "Criar",
-      title: "Criar com IA",
+      title: "Crie com IA",
       body: "Conversa com você, monta o jogo",
       note: "Guiado por perguntas. Ideal para quem quer começar sem saber o que fazer.",
     },
     cardTut: {
       kicker: "Criar",
-      title: "Aprender com Tutoriais",
+      title: "Aprenda com tutoriais",
       body: "Passo a passo, mão na massa",
       note: "Cada etapa, uma parte do jogo construída com a própria mão.",
     },
@@ -157,7 +172,7 @@ const pt = {
   },
   publish: {
     kicker: "Publicar",
-    title: "Publicar",
+    title: "Dê vida ao seu jogo",
     line1: "Já tem um jogo?",
     line2: "Publique no Roblox.",
     copy: "O momento mais importante da jornada. Seu jogo entra no Roblox e qualquer pessoa no mundo pode jogar.",
@@ -165,7 +180,7 @@ const pt = {
   },
   community: {
     kicker: "Pertencer",
-    title: "Comunidade",
+    title: "Entre na comunidade",
     copy: "O servidor da Expedição no Discord. Não é uma fase da jornada — está disponível a qualquer hora, para os creators continuarem criando juntos.",
     button: "Entrar no Discord →",
   },
@@ -308,13 +323,13 @@ const pt = {
     journeyExpandTitle: "Ver a jornada completa",
     journeyExpandSub: "Jornada do creator",
     journeyCompact: [
-      { accent: "yellow", title: "Use seu próprio celular", subtitle: "App Mastertech · celular", body: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio." },
-      { accent: "red", title: "Criar com IA", subtitle: "Bilde · Roblox Studio · plugin", body: "Plugin que entrevista o creator e monta o jogo a partir das respostas. Ideal para quem não sabe por onde começar." },
-      { accent: "blue", title: "Aprender com Tutoriais", subtitle: "Tutoriais · Roblox Studio · plugin", body: "Plugin que conduz etapa a etapa. O creator constrói cada parte do jogo com a própria mão." },
+      { accent: "yellow", title: "Crie no celular", subtitle: "App Mastertech · celular", body: "Só o celular basta. Cria, testa no navegador e exporta pro Roblox Studio." },
+      { accent: "red", title: "Crie com IA", subtitle: "Bilde · Roblox Studio · plugin", body: "Plugin que entrevista o creator e monta o jogo a partir das respostas. Ideal para quem não sabe por onde começar." },
+      { accent: "blue", title: "Aprenda com tutoriais", subtitle: "Tutoriais · Roblox Studio · plugin", body: "Plugin que conduz etapa a etapa. O creator constrói cada parte do jogo com a própria mão." },
     ],
     promo: {
       kicker: "a virada",
-      title: "Publicar",
+      title: "Dê vida ao seu jogo",
       line1: "Já tem um jogo?",
       line2: "Publique no Roblox.",
       note: "O creator publica no Roblox e o jogo fica no ar para qualquer pessoa jogar.",
@@ -385,6 +400,7 @@ const pt = {
       body: "Tire dúvidas, acompanhe os criadores e fique por dentro de tudo que acontece na Expedição.",
       button: "Entrar no Discord →",
     },
+    communityNote: "A comunidade acompanha antes, durante e depois da jornada.",
     audiences: {
       responsaveis: {
         intro: "Entenda o projeto e saiba como apoiar seu filho nessa jornada de aprendizado e criação.",
@@ -435,7 +451,7 @@ const pt = {
     logout: "Sair da conta",
   },
   achievements: {
-    title: "Minhas conquistas",
+    title: "Como estou indo?",
     intro: "Reconhecimentos concedidos ao longo da formação em Roblox Studio, organizados em clusters conforme o tipo de habilidade ou marco alcançado.",
     lockedHint: "Bloqueado",
     earnedHint: "Conquistado",
@@ -443,7 +459,7 @@ const pt = {
       identity: {
         name: "Identidade",
         tag: "Creator",
-        desc: "Conquistas que reconhecem o percurso completo. Creator marca quem passou pela formação inicial e publicou o primeiro jogo. Creator-Construtor(a) marca quem concluiu as trilhas de Mundo e Interação.",
+        desc: "Os primeiros passos na sua jornada criativa.",
       },
       world: {
         name: "Mundo",
@@ -453,12 +469,12 @@ const pt = {
       interaction: {
         name: "Interação",
         tag: "Intermediário",
-        desc: "Programação de comportamentos que respondem ao jogador. Cada badge corresponde a um script que conecta um evento a uma ação sobre o objeto. É onde se aprende a fazer o mundo reagir.",
+        desc: "Programação de comportamentos que respondem ao jogador. Cada badge corresponde a um script que conecta um evento a uma ação sobre o objeto.",
       },
       systems: {
         name: "Sistemas",
         tag: "Avançado",
-        desc: "Programação de mecânicas que operam por conta própria. Envolve variáveis de estado, condicionais, timers e integração com serviços externos. É onde se aprende a construir a lógica que sustenta um jogo.",
+        desc: "Programação de mecânicas que operam por conta própria. Envolve variáveis de estado, condicionais, timers e integração com serviços externos.",
       },
     },
     items: {
@@ -494,6 +510,7 @@ const pt = {
     stay: "Ficar no hub",
     names: {
       "Comunidade no Discord": "Comunidade no Discord",
+      "Guia para pais e educadores": "Guia para pais e educadores",
       "Studio web": "Studio web",
     },
   },
@@ -506,6 +523,20 @@ const en = {
     exit: "← Exit",
     creatorTag: "creator",
     logoAlt: "Roblox Expedition",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    close: "Close",
+    footerTitle: "Roblox Expedition is a project by Mastertech and Roblox.",
+    footerNote: "Content, pathways and guided digital creation with teens · 2026",
+  },
+  ui: {
+    placeholderTag: "placeholder",
+    askMore: "Want to know more?",
+    talkToUs: "Talk to us",
+    fontsToggle: "Fonts",
+    fontsPanelKicker: "Control panel",
+    fontsPanelTitle: "6 sets to test",
+    fontsPanelCopy: "Switch the voice of titles and highlights while browsing the interface.",
   },
   entry: {
     title: ["Got an idea?", "Hit play."],
@@ -581,6 +612,7 @@ const en = {
   journey: {
     pageTitle: "Your journey",
     pageSubtitle: "Three paths to create. One destination: your game live.",
+    stepLabel: "Step",
     deviceAria: "Choose your device",
     deviceMobileStrong: "On the phone",
     deviceMobileSmall: "Studio mobile",
@@ -880,6 +912,7 @@ const en = {
       body: "Ask questions, follow the creators and keep up with everything happening in the Expedition.",
       button: "Join the Discord →",
     },
+    communityNote: "The community stays with you before, during and after the journey.",
     audiences: {
       responsaveis: {
         intro: "Understand the project and learn how to support your child on this journey of learning and creating.",
@@ -989,6 +1022,7 @@ const en = {
     stay: "Stay in the hub",
     names: {
       "Comunidade no Discord": "Community on Discord",
+      "Guia para pais e educadores": "Guide for parents and educators",
       "Studio web": "web Studio",
     },
   },
@@ -1001,6 +1035,20 @@ const es = {
     exit: "← Salir",
     creatorTag: "creator",
     logoAlt: "Expedición Roblox",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+    close: "Cerrar",
+    footerTitle: "Expedición Roblox es un proyecto de Mastertech y Roblox.",
+    footerNote: "Contenidos, recorridos y mediación para creación digital con jóvenes · 2026",
+  },
+  ui: {
+    placeholderTag: "placeholder",
+    askMore: "¿Quieres saber más?",
+    talkToUs: "Habla con nosotros",
+    fontsToggle: "Fuentes",
+    fontsPanelKicker: "Panel de control",
+    fontsPanelTitle: "6 sets para probar",
+    fontsPanelCopy: "Cambia la voz de los títulos y destacados mientras recorres la interfaz.",
   },
   entry: {
     title: ["¿Listo para crear?", "Es hora de", "jugar."],
@@ -1076,6 +1124,7 @@ const es = {
   journey: {
     pageTitle: "Tu jornada",
     pageSubtitle: "Tres caminos para crear. Un destino: tu juego en línea.",
+    stepLabel: "Paso",
     deviceAria: "Elige el dispositivo",
     deviceMobileStrong: "En el celular",
     deviceMobileSmall: "Studio mobile",
@@ -1375,6 +1424,7 @@ const es = {
       body: "Resuelve dudas, sigue a los creators y entérate de todo lo que pasa en la Expedición.",
       button: "Entrar a Discord →",
     },
+    communityNote: "La comunidad acompaña antes, durante y después de la jornada.",
     audiences: {
       responsaveis: {
         intro: "Entiende el proyecto y descubre cómo apoyar a tu hijo en esta jornada de aprendizaje y creación.",
@@ -1484,6 +1534,7 @@ const es = {
     stay: "Quedarme en el hub",
     names: {
       "Comunidade no Discord": "Comunidad en Discord",
+      "Guia para pais e educadores": "Guía para padres y educadores",
       "Studio web": "Studio web",
     },
   },
