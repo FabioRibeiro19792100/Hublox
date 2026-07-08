@@ -1404,36 +1404,42 @@ function App() {
       {screen !== "hub" && <LangSwitch lang={lang} setLang={setLang} />}
 
       {screen === "entry" && (
-        <section className="entry-shell dark-shell">
-          <div className="entry-card">
-            <Logo usage="entry" alt={t.common.logoAlt} />
-            <h1 className="entry-title">
-              {t.entry.title.map((line, i) => (
-                <span key={i}>{i > 0 && <br />}{line}</span>
-              ))}
-            </h1>
-            <p className="entry-text">{t.entry.p1}</p>
-            <p className="entry-text strong">{t.entry.p2}</p>
-            <p className="entry-text faint">{t.entry.p3}</p>
-            <button
-              className="cta cta-red"
-              onClick={() => {
-                if (creatorSession) {
-                  toHub("sobre");
-                  return;
-                }
-                runLoading(() => {
-                  resetCreatorQ();
-                  setScreen("creator-id");
-                });
-              }}
-            >
-              <span>{t.entry.cta}</span>
-              <span className="cta-badge">→</span>
-            </button>
-            <div className="footnote dark">{t.entry.footnote}</div>
-          </div>
-        </section>
+        <div className="entry-page dark-shell">
+          <section className="entry-shell">
+            <div className="entry-card">
+              <Logo usage="entry" alt={t.common.logoAlt} />
+              <h1 className="entry-title">
+                {t.entry.title.map((line, i) => (
+                  <span key={i}>{i > 0 && <br />}{line}</span>
+                ))}
+              </h1>
+              <p className="entry-text">{t.entry.p1}</p>
+              <p className="entry-text strong">{t.entry.p2}</p>
+              <button
+                className="cta cta-red"
+                onClick={() => {
+                  if (creatorSession) {
+                    toHub("sobre");
+                    return;
+                  }
+                  runLoading(() => {
+                    resetCreatorQ();
+                    setScreen("creator-id");
+                  });
+                }}
+              >
+                <span>{t.entry.cta}</span>
+                <span className="cta-badge">→</span>
+              </button>
+            </div>
+          </section>
+          <footer className="entry-footer">
+            <div className="entry-footer-inner">
+              <strong>{t.entry.p3}</strong>
+              <span>{t.entry.footnote}</span>
+            </div>
+          </footer>
+        </div>
       )}
 
       {screen === "anamnese" && (

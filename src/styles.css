@@ -19,11 +19,15 @@ html,
 body,
 #root {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
   min-height: 100%;
+  overflow-x: clip;
 }
 
 body {
   background: #0d1117;
+  overflow-x: hidden;
 }
 
 button {
@@ -34,7 +38,10 @@ button {
 }
 
 .app-root {
+  width: 100%;
+  max-width: 100%;
   min-height: 100vh;
+  overflow-x: clip;
 }
 
 .loading-overlay {
@@ -109,8 +116,15 @@ button {
   width: auto;
 }
 
-.entry-shell {
+.entry-page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.entry-shell {
+  min-height: 0;
+  flex: 1 1 auto;
   display: flex;
   justify-content: center;
   padding: 56px 24px 48px;
@@ -144,10 +158,9 @@ button {
 }
 
 .entry-text.strong { color: rgba(255, 255, 255, 0.3); font-weight: 500; }
-.entry-text.faint { color: rgba(255, 255, 255, 0.2); margin-bottom: 36px; }
-
 .cta {
   width: 100%;
+  margin-top: 22px;
   border-radius: 14px;
   padding: 20px 28px;
   display: flex;
@@ -192,6 +205,45 @@ button {
 
 .footnote.dark {
   color: rgba(255, 255, 255, 0.12);
+}
+
+.entry-footer {
+  margin-top: auto;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.entry-footer-inner {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 24px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+}
+
+.entry-footer-inner strong {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.entry-footer-inner span {
+  font-size: 11px;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.entry-footer-inner span::before {
+  content: "/";
+  display: inline-block;
+  margin: 0 8px;
+  color: rgba(255, 255, 255, 0.26);
 }
 
 .back-link,
@@ -2532,6 +2584,7 @@ button {
 
 .small-action {
   margin: 0;
+  max-width: 100%;
   border-radius: 10px;
   padding: 13px 22px;
   font-size: 14px;
@@ -3300,7 +3353,7 @@ button {
   flex-direction: column;
   align-items: flex-end;
   gap: 9px;
-  width: min(236px, calc(100vw - 92px));
+  width: min(272px, calc(100vw - 78px));
 }
 
 .mobile-speed-item {
@@ -3384,11 +3437,29 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  isolation: isolate;
   box-shadow: 0 14px 30px rgba(13, 17, 23, 0.28);
+}
+
+.mobile-speed-dial-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 999px;
+  z-index: -1;
+  background: radial-gradient(circle, rgba(227, 24, 55, 0.22) 0%, rgba(227, 24, 55, 0.12) 42%, rgba(227, 24, 55, 0) 72%);
+  opacity: 0.95;
+  transform: scale(0.96);
+  transition: opacity 0.22s ease, transform 0.22s ease, background 0.22s ease;
 }
 
 .mobile-speed-dial-toggle.open {
   background: #e31837;
+}
+
+.mobile-speed-dial-toggle.open::before {
+  background: radial-gradient(circle, rgba(227, 24, 55, 0.28) 0%, rgba(227, 24, 55, 0.16) 44%, rgba(227, 24, 55, 0) 76%);
+  transform: scale(1);
 }
 
 @keyframes mobileSpeedItemIn {
@@ -3847,6 +3918,21 @@ button {
 }
 
 @media (max-width: 879px) {
+  html,
+  body,
+  #root,
+  .app-root,
+  .hub-frame,
+  .hub-shell,
+  .main-panel,
+  .content-shell,
+  .entry-page,
+  .entry-shell,
+  .entry-card {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
   .hub-frame {
     height: auto;
     height: auto;
@@ -3890,6 +3976,38 @@ button {
     max-width: 100%;
     flex: 1 1 auto;
     padding: 24px 20px 40px;
+  }
+
+  .mobile-topbar,
+  .mobile-head,
+  .mobile-speed-dial,
+  .mobile-speed-dial-menu,
+  .mobile-speed-dial-toggle {
+    max-width: 100%;
+  }
+
+  .mobile-speed-dial-menu {
+    width: min(252px, calc(100vw - 64px));
+  }
+
+  .small-action,
+  .ecosystem-cta-button,
+  .discord-cta-button {
+    max-width: 100%;
+  }
+
+  .entry-footer-inner {
+    padding: 14px 20px 16px;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .entry-card > .cta {
+    margin-top: 28px;
+  }
+
+  .entry-footer-inner span::before {
+    content: none;
   }
 
   .hub-footer-inner {
