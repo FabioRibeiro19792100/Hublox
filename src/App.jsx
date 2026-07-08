@@ -675,6 +675,20 @@ function App() {
             <h1 className="id-heading">{t.id.heading}</h1>
             <p className="entry-text">{t.id.intro}</p>
 
+            <div className="id-roblox-preview">
+              <div className="id-roblox-preview-avatar">
+                <img
+                  src={`https://www.roblox.com/headshot-thumbnail/image?userId=${resolvedId}&width=48&height=48&format=png`}
+                  alt={resolvedDisplayName}
+                  onError={(e) => { e.target.style.display = "none"; }}
+                />
+              </div>
+              <div className="id-roblox-preview-info">
+                <span className="id-roblox-preview-display">{resolvedDisplayName}</span>
+                <span className="id-roblox-preview-handle">@{resolvedHandle}</span>
+              </div>
+            </div>
+
             <div className="id-form">
               <div className="id-field">
                 <label className="id-label" htmlFor="id-email">E-mail</label>
