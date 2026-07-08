@@ -237,6 +237,8 @@ function App() {
   const [robloxValidating, setRobloxValidating] = useState(false);
   const [robloxError, setRobloxError] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [regEmail, setRegEmail] = useState("");
+  const [regBirthday, setRegBirthday] = useState("");
   const [qDev, setQDev] = useState(null);
   const [pcTest, setPcTest] = useState(null); // null | "running" | "capable" | "weak"
   const [tab, setTab] = useState("sobre");
@@ -380,13 +382,15 @@ function App() {
     }
   }
 
-  async function registerWithRoblox({ country, state } = {}) {
+  async function registerWithRoblox({ country, state, email, birthday } = {}) {
     setRegisterLoading(true);
     try {
       const body = {
         roblox_username: resolvedHandle.toLowerCase(),
         roblox_id: resolvedId,
         platform: "web",
+        ...(email ? { email } : {}),
+        ...(birthday ? { birthday } : {}),
         ...(country ? { country } : {}),
         ...(state ? { state } : {}),
       };
@@ -395,8 +399,8 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      const data = await res.json();
-      setCreatorSession({ handle: resolvedHandle, pais: country || data.country || "", estado: state || data.state || "" });
+      if (!res.ok) throw new Error("register_failed");
+      setCreatorSession({ handle: resolvedHandle, pais: country || "", estado: state || "" });
       runLoading(() => setScreen("hub"));
     } catch {
       setRobloxError("Erro ao salvar. Tente novamente.");
@@ -638,18 +642,10 @@ function App() {
                     setRobloxHandle(resolvedHandle);
                     setRegisterLoading(true);
                     try {
-                      const res = await fetch(`${API_URL}/api/user/register/`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          roblox_username: resolvedHandle.toLowerCase(),
-                          roblox_id: resolvedId,
-                          platform: "web",
-                        }),
-                      });
+                      const res = await fetch(`${API_URL}/api/leads/check-identifier/?roblox_username=${encodeURIComponent(resolvedHandle)}`);
                       const data = await res.json();
-                      if (!data.created) {
-                        setCreatorSession({ handle: resolvedHandle, pais: data.country || "", estado: data.state || "" });
+                      if (data.exists) {
+                        setCreatorSession({ handle: resolvedHandle, pais: "", estado: "" });
                         runLoading(() => setScreen("hub"));
                       } else {
                         setIdStep("details");
@@ -680,6 +676,30 @@ function App() {
             <p className="entry-text">{t.id.intro}</p>
 
             <div className="id-form">
+              <div className="id-field">
+                <label className="id-label" htmlFor="id-email">E-mail</label>
+                <input
+                  id="id-email"
+                  className="id-input"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="seu@email.com"
+                  value={regEmail}
+                  onChange={(e) => setRegEmail(e.target.value)}
+                />
+              </div>
+
+              <div className="id-field">
+                <label className="id-label" htmlFor="id-birthday">Data de nascimento</label>
+                <input
+                  id="id-birthday"
+                  className="id-input"
+                  type="date"
+                  value={regBirthday}
+                  onChange={(e) => setRegBirthday(e.target.value)}
+                />
+              </div>
+
               <div className="id-field">
                 <label className="id-label" htmlFor="id-pais">{t.id.countryLabel}</label>
                 <select
@@ -713,12 +733,14 @@ function App() {
               )}
             </div>
 
+            {robloxError && <div className="id-error">{robloxError}</div>}
+
             <button
               className="cta cta-red id-continue"
-              disabled={!pais || (statesByCountry[pais] && !estado) || registerLoading}
-              onClick={() => registerWithRoblox({ country: pais, state: estado })}
+              disabled={!regEmail || !regBirthday || !pais || (statesByCountry[pais] && !estado) || registerLoading}
+              onClick={() => registerWithRoblox({ email: regEmail, birthday: regBirthday, country: pais, state: estado })}
             >
-              <span>{t.id.continue}</span>
+              <span>{registerLoading ? "Salvando..." : t.id.continue}</span>
               <span className="cta-badge">→</span>
             </button>
           </div>
