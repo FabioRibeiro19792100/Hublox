@@ -1849,11 +1849,10 @@ function App() {
             <div className="id-confirm-card">
               <p className="id-confirm-eyebrow">{t.id.foundUser}</p>
               <div className="id-confirm-avatar">
-                <img
-                  src={resolvedThumbnailUrl}
-                  alt={resolvedDisplayName}
-                  onError={(e) => { e.target.style.display = "none"; }}
-                />
+                {resolvedThumbnailUrl
+                  ? <img src={resolvedThumbnailUrl} alt={resolvedDisplayName} />
+                  : (resolvedDisplayName || resolvedHandle).charAt(0).toUpperCase()
+                }
               </div>
               <div className="id-confirm-display">{resolvedDisplayName}</div>
               <div className="id-confirm-handle">@{resolvedHandle}</div>
@@ -1907,11 +1906,10 @@ function App() {
 
             <div className="id-roblox-preview">
               <div className="id-roblox-preview-avatar">
-                <img
-                  src={resolvedThumbnailUrl}
-                  alt={resolvedDisplayName}
-                  onError={(e) => { e.target.style.display = "none"; }}
-                />
+                {resolvedThumbnailUrl
+                  ? <img src={resolvedThumbnailUrl} alt={resolvedDisplayName} />
+                  : (resolvedDisplayName || resolvedHandle).charAt(0).toUpperCase()
+                }
               </div>
               <div className="id-roblox-preview-info">
                 <span className="id-roblox-preview-display">{resolvedDisplayName}</span>
