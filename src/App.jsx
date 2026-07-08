@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import badgesCorUrl from "../badges-cor.svg";
 import badgesLinhaUrl from "../badges-linha.svg";
+import AnimatedLogo from "./components/AnimatedLogo";
 import { translations, langOrder, langLabels } from "./i18n";
 
 const palette = {
@@ -1082,6 +1083,7 @@ function App() {
   const [mobileSectionTitleVisible, setMobileSectionTitleVisible] = useState(false);
   const activeJourneyDetailRef = useRef(null);
   const [mobileJourneyStep, setMobileJourneyStep] = useState(null);
+  const [journeyDrawerOpen, setJourneyDrawerOpen] = useState(false);
   const responsaveisMediaRef = useRef(null);
   const responsaveisCommunityRef = useRef(null);
   const contentShellRef = useRef(null);
@@ -1245,6 +1247,12 @@ function App() {
   }, [isMobile, screen, tab, sub, journeyView, audience, journeyDevice]);
 
   useEffect(() => {
+    if (!isMobile || tab !== "jornada" || !creatorSession || !journeyDevice) {
+      setJourneyDrawerOpen(false);
+    }
+  }, [isMobile, tab, creatorSession, journeyDevice]);
+
+  useEffect(() => {
     if (isMobile || tab !== "jornada" || sub === "main" || !activeJourneyDetailRef.current) return;
     activeJourneyDetailRef.current.scrollIntoView({
       behavior: "smooth",
@@ -1314,6 +1322,45 @@ function App() {
   ];
 
   const mobileSectionTitle = activeNav.find((item) => item.key === tab)?.label || "";
+  const creatorBadgeLabel = creatorSession?.handle
+    ? creatorSession.handle
+      .replace(/[_\-\.]+/g, " ")
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() || "")
+      .join("")
+    : "";
+
+  const journeyDrawerCopy = {
+    pt: {
+      button: "Minha jornada",
+      kicker: "Área logada",
+      title: "Sua jornada",
+      close: "Fechar painel",
+      summaryTitle: "Seu momento agora",
+    },
+    en: {
+      button: "My journey",
+      kicker: "Logged area",
+      title: "Your journey",
+      close: "Close panel",
+      summaryTitle: "Where you are now",
+    },
+    es: {
+      button: "Mi jornada",
+      kicker: "Área iniciada",
+      title: "Tu jornada",
+      close: "Cerrar panel",
+      summaryTitle: "Tu momento ahora",
+    },
+  }[lang];
+
+  const canOpenJourneyDrawer =
+    isMobile && tab === "jornada" && !!journeyDevice;
+
+  const showJourneyMascot =
+    tab === "jornada" && (!isMobile || !!journeyDevice);
 
   const toHub = (nextTab, nextSub = "main", nextJourneyView = "inline") =>
     runLoading(() => {
@@ -1533,6 +1580,83 @@ function App() {
     tab === "eco" ||
     (tab === "pais" && !!audience) ||
     (tab === "jornada" && !!creatorSession && !!journeyDevice)
+  );
+
+  const renderAchievementClusters = () => (
+    <div className="sa-clusters">
+      {ACHIEVEMENT_CLUSTERS.map((cluster) => {
+        if (cluster.hidden) return null;
+        const clusterText = t.achievements.clusters?.[cluster.id];
+        if (!clusterText) return null;
+        return (
+          <section
+            key={cluster.id}
+            className="sa-cluster"
+            style={{
+              color: cluster.style.textColor,
+              borderColor: cluster.style.borderColor,
+            }}
+          >
+            <div className="sa-cluster-head">
+              <h3 className="sa-cluster-name" style={{ color: cluster.style.titleColor }}>
+                {clusterText.name}
+              </h3>
+              <span
+                className="sa-cluster-tag"
+                style={{
+                  color: cluster.style.textColor,
+                  borderColor: cluster.style.borderColor,
+                }}
+              >
+                {clusterText.tag}
+              </span>
+            </div>
+            <p className="sa-cluster-desc" style={{ color: cluster.style.textColor }}>
+              {clusterText.desc}
+            </p>
+            <div className="sa-grid">
+              {cluster.badgeIds.map((badgeId) => {
+                const a = ACHIEVEMENTS.find((item) => item.id === badgeId);
+                if (!a) return null;
+                const earned = !!achievements[a.id];
+                const label = t.achievements.items[a.id];
+                const desc = t.achievements.descriptions?.[a.id];
+                return (
+                  <div
+                    key={a.id}
+                    className={`sa-item-row ${earned ? "earned" : "locked"}`}
+                    title={`${label} — ${earned ? t.achievements.earnedHint : t.achievements.lockedHint}`}
+                  >
+                    <div className={`sa-item ${a.frame} ${earned ? "earned" : "locked"}`}>
+                      {!earned && (
+                        <span className="sa-lock sa-lock-badge" aria-hidden="true">
+                          <Icon name="lock" color="#E31837" />
+                        </span>
+                      )}
+                      {a.kind === "symbol" ? (
+                        <svg className="sa-badge-svg" viewBox="0 0 120 120" aria-hidden="true">
+                          <use href={`${earned ? badgesCorUrl : badgesLinhaUrl}#${a.symbol}`} />
+                        </svg>
+                      ) : a.kind === "badge" ? (
+                        <img src={a.img} alt={label} onError={(e) => { e.currentTarget.src = MEDAL_FALLBACK; }} />
+                      ) : (
+                        <span className="sa-emoji">{a.emoji}</span>
+                      )}
+                    </div>
+                    <div className="sa-copy">
+                      <strong>
+                        <span className="sa-label">{label}</span>
+                      </strong>
+                      <small>{desc || (earned ? t.achievements.earnedHint : t.achievements.lockedHint)}</small>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
+    </div>
   );
 
   return (
@@ -1856,7 +1980,12 @@ function App() {
                 </div>
 
                 <div className={`mobile-section-sticky-bar ${mobileSectionTitleVisible ? "visible" : ""}`}>
-                  <span>{mobileSectionTitle}</span>
+                  <span className="mobile-section-sticky-copy">
+                    <span>{mobileSectionTitle}</span>
+                    {tab === "jornada" && creatorSession && (
+                      <span className="mobile-section-live-indicator" aria-hidden="true" />
+                    )}
+                  </span>
                 </div>
               </>
             )}
@@ -1872,9 +2001,31 @@ function App() {
               )}
 
               {tab === "jornada" && journeyView === "inline" && (
-                <section>
-                  <h2 className="page-title">{t.journey.pageTitle}</h2>
-                  <p className="page-subtitle">{t.journey.pageSubtitle}</p>
+                <section className="journey-page">
+                  <div className="journey-page-hero">
+                    <div className="journey-page-copy">
+                      <h2 className="page-title">{t.journey.pageTitle}</h2>
+                      <p className="page-subtitle">{t.journey.pageSubtitle}</p>
+                    </div>
+                    {showJourneyMascot ? (
+                      canOpenJourneyDrawer ? (
+                        <button
+                          type="button"
+                          className="journey-page-mascot journey-page-mascot-button"
+                          onClick={() => setJourneyDrawerOpen(true)}
+                          aria-label={journeyDrawerCopy.button}
+                        >
+                          <AnimatedLogo />
+                          <span className="journey-page-mascot-note">{t.journey.mascotFollow}</span>
+                        </button>
+                      ) : (
+                        <div className="journey-page-mascot" aria-hidden="true">
+                          <AnimatedLogo />
+                          <span className="journey-page-mascot-note">{t.journey.mascotFollow}</span>
+                        </div>
+                      )
+                    ) : null}
+                  </div>
 
                   <div
                     className={`device-switch ${isMobile && journeyDevice ? "compact-mobile" : ""}`}
@@ -2457,80 +2608,7 @@ function App() {
                       {t.achievements.intro && (
                         <p className="sa-intro">{t.achievements.intro}</p>
                       )}
-                      <div className="sa-clusters">
-                        {ACHIEVEMENT_CLUSTERS.map((cluster) => {
-                          if (cluster.hidden) return null;
-                          const clusterText = t.achievements.clusters?.[cluster.id];
-                          if (!clusterText) return null;
-                          return (
-                            <section
-                              key={cluster.id}
-                              className="sa-cluster"
-                              style={{
-                                color: cluster.style.textColor,
-                                borderColor: cluster.style.borderColor,
-                              }}
-                            >
-                              <div className="sa-cluster-head">
-                                <h3 className="sa-cluster-name" style={{ color: cluster.style.titleColor }}>
-                                  {clusterText.name}
-                                </h3>
-                                <span
-                                  className="sa-cluster-tag"
-                                  style={{
-                                    color: cluster.style.textColor,
-                                    borderColor: cluster.style.borderColor,
-                                  }}
-                                >
-                                  {clusterText.tag}
-                                </span>
-                              </div>
-                              <p className="sa-cluster-desc" style={{ color: cluster.style.textColor }}>
-                                {clusterText.desc}
-                              </p>
-                              <div className="sa-grid">
-                                {cluster.badgeIds.map((badgeId) => {
-                                  const a = ACHIEVEMENTS.find((item) => item.id === badgeId);
-                                  if (!a) return null;
-                                  const earned = !!achievements[a.id];
-                                  const label = t.achievements.items[a.id];
-                                  const desc = t.achievements.descriptions?.[a.id];
-                                  return (
-                                    <div
-                                      key={a.id}
-                                      className={`sa-item-row ${earned ? "earned" : "locked"}`}
-                                      title={`${label} — ${earned ? t.achievements.earnedHint : t.achievements.lockedHint}`}
-                                    >
-                                      <div className={`sa-item ${a.frame} ${earned ? "earned" : "locked"}`}>
-                                        {!earned && (
-                                          <span className="sa-lock sa-lock-badge" aria-hidden="true">
-                                            <Icon name="lock" color="#E31837" />
-                                          </span>
-                                        )}
-                                        {a.kind === "symbol" ? (
-                                          <svg className="sa-badge-svg" viewBox="0 0 120 120" aria-hidden="true">
-                                            <use href={`${earned ? badgesCorUrl : badgesLinhaUrl}#${a.symbol}`} />
-                                          </svg>
-                                        ) : a.kind === "badge" ? (
-                                          <img src={a.img} alt={label} onError={(e) => { e.currentTarget.src = MEDAL_FALLBACK; }} />
-                                        ) : (
-                                          <span className="sa-emoji">{a.emoji}</span>
-                                        )}
-                                      </div>
-                                      <div className="sa-copy">
-                                        <strong>
-                                          <span className="sa-label">{label}</span>
-                                        </strong>
-                                        <small>{desc || (earned ? t.achievements.earnedHint : t.achievements.lockedHint)}</small>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </section>
-                          );
-                        })}
-                      </div>
+                      {renderAchievementClusters()}
                     </div>
                   ) : tab === "sobre" ? (
                     <ContextRailPanel
@@ -2625,6 +2703,33 @@ function App() {
               <button className="modal-secondary" onClick={() => setModal(null)}>
                 {modal.kind === "section-nav" ? modal.stay : t.modal.stay}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {journeyDrawerOpen && canOpenJourneyDrawer && (
+        <div className="modal-backdrop journey-drawer-backdrop" onClick={() => setJourneyDrawerOpen(false)}>
+          <div className="modal-sheet journey-drawer-sheet" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="journey-drawer-close"
+              onClick={() => setJourneyDrawerOpen(false)}
+              aria-label={journeyDrawerCopy.close}
+            >
+              ✕
+            </button>
+            <div className="right-rail journey-drawer-rail">
+              <div className="rail-achievements mobile-rail-achievements">
+                <div className="sa-head">
+                  <span className="sa-title">{t.achievements.title}</span>
+                  <span className="sa-count">{earnedCount}/{ACHIEVEMENTS.length}</span>
+                </div>
+                {t.achievements.intro && (
+                  <p className="sa-intro">{t.achievements.intro}</p>
+                )}
+                {renderAchievementClusters()}
+              </div>
             </div>
           </div>
         </div>

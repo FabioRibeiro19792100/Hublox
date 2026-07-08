@@ -95,7 +95,8 @@ const pt = {
   },
   journey: {
     pageTitle: "Sua jornada",
-    pageSubtitle: "Três caminhos para criar.\nUm destino: seu jogo no ar.",
+    pageSubtitle: "Os caminhos para dar vida ao seu jogo.",
+    mascotFollow: "Siga-me",
     stepLabel: "Passo",
     deviceAria: "Escolha o dispositivo",
     deviceMobileStrong: "No celular",
@@ -603,7 +604,8 @@ const en = {
   },
   journey: {
     pageTitle: "Your journey",
-    pageSubtitle: "Three paths to create. One destination: your game live.",
+    pageSubtitle: "The paths to bring your game to life.",
+    mascotFollow: "Follow me",
     stepLabel: "Step",
     deviceAria: "Choose your device",
     deviceMobileStrong: "On the phone",
@@ -1111,7 +1113,8 @@ const es = {
   },
   journey: {
     pageTitle: "Tu jornada",
-    pageSubtitle: "Tres caminos para crear. Un destino: tu juego en línea.",
+    pageSubtitle: "Los caminos para darle vida a tu juego.",
+    mascotFollow: "Sígueme",
     stepLabel: "Paso",
     deviceAria: "Elige el dispositivo",
     deviceMobileStrong: "En el celular",

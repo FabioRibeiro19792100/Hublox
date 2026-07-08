@@ -1741,6 +1741,67 @@ button {
   max-width: 720px;
 }
 
+.journey-page-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.journey-page-copy {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.journey-page-mascot {
+  flex: 0 0 78px;
+  width: 78px;
+  height: 78px;
+  margin-top: 4px;
+  pointer-events: none;
+  opacity: 0.98;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.journey-page-mascot .animated-logo-container {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+}
+
+.journey-page-mascot-note {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+  white-space: nowrap;
+}
+
+.journey-page-mascot-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 2;
+  gap: inherit;
+}
+
+.journey-page-mascot-button:focus-visible {
+  outline: 2px solid rgba(36, 104, 184, 0.28);
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+
 .section-label,
 .eco-label {
   margin-bottom: 10px;
@@ -2014,9 +2075,11 @@ button {
 }
 
 .journey-mobile-step-tag {
-  flex: 0 0 auto;
+  flex: 0 0 104px;
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
+  width: 104px;
   min-height: 24px;
   padding: 3px 10px;
   border: 1px solid #d8dbe2;
@@ -2030,6 +2093,8 @@ button {
 }
 
 .journey-mobile-step-shell.is-initial .journey-mobile-step-tag {
+  flex-basis: 112px;
+  width: 112px;
   min-height: 32px;
   padding: 5px 13px;
   font-size: 12px;
@@ -2136,9 +2201,11 @@ button {
 }
 
 .journey-mobile-step-dock-tag {
-  flex: 0 0 auto;
+  flex: 0 0 96px;
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
+  width: 96px;
   min-height: 22px;
   padding: 2px 9px;
   border: 1px solid #d8dbe2;
@@ -3591,6 +3658,52 @@ button {
   padding: 28px 24px;
 }
 
+.journey-drawer-backdrop {
+  z-index: 115;
+}
+
+.journey-drawer-sheet {
+  width: min(520px, calc(100% - 18px));
+  max-height: min(78vh, 760px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border-radius: 24px 24px 0 0;
+  position: relative;
+}
+
+.journey-drawer-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(13, 17, 23, 0.72);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.journey-drawer-rail {
+  width: 100%;
+  min-width: 0;
+  border-left: 0;
+  border-radius: 24px 24px 0 0;
+}
+
+.mobile-rail-achievements {
+  width: 100%;
+  max-width: none;
+  padding: 42px 24px 96px;
+  overflow-y: auto;
+}
+
 .sheet-handle {
   width: 40px;
   height: 4px;
@@ -3686,6 +3799,7 @@ button {
 
 .mobile-section-sticky-bar.visible {
   opacity: 1;
+  pointer-events: auto;
   transform: translateY(0);
 }
 
@@ -3697,6 +3811,46 @@ button {
   line-height: 1;
   letter-spacing: -0.02em;
   color: #1a1a1a;
+}
+
+.mobile-section-sticky-copy {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-section-sticky-copy.is-action {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.mobile-section-sticky-copy.is-action:focus-visible {
+  outline: 2px solid rgba(17, 17, 17, 0.22);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+.mobile-section-live-indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.6px solid rgba(227, 24, 55, 0.28);
+  border-top-color: #e31837;
+  border-right-color: rgba(227, 24, 55, 0.82);
+  background: rgba(227, 24, 55, 0.06);
+  box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.08);
+  animation: mobileLiveSpin 1.15s linear infinite;
+}
+
+@keyframes mobileLiveSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .mobile-head {
@@ -3715,6 +3869,18 @@ button {
   align-items: center;
   justify-content: center;
   padding: 0 10px;
+}
+
+.mobile-brand-button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mobile-brand-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.24);
+  outline-offset: 3px;
+  border-radius: 10px;
 }
 
 .mobile-head-actions {
@@ -4507,6 +4673,40 @@ button {
     width: min(292px, calc(100vw - 38px));
   }
 
+  .journey-drawer-sheet {
+    width: calc(100% - 12px);
+    max-height: 78vh;
+  }
+
+  .right-rail.journey-drawer-rail {
+    display: flex;
+    flex: 0 1 auto;
+    min-height: auto;
+  }
+
+  .mobile-rail-achievements .sa-item-row {
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px 8px;
+  }
+
+  .mobile-rail-achievements {
+    padding: 42px 16px 88px;
+  }
+
+  .mobile-rail-achievements .sa-item {
+    width: 66px;
+    height: 66px;
+  }
+
+  .mobile-rail-achievements .sa-copy strong {
+    font-size: 14px;
+  }
+
+  .mobile-rail-achievements .sa-copy small {
+    font-size: 11px;
+  }
+
   .small-action,
   .ecosystem-cta-button,
   .discord-cta-button {
@@ -4599,6 +4799,23 @@ button {
     border-bottom: 1px solid #eceff4;
     font-size: 14px;
     line-height: 1.55;
+  }
+
+  .journey-page-hero {
+    gap: 16px;
+  }
+
+  .journey-page-mascot {
+    flex: 0 0 54px;
+    width: 54px;
+    height: auto;
+    margin-top: 2px;
+    gap: 4px;
+  }
+
+  .journey-page-mascot-note {
+    font-size: 8px;
+    letter-spacing: 0.06em;
   }
 
   .journey-card,
