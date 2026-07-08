@@ -1189,7 +1189,29 @@ button {
   gap: 14px;
 }
 
+.rail-editorial-section-heading {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.rail-editorial-section-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  opacity: 0.9;
+}
+
+.rail-editorial-section-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
 .rail-editorial-section-label {
+  display: inline-block;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -1227,7 +1249,10 @@ button {
   color: #fff;
   text-align: left;
   background: transparent;
+  border: 0;
   box-shadow: none;
+  cursor: pointer;
+  appearance: none;
 }
 
 .rail-whatsapp-cta-icon {
@@ -1369,6 +1394,16 @@ button {
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 6px;
+}
+
+.rail-item-highlight {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #5c6171;
+  box-shadow: 0 0 0 3px rgba(92, 97, 113, 0.14);
+  opacity: 0.92;
 }
 
 .rail-item-topline .rail-context-card-kicker {
@@ -1645,7 +1680,7 @@ button {
 }
 
 .hub-footer-inner span {
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.2;
   color: #555d6b;
 }
@@ -1953,15 +1988,16 @@ button {
 }
 
 .journey-mobile-step-headgroup {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 102px auto;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
   min-width: 0;
 }
 
 .journey-mobile-step-title {
-  font-size: 16px;
+  min-width: 102px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
   text-transform: uppercase;
@@ -1969,7 +2005,7 @@ button {
 }
 
 .journey-mobile-step-shell.is-initial .journey-mobile-step-title {
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 800;
 }
 
@@ -1994,9 +2030,11 @@ button {
 }
 
 .journey-mobile-step-shell.is-initial .journey-mobile-step-tag {
-  min-height: 28px;
-  padding: 4px 11px;
-  font-size: 11px;
+  min-height: 32px;
+  padding: 5px 13px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
 }
 
 .journey-mobile-step-shell.step-1 .journey-mobile-step-tag,
@@ -2081,15 +2119,16 @@ button {
 }
 
 .journey-mobile-step-dock-headgroup {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 88px auto;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
   min-width: 0;
 }
 
 .journey-mobile-step-dock-title {
-  font-size: 14px;
+  min-width: 88px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.01em;
   text-transform: uppercase;
@@ -2575,16 +2614,56 @@ button {
 
 /* Muted, sped-up inspiration loop on the Bilde / plugin detail pages */
 .detail-loop {
+  position: relative;
+  width: 100%;
   margin-bottom: 24px;
+  padding: 0;
+  border: 2px solid rgba(26, 26, 26, 0.22);
   border-radius: 14px;
   overflow: hidden;
   background: #0d1117;
+  cursor: pointer;
 }
 
 .detail-loop video {
   width: 100%;
   height: auto;
   display: block;
+  opacity: 0.92;
+}
+
+.detail-loop-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(180deg, rgba(13, 17, 23, 0.16) 0%, rgba(13, 17, 23, 0.42) 100%);
+  color: #fff;
+}
+
+.detail-loop-play {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+  font-size: 24px;
+  padding-left: 3px;
+}
+
+.detail-loop-caption {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .video-stub small {
@@ -3054,12 +3133,83 @@ button {
   line-height: 1.65;
 }
 
+.sobre-cta-row {
+  margin-top: 20px;
+}
+
+.sobre-cta-button {
+  min-width: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.sobre-cta-text {
+  display: inline-block;
+  padding-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  border-bottom: 1px solid currentColor;
+  text-underline-offset: 7px;
+}
+
+.sobre-cta-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  flex: 0 0 28px;
+}
+
+.sobre-cta-button.dark {
+  color: #1a1a1a;
+}
+
+.sobre-cta-button.dark .sobre-cta-arrow {
+  background: #1a1a1a;
+}
+
+.sobre-cta-button.yellow {
+  color: #8b6500;
+}
+
+.sobre-cta-button.yellow .sobre-cta-arrow {
+  background: #d8a100;
+}
+
+.sobre-cta-button.purple {
+  color: #4d57d7;
+}
+
+.sobre-cta-button.purple .sobre-cta-arrow {
+  background: #5865f2;
+}
+
 /* Full-bleed Expedição page: video hero + full-width description */
 .sobre-media-card {
+  position: relative;
+  width: 100%;
   margin: 0 0 36px;
+  padding: 0;
+  border: 2px solid rgba(26, 26, 26, 0.16);
   border-radius: 18px;
   overflow: hidden;
   background: #0d1117;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(13, 17, 23, 0.12);
 }
 
 .sobre-media-video {
@@ -3067,6 +3217,32 @@ button {
   display: block;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  opacity: 0.44;
+}
+
+.sobre-media-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(13, 17, 23, 0.12) 0%, rgba(13, 17, 23, 0.34) 100%);
+}
+
+.sobre-media-play {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1.5px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  padding-left: 4px;
 }
 
 .float-toggle {
@@ -3475,8 +3651,10 @@ button {
 }
 
 .mobile-topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 30;
   background: #0d1117;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -3486,6 +3664,39 @@ button {
 .mobile-topbar .logo-image.topbar {
   height: 34px;
   opacity: 0.96;
+}
+
+.mobile-section-sticky-bar {
+  position: fixed;
+  top: 66px;
+  left: 0;
+  right: 0;
+  z-index: 24;
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 20px 8px;
+  background: rgba(214, 219, 227, 0.98);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.mobile-section-sticky-bar.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-section-sticky-bar span {
+  display: inline-block;
+  font-family: var(--font-highlight);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
 }
 
 .mobile-head {
@@ -3613,13 +3824,13 @@ button {
   flex-direction: column;
   align-items: flex-start;
   gap: 9px;
-  width: min(304px, calc(100vw - 48px));
+  width: min(344px, calc(100vw - 34px));
 }
 
 .mobile-speed-item {
   width: 100%;
   min-height: 52px;
-  padding: 9px 11px 9px 14px;
+  padding: 10px 16px 10px 18px;
   border-radius: 24px;
   background: rgba(248, 248, 250, 0.98);
   box-shadow: 0 12px 30px rgba(13, 17, 23, 0.18);
@@ -3864,7 +4075,8 @@ button {
 }
 
 .resp-whatsapp-note {
-  margin: 10px 0 0 78px;
+  margin: 10px 0 0;
+  padding-left: 16px;
   font-size: 13px;
   line-height: 1.5;
   color: #6f6f78;
@@ -4137,24 +4349,44 @@ button {
 
 /* Video modal (YouTube player) */
 .video-backdrop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 24px;
+  backdrop-filter: blur(14px);
+  background: rgba(9, 12, 18, 0.68);
+  box-sizing: border-box;
 }
 
 .video-modal {
-  width: min(880px, 100%);
+  width: min(80vw, 1120px);
+  max-width: 100%;
+  margin: auto;
   background: #0d1117;
   border-radius: 18px;
   overflow: hidden;
   position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.42);
+}
+
+.video-modal.portrait {
+  width: min(85vw, 420px);
 }
 
 .video-modal-frame {
   position: relative;
   aspect-ratio: 16 / 9;
   background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.video-modal-frame iframe {
+.video-modal.portrait .video-modal-frame {
+  aspect-ratio: 9 / 16;
+}
+
+.video-modal-frame iframe,
+.video-modal-frame video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -4240,11 +4472,27 @@ button {
     align-items: flex-start;
   }
 
+  .resp-section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .resp-section-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .resp-section-title {
+    width: 100%;
+  }
+
   .content-shell {
     width: 100%;
     max-width: 100%;
     flex: 1 1 auto;
-    padding: 24px 20px 40px;
+    padding: 98px 20px 40px;
   }
 
   .mobile-topbar,
@@ -4256,7 +4504,7 @@ button {
   }
 
   .mobile-speed-dial-menu {
-    width: min(252px, calc(100vw - 64px));
+    width: min(292px, calc(100vw - 38px));
   }
 
   .small-action,
@@ -4298,8 +4546,8 @@ button {
   }
 
   .hub-footer-inner span {
-    font-size: 11px;
-    line-height: 1.4;
+    font-size: 10px;
+    line-height: 1.35;
   }
 
   .hub-footer-inner span::before {
@@ -4346,7 +4594,9 @@ button {
   }
 
   .page-subtitle {
-    margin-bottom: 24px;
+    margin-bottom: 26px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #eceff4;
     font-size: 14px;
     line-height: 1.55;
   }
@@ -4570,9 +4820,41 @@ button {
     line-height: 1.56;
   }
 
+  .sobre-cta-row {
+    margin-top: 18px;
+  }
+
+  .sobre-cta-button {
+    width: auto;
+    max-width: calc(100% - 4px);
+    gap: 10px;
+  }
+
+  .sobre-cta-text {
+    font-size: 12px;
+  }
+
+  .sobre-cta-arrow {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
+    font-size: 13px;
+  }
+
   .sobre-media-card {
     margin-bottom: 28px;
     border-radius: 16px;
+  }
+
+  .sobre-media-overlay {
+    background: linear-gradient(180deg, rgba(13, 17, 23, 0.08) 0%, rgba(13, 17, 23, 0.26) 100%);
+  }
+
+  .sobre-media-play {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+    padding-left: 3px;
   }
 
   .sobre-body .sobre-icon {

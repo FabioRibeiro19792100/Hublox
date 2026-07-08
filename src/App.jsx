@@ -27,6 +27,8 @@ const externalLinks = {
   "Guia para pais e educadores": "https://docs.google.com/document/d/e/2PACX-1vSiAvmcWNoNZUDhSlYMYeFnbKm0W-irUtdpwT0-zs1Jzp2OIA4rNEka9m9hSqD3Eu6w0UxHgIqbrkbq/pub",
 };
 
+const WHATSAPP_URL = "https://wa.me/5511998901551";
+
 // Rough heuristic for whether the machine can comfortably run Roblox Studio.
 // The browser can't truly test installability, so we combine CPU cores, device
 // memory (Chromium-only) and a tiny timed benchmark into a capable/weak verdict.
@@ -1077,12 +1079,14 @@ function App() {
   const [mobileMenuIntroActive, setMobileMenuIntroActive] = useState(false);
   const [mobileMenuIntroHighlight, setMobileMenuIntroHighlight] = useState(null);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
+  const [mobileSectionTitleVisible, setMobileSectionTitleVisible] = useState(false);
   const activeJourneyDetailRef = useRef(null);
   const [mobileJourneyStep, setMobileJourneyStep] = useState(null);
   const responsaveisMediaRef = useRef(null);
   const responsaveisCommunityRef = useRef(null);
   const contentShellRef = useRef(null);
   const rightRailRef = useRef(null);
+  const videoModalFrameRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem("hublox-lang", lang);
@@ -1226,6 +1230,21 @@ function App() {
   }, [isMobile, mobileMenuOpen]);
 
   useEffect(() => {
+    if (!isMobile || screen !== "hub") {
+      setMobileSectionTitleVisible(false);
+      return undefined;
+    }
+
+    const onScroll = () => {
+      setMobileSectionTitleVisible(window.scrollY > 110);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isMobile, screen, tab, sub, journeyView, audience, journeyDevice]);
+
+  useEffect(() => {
     if (isMobile || tab !== "jornada" || sub === "main" || !activeJourneyDetailRef.current) return;
     activeJourneyDetailRef.current.scrollIntoView({
       behavior: "smooth",
@@ -1294,6 +1313,8 @@ function App() {
     { key: "jornada", ...t.nav.jornada },
   ];
 
+  const mobileSectionTitle = activeNav.find((item) => item.key === tab)?.label || "";
+
   const toHub = (nextTab, nextSub = "main", nextJourneyView = "inline") =>
     runLoading(() => {
       setScreen("hub");
@@ -1321,6 +1342,105 @@ function App() {
     const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % langOrder.length : 0;
     setLang(langOrder[nextIndex]);
   };
+
+  const expeditionSectionActions = {
+    pt: {
+      1: {
+        button: "Ir para Jornada",
+        kicker: "Navegação interna",
+        title: "Quer abrir a Jornada agora?",
+        body: "Isso vai mudar você da Expedição para a Jornada, ainda dentro do hub. Você pode abrir essa seção agora ou continuar na Expedição.",
+        confirm: "Abrir Jornada",
+        stay: "Continuar na Expedição",
+        targetTab: "jornada",
+        theme: "dark",
+      },
+      2: {
+        button: "Ir para Ecossistema",
+        kicker: "Navegação interna",
+        title: "Quer abrir o Ecossistema agora?",
+        body: "Isso vai mudar você da Expedição para o Ecossistema, ainda dentro do hub. Você pode abrir essa seção agora ou continuar na Expedição.",
+        confirm: "Abrir Ecossistema",
+        stay: "Continuar na Expedição",
+        targetTab: "eco",
+        theme: "yellow",
+      },
+      3: {
+        button: "Ir para Comunidade",
+        kicker: "Saindo do hub",
+        title: "Quer ir para a comunidade no Discord?",
+        body: "Esse botão redireciona você para a comunidade da Expedição no Discord, fora deste site. Você pode seguir agora ou continuar na Expedição.",
+        confirm: "Abrir comunidade",
+        stay: "Continuar na Expedição",
+        label: "Comunidade no Discord",
+        theme: "purple",
+      },
+    },
+    en: {
+      1: {
+        button: "Go to Journey",
+        kicker: "Internal navigation",
+        title: "Do you want to open Journey now?",
+        body: "This will move you from Expedition to Journey, still inside the hub. You can open that section now or stay in Expedition.",
+        confirm: "Open Journey",
+        stay: "Stay in Expedition",
+        targetTab: "jornada",
+        theme: "dark",
+      },
+      2: {
+        button: "Go to Ecosystem",
+        kicker: "Internal navigation",
+        title: "Do you want to open Ecosystem now?",
+        body: "This will move you from Expedition to Ecosystem, still inside the hub. You can open that section now or stay in Expedition.",
+        confirm: "Open Ecosystem",
+        stay: "Stay in Expedition",
+        targetTab: "eco",
+        theme: "yellow",
+      },
+      3: {
+        button: "Go to Community",
+        kicker: "Leaving the hub",
+        title: "Do you want to go to the Discord community?",
+        body: "This will redirect you to the Expedition community on Discord, outside this site. You can continue now or stay in Expedition.",
+        confirm: "Open community",
+        stay: "Stay in Expedition",
+        label: "Comunidade no Discord",
+        theme: "purple",
+      },
+    },
+    es: {
+      1: {
+        button: "Ir a Jornada",
+        kicker: "Navegación interna",
+        title: "¿Quieres abrir la Jornada ahora?",
+        body: "Esto te cambia de Expedición a Jornada, todavía dentro del hub. Puedes abrir esa sección ahora o seguir en Expedición.",
+        confirm: "Abrir Jornada",
+        stay: "Seguir en Expedición",
+        targetTab: "jornada",
+        theme: "dark",
+      },
+      2: {
+        button: "Ir a Ecosistema",
+        kicker: "Navegación interna",
+        title: "¿Quieres abrir el Ecosistema ahora?",
+        body: "Esto te cambia de Expedición a Ecosistema, todavía dentro del hub. Puedes abrir esa sección ahora o seguir en Expedición.",
+        confirm: "Abrir Ecosistema",
+        stay: "Seguir en Expedición",
+        targetTab: "eco",
+        theme: "yellow",
+      },
+      3: {
+        button: "Ir a Comunidad",
+        kicker: "Saliendo del hub",
+        title: "¿Quieres ir a la comunidad en Discord?",
+        body: "Esto te redirige a la comunidad de la Expedición en Discord, fuera de este sitio. Puedes seguir ahora o continuar en Expedición.",
+        confirm: "Abrir comunidad",
+        stay: "Seguir en Expedición",
+        label: "Comunidade no Discord",
+        theme: "purple",
+      },
+    },
+  }[lang];
 
   const logoutDialogCopy = {
     pt: {
@@ -1357,6 +1477,21 @@ function App() {
     return map[kind];
   };
 
+  const openExpeditionSectionModal = (config) => {
+    setModal({
+      kind: "section-nav",
+      ...config,
+    });
+  };
+
+  const openWhatsApp = () => {
+    window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
+  };
+
+  const openVideoModal = (payload) => {
+    setVideoModal(payload);
+  };
+
   const renderDetail = (kind, { inline, onBack }) => {
     const p = detailProps(kind);
     return (
@@ -1374,6 +1509,7 @@ function App() {
         inline={inline}
         onAction={() => setModal({ label: p.modalLabel })}
         onBack={onBack}
+        onOpenVideo={() => openVideoModal({ kind: "file", src: p.loopVideo, title: p.dict.title })}
       />
     );
   };
@@ -1717,6 +1853,10 @@ function App() {
                       </button>
                     ))}
                   </div>
+                </div>
+
+                <div className={`mobile-section-sticky-bar ${mobileSectionTitleVisible ? "visible" : ""}`}>
+                  <span>{mobileSectionTitle}</span>
                 </div>
               </>
             )}
@@ -2125,16 +2265,12 @@ function App() {
               {tab === "sobre" && (
                 <section>
                   <h2 className="page-title">{t.sobre.pageTitle}</h2>
-                  <div className="sobre-media-card">
-                    <video
-                      key={heroVideo}
-                      className="sobre-media-video"
-                      src={heroVideo}
-                      controls
-                      playsInline
-                      preload="metadata"
-                    />
-                  </div>
+                  <VideoPreviewCard
+                    src={heroVideo}
+                    title={t.sobre.pageTitle}
+                    frameAt={32}
+                    onClick={() => openVideoModal({ kind: "file", src: heroVideo, title: t.sobre.pageTitle, orientation: isMobile ? "portrait" : "landscape" })}
+                  />
                   <div className="sobre-list">
                     {t.sobre.sections.map((section, index) => (
                       <div key={index} className="sobre-item">
@@ -2144,6 +2280,17 @@ function App() {
                           {section.paragraphs.map((p, i) => (
                             <p key={`${index}-${i}`} className={`sobre-paragraph ${i === 0 ? "lead" : ""}`}>{p}</p>
                           ))}
+                          {expeditionSectionActions[index] && (
+                            <div className="sobre-cta-row">
+                              <button
+                                className={`sobre-cta-button ${expeditionSectionActions[index].theme}`}
+                                onClick={() => openExpeditionSectionModal(expeditionSectionActions[index])}
+                              >
+                                <span className="sobre-cta-text">{expeditionSectionActions[index].button}</span>
+                                <span className="sobre-cta-arrow" aria-hidden="true">→</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -2211,7 +2358,7 @@ function App() {
                           <div className="resp-next-actions">
                             <button
                               className="resp-whatsapp-band"
-                              onClick={() => responsaveisCommunityRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                              onClick={openWhatsApp}
                             >
                               <span className="resp-whatsapp-icon">
                                 <img src="/whatsapp-icon.png" alt="WhatsApp" className="resp-whatsapp-icon-img" />
@@ -2237,7 +2384,7 @@ function App() {
                               <button
                                 key={`${audience}-v-${i}`}
                                 className="resp-video-card"
-                                onClick={() => setVideoModal({ id: media.videos[i], title: video.title })}
+                                onClick={() => openVideoModal({ kind: "youtube", id: media.videos[i], title: video.title, orientation: isMobile ? "portrait" : "landscape" })}
                               >
                                 <div className="resp-video-thumb">
                                   <img src={`https://img.youtube.com/vi/${media.videos[i]}/hqdefault.jpg`} alt={video.title} loading="lazy" />
@@ -2390,6 +2537,7 @@ function App() {
                       icon={icon}
                       content={railContent.expedition}
                       ui={t.ui}
+                      onWhatsApp={openWhatsApp}
                       onAction={(card) => {
                         if (card.actionKey) runEcoAction(card.actionKey);
                         if (card.modalLabel) setModal({ label: card.modalLabel });
@@ -2400,6 +2548,7 @@ function App() {
                       icon={icon}
                       content={railContent.ecosystem}
                       ui={t.ui}
+                      onWhatsApp={openWhatsApp}
                       onAction={(card) => {
                         if (card.actionKey) runEcoAction(card.actionKey);
                         if (card.modalLabel) setModal({ label: card.modalLabel });
@@ -2410,13 +2559,14 @@ function App() {
                       icon={icon}
                       content={railContent.parents}
                       ui={t.ui}
+                      onWhatsApp={openWhatsApp}
                       onAction={(card) => {
                         if (card.actionKey) runEcoAction(card.actionKey);
                         if (card.modalLabel) setModal({ label: card.modalLabel });
                       }}
                     />
                   ) : (
-                    <ContextRailPanel icon={icon} content={railContent.journeyGuest} ui={t.ui} />
+                    <ContextRailPanel icon={icon} content={railContent.journeyGuest} ui={t.ui} onWhatsApp={openWhatsApp} />
                   )}
                 </aside>
               )}
@@ -2439,23 +2589,42 @@ function App() {
         <div className="modal-backdrop" onClick={() => setModal(null)}>
           <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
             <div className="sheet-handle" />
-            <div className="modal-kicker">{t.modal.kicker}</div>
-            <h3 className="modal-title">{t.modal.openPrefix} {modalName}{t.modal.openSuffix}</h3>
+            <div className="modal-kicker">{modal.kind === "section-nav" ? modal.kicker : t.modal.kicker}</div>
+            <h3 className="modal-title">
+              {modal.kind === "section-nav" ? modal.title : `${t.modal.openPrefix} ${modalName}${t.modal.openSuffix}`}
+            </h3>
             <p className="modal-copy">
-              {externalLinks[modal.label] ? t.modal.copyNew : t.modal.copy}
+              {modal.kind === "section-nav"
+                ? modal.body
+                : externalLinks[modal.label]
+                  ? t.modal.copyNew
+                  : t.modal.copy}
             </p>
             <div className="modal-actions">
               <button
                 className="modal-primary"
                 onClick={() => {
+                  if (modal.kind === "section-nav") {
+                    if (modal.targetTab) {
+                      setModal(null);
+                      navigateHub(modal.targetTab);
+                    } else {
+                      const url = externalLinks[modal.label];
+                      if (url) window.open(url, "_blank", "noopener,noreferrer");
+                      setModal(null);
+                    }
+                    return;
+                  }
                   const url = externalLinks[modal.label];
                   if (url) window.open(url, "_blank", "noopener,noreferrer");
                   setModal(null);
                 }}
               >
-                {t.modal.continue}
+                {modal.kind === "section-nav" ? modal.confirm : t.modal.continue}
               </button>
-              <button className="modal-secondary" onClick={() => setModal(null)}>{t.modal.stay}</button>
+              <button className="modal-secondary" onClick={() => setModal(null)}>
+                {modal.kind === "section-nav" ? modal.stay : t.modal.stay}
+              </button>
             </div>
           </div>
         </div>
@@ -2463,15 +2632,25 @@ function App() {
 
       {videoModal && (
         <div className="modal-backdrop video-backdrop" onClick={() => setVideoModal(null)}>
-          <div className="video-modal" onClick={(e) => e.stopPropagation()}>
+          <div className={`video-modal ${videoModal.orientation === "portrait" ? "portrait" : "landscape"}`} onClick={(e) => e.stopPropagation()}>
             <button className="video-modal-close" onClick={() => setVideoModal(null)} aria-label={t.common.close}>✕</button>
-            <div className="video-modal-frame">
-              <iframe
-                src={`https://www.youtube.com/embed/${videoModal.id}?autoplay=1&rel=0`}
-                title={videoModal.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+            <div className="video-modal-frame" ref={videoModalFrameRef}>
+              {videoModal.kind === "youtube" ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoModal.id}?autoplay=1&rel=0`}
+                  title={videoModal.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={videoModal.src}
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                />
+              )}
             </div>
             <div className="video-modal-title">{videoModal.title}</div>
           </div>
@@ -2638,21 +2817,93 @@ function TestingCard({ title, note }) {
   );
 }
 
-function DetailScreen({ accent, kicker, title, subline, cards, action, onAction, onBack, actionTheme, videoStub, loopVideo, labels, inline = false }) {
+function VideoPreviewCard({ src, title, onClick, frameAt = 0, className = "" }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const node = videoRef.current;
+    if (!node) return undefined;
+
+    const seekToFrame = () => {
+      if (!Number.isFinite(frameAt) || frameAt <= 0) return;
+      const safeTarget = Math.min(frameAt, Math.max((node.duration || frameAt) - 0.2, 0));
+      try {
+        node.currentTime = safeTarget;
+      } catch {
+        // ignore until metadata is ready
+      }
+    };
+
+    const handleLoadedMetadata = () => seekToFrame();
+    const handleSeeked = () => node.pause();
+
+    node.pause();
+    if (node.readyState >= 1) seekToFrame();
+    node.addEventListener("loadedmetadata", handleLoadedMetadata);
+    node.addEventListener("seeked", handleSeeked);
+
+    return () => {
+      node.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      node.removeEventListener("seeked", handleSeeked);
+    };
+  }, [frameAt, src]);
+
+  return (
+    <button
+      className={`sobre-media-card ${className}`.trim()}
+      type="button"
+      onClick={onClick}
+      aria-label={title}
+    >
+      <video
+        ref={videoRef}
+        key={`${src}-${frameAt}`}
+        className="sobre-media-video"
+        src={src}
+        muted
+        playsInline
+        preload="metadata"
+      />
+      <span className="sobre-media-overlay">
+        <span className="sobre-media-play">▶</span>
+      </span>
+    </button>
+  );
+}
+
+function DetailScreen({ accent, kicker, title, subline, cards, action, onAction, onBack, actionTheme, videoStub, loopVideo, labels, inline = false, onOpenVideo }) {
+  const normalizeHeading = (value) =>
+    String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9]+/g, " ")
+      .trim()
+      .toLowerCase();
+
+  const shouldHideKicker =
+    normalizeHeading(kicker) &&
+    normalizeHeading(title) &&
+    (normalizeHeading(title).includes(normalizeHeading(kicker)) ||
+      normalizeHeading(kicker).includes(normalizeHeading(title)));
+
   return (
     <section className={inline ? "detail-screen-inline" : ""}>
       <button className="detail-back" onClick={onBack}>{inline ? labels.close : labels.back}</button>
       <div className="detail-head">
         <div>
-          <div className="detail-kicker" style={{ color: accent }}>{kicker}</div>
+          {!shouldHideKicker && <div className="detail-kicker" style={{ color: accent }}>{kicker}</div>}
           <h2 className="detail-title">{title}</h2>
         </div>
       </div>
       <div className="detail-subline" style={{ color: accent }}>{subline}</div>
       {loopVideo ? (
-        <div className="detail-loop">
-          <video src={loopVideo} autoPlay muted loop playsInline preload="metadata" />
-        </div>
+        <button className="detail-loop" onClick={onOpenVideo} type="button" aria-label={labels.howItWorks}>
+          <video src={loopVideo} muted playsInline preload="metadata" />
+          <span className="detail-loop-overlay">
+            <span className="detail-loop-play">▶</span>
+            <span className="detail-loop-caption">{labels.howItWorks}</span>
+          </span>
+        </button>
       ) : (
         videoStub && <div className="video-stub"><span>▶</span><small>{labels.howItWorks}</small></div>
       )}
@@ -2957,7 +3208,7 @@ function SafetyCard({ label, title, body }) {
   );
 }
 
-function ContextRailPanel({ icon, content, onAction, ui }) {
+function ContextRailPanel({ icon, content, onAction, onWhatsApp, ui }) {
   const renderAction = (entry) => (
     entry.actionLabel && onAction ? (
       <button
@@ -3003,7 +3254,10 @@ function ContextRailPanel({ icon, content, onAction, ui }) {
           <div className="rail-editorial-sections">
             {content.sections.map((section) => (
               <section key={section.label} className="rail-editorial-section">
-                <div className="rail-editorial-section-label">{section.label}</div>
+                <div className="rail-editorial-section-heading">
+                  <span className="rail-editorial-section-icon">{icon("target", "#5C6171")}</span>
+                  <div className="rail-editorial-section-label">{section.label}</div>
+                </div>
                 <div className="rail-editorial-list">
                   {section.items.map((item) => (
                     <article
@@ -3011,6 +3265,7 @@ function ContextRailPanel({ icon, content, onAction, ui }) {
                       className={`rail-editorial-item${item.placeholder ? " is-placeholder" : ""}`}
                     >
                       <div className="rail-item-topline">
+                        <span className="rail-item-highlight" aria-hidden="true" />
                         <span className="rail-context-card-kicker">{item.kicker}</span>
                         {item.placeholder && <span className="rail-placeholder-tag">{ui.placeholderTag}</span>}
                       </div>
@@ -3033,6 +3288,7 @@ function ContextRailPanel({ icon, content, onAction, ui }) {
               className={`rail-editorial-item${card.placeholder ? " is-placeholder" : ""}`}
             >
               <div className="rail-item-topline">
+                <span className="rail-item-highlight" aria-hidden="true" />
                 <span className="rail-context-card-kicker">{card.kicker}</span>
                 {card.placeholder && <span className="rail-placeholder-tag">{ui.placeholderTag}</span>}
               </div>
@@ -3045,7 +3301,7 @@ function ContextRailPanel({ icon, content, onAction, ui }) {
         </div>
 
         <div className="rail-editorial-end">
-          <div className="rail-whatsapp-cta" aria-label={ui.askMore}>
+          <button className="rail-whatsapp-cta" aria-label={ui.askMore} onClick={onWhatsApp}>
             <span className="rail-whatsapp-cta-icon">
               <img src="/whatsapp-icon.png" alt="WhatsApp" className="rail-whatsapp-cta-icon-img" />
             </span>
@@ -3053,7 +3309,7 @@ function ContextRailPanel({ icon, content, onAction, ui }) {
               <small>{ui.askMore}</small>
               <strong>{ui.talkToUs}</strong>
             </span>
-          </div>
+          </button>
         </div>
       </div>
     );
