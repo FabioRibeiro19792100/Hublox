@@ -1329,7 +1329,7 @@ function App() {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error("register_failed");
-      setCreatorSession({ handle: resolvedHandle, pais: country || "", estado: state || "" });
+      setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: `${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`, pais: country || "", estado: state || "" });
       runLoading(() => setScreen("hub"));
     } catch {
       setRobloxError(t.id.saveError || "Erro ao salvar. Tente novamente.");
@@ -1873,7 +1873,7 @@ function App() {
                       const res = await fetch(`${API_URL}/api/user/check/?roblox_id=${resolvedId}&roblox_username=${encodeURIComponent(resolvedHandle)}`);
                       const data = await res.json();
                       if (data.exists) {
-                        setCreatorSession({ handle: resolvedHandle, pais: "", estado: "" });
+                        setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: `${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`, pais: "", estado: "" });
                         runLoading(() => setScreen("hub"));
                       } else {
                         setIdStep("details");
@@ -2079,6 +2079,20 @@ function App() {
                 </div>
 
                 <div className="sidebar-footer">
+                  {creatorSession && (
+                    <div className="sidebar-user">
+                      <div className="sidebar-user-avatar">
+                        {creatorSession.avatarUrl
+                          ? <img src={creatorSession.avatarUrl} alt={creatorSession.displayName || creatorSession.handle} onError={(e) => { e.target.style.display = "none"; }} />
+                          : (creatorSession.displayName || creatorSession.handle || "?").charAt(0).toUpperCase()
+                        }
+                      </div>
+                      <div className="sidebar-user-info">
+                        <span className="sidebar-user-display">{creatorSession.displayName || creatorSession.handle}</span>
+                        <span className="sidebar-user-handle">@{creatorSession.handle}</span>
+                      </div>
+                    </div>
+                  )}
                   <button
                     className="sidebar-exit"
                     onClick={creatorSession ? logout : () => runLoading(() => setScreen("entry"))}
