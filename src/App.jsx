@@ -234,7 +234,6 @@ function App() {
   const [resolvedHandle, setResolvedHandle] = useState(""); // canonical username from Roblox
   const [resolvedDisplayName, setResolvedDisplayName] = useState("");
   const [resolvedId, setResolvedId] = useState(null); // numeric Roblox ID
-  const [resolvedThumbnail, setResolvedThumbnail] = useState(null);
   const [robloxValidating, setRobloxValidating] = useState(false);
   const [robloxError, setRobloxError] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
@@ -375,7 +374,6 @@ function App() {
       setResolvedHandle(data.name);
       setResolvedDisplayName(data.displayName || data.name);
       setResolvedId(data.id);
-      setResolvedThumbnail(data.thumbnailUrl || null);
       setIdStep("confirm");
     } catch {
       setRobloxError("Sem conexão. Verifique sua internet e tente novamente.");
@@ -391,7 +389,7 @@ function App() {
         roblox_username: resolvedHandle.toLowerCase(),
         roblox_id: resolvedId,
         platform: "web",
-        ...(resolvedThumbnail ? { avatar_url: resolvedThumbnail } : {}),
+        avatar_url: `${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`,
         ...(email ? { email } : {}),
         ...(birthday ? { birthday } : {}),
         ...(country ? { country } : {}),
@@ -627,7 +625,13 @@ function App() {
             <button className="back-link" onClick={() => { setIdStep("username"); setRobloxError(""); }}>{t.common.back}</button>
 
             <div className="id-confirm-card">
-              <p className="id-confirm-eyebrow">Encontramos este usuário no Roblox:</p>
+              <p className="id-confirm-eyebrow">Encontramos este usuário no Roblox</p>
+              <div className="id-confirm-avatar">
+                {resolvedId
+                  ? <img src={`${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`} alt={resolvedDisplayName} onError={(e) => { e.target.style.display = "none"; }} />
+                  : (resolvedDisplayName || resolvedHandle).charAt(0).toUpperCase()
+                }
+              </div>
               <div className="id-confirm-display">{resolvedDisplayName}</div>
               <div className="id-confirm-handle">@{resolvedHandle}</div>
               <p className="id-confirm-question">É você?</p>
@@ -680,8 +684,8 @@ function App() {
 
             <div className="id-roblox-preview">
               <div className="id-roblox-preview-avatar">
-                {resolvedThumbnail
-                  ? <img src={resolvedThumbnail} alt={resolvedDisplayName} />
+                {resolvedId
+                  ? <img src={`${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`} alt={resolvedDisplayName} onError={(e) => { e.target.style.display = "none"; }} />
                   : (resolvedDisplayName || resolvedHandle).charAt(0).toUpperCase()
                 }
               </div>
