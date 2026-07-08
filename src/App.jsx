@@ -1065,6 +1065,7 @@ function App() {
   const [resolvedHandle, setResolvedHandle] = useState("");
   const [resolvedDisplayName, setResolvedDisplayName] = useState("");
   const [resolvedId, setResolvedId] = useState(null);
+  const [resolvedThumbnailUrl, setResolvedThumbnailUrl] = useState("");
   const [robloxValidating, setRobloxValidating] = useState(false);
   const [robloxError, setRobloxError] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
@@ -1302,6 +1303,7 @@ function App() {
       setResolvedHandle(data.name);
       setResolvedDisplayName(data.displayName || data.name);
       setResolvedId(data.id);
+      setResolvedThumbnailUrl(data.thumbnailUrl || "");
       setIdStep("confirm");
     } catch {
       setRobloxError(t.id.noConnection || "Sem conexão. Verifique sua internet e tente novamente.");
@@ -1317,7 +1319,7 @@ function App() {
         roblox_username: resolvedHandle.toLowerCase(),
         roblox_id: resolvedId,
         platform: "web",
-        avatar_url: `${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`,
+        avatar_url: resolvedThumbnailUrl,
         ...(email ? { email } : {}),
         ...(birthday ? { birthday } : {}),
         ...(country ? { country } : {}),
@@ -1329,7 +1331,7 @@ function App() {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error("register_failed");
-      setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: `${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`, pais: country || "", estado: state || "" });
+      setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: resolvedThumbnailUrl, pais: country || "", estado: state || "" });
       runLoading(() => setScreen("hub"));
     } catch {
       setRobloxError(t.id.saveError || "Erro ao salvar. Tente novamente.");
@@ -1848,7 +1850,7 @@ function App() {
               <p className="id-confirm-eyebrow">{t.id.foundUser}</p>
               <div className="id-confirm-avatar">
                 <img
-                  src={`${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`}
+                  src={resolvedThumbnailUrl}
                   alt={resolvedDisplayName}
                   onError={(e) => { e.target.style.display = "none"; }}
                 />
@@ -1873,7 +1875,7 @@ function App() {
                       const res = await fetch(`${API_URL}/api/user/check/?roblox_id=${resolvedId}&roblox_username=${encodeURIComponent(resolvedHandle)}`);
                       const data = await res.json();
                       if (data.exists) {
-                        setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: `${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`, pais: "", estado: "" });
+                        setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: resolvedThumbnailUrl, pais: "", estado: "" });
                         runLoading(() => setScreen("hub"));
                       } else {
                         setIdStep("details");
@@ -1906,7 +1908,7 @@ function App() {
             <div className="id-roblox-preview">
               <div className="id-roblox-preview-avatar">
                 <img
-                  src={`${API_URL}/api/roblox/thumbnail/?user_id=${resolvedId}`}
+                  src={resolvedThumbnailUrl}
                   alt={resolvedDisplayName}
                   onError={(e) => { e.target.style.display = "none"; }}
                 />
