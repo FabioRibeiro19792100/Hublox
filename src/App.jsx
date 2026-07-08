@@ -233,8 +233,10 @@ function App() {
   const [idStep, setIdStep] = useState("username"); // "username" | "confirm" | "details"
   const [resolvedHandle, setResolvedHandle] = useState(""); // canonical username from Roblox
   const [resolvedDisplayName, setResolvedDisplayName] = useState("");
+  const [resolvedId, setResolvedId] = useState(null); // numeric Roblox ID
   const [robloxValidating, setRobloxValidating] = useState(false);
   const [robloxError, setRobloxError] = useState("");
+  const [registerLoading, setRegisterLoading] = useState(false);
   const [qDev, setQDev] = useState(null);
   const [pcTest, setPcTest] = useState(null); // null | "running" | "capable" | "weak"
   const [tab, setTab] = useState("sobre");
@@ -369,11 +371,37 @@ function App() {
       }
       setResolvedHandle(data.name);
       setResolvedDisplayName(data.displayName || data.name);
+      setResolvedId(data.id);
       setIdStep("confirm");
     } catch {
       setRobloxError("Sem conexão. Verifique sua internet e tente novamente.");
     } finally {
       setRobloxValidating(false);
+    }
+  }
+
+  async function registerWithRoblox({ country, state } = {}) {
+    setRegisterLoading(true);
+    try {
+      const body = {
+        roblox_username: resolvedHandle.toLowerCase(),
+        roblox_id: resolvedId,
+        platform: "web",
+        ...(country ? { country } : {}),
+        ...(state ? { state } : {}),
+      };
+      const res = await fetch(`${API_URL}/api/user/register/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      setCreatorSession({ handle: resolvedHandle, pais: country || data.country || "", estado: state || data.state || "" });
+      runLoading(() => setScreen("hub"));
+    } catch {
+      setRobloxError("Erro ao salvar. Tente novamente.");
+    } finally {
+      setRegisterLoading(false);
     }
   }
 
@@ -605,9 +633,36 @@ function App() {
                 </button>
                 <button
                   className="id-confirm-yes cta cta-red"
-                  onClick={() => { setRobloxHandle(resolvedHandle); setIdStep("details"); }}
+                  disabled={registerLoading}
+                  onClick={async () => {
+                    setRobloxHandle(resolvedHandle);
+                    setRegisterLoading(true);
+                    try {
+                      const res = await fetch(`${API_URL}/api/user/register/`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          roblox_username: resolvedHandle.toLowerCase(),
+                          roblox_id: resolvedId,
+                          platform: "web",
+                        }),
+                      });
+                      const data = await res.json();
+                      if (!data.created) {
+                        setCreatorSession({ handle: resolvedHandle, pais: data.country || "", estado: data.state || "" });
+                        runLoading(() => setScreen("hub"));
+                      } else {
+                        setIdStep("details");
+                      }
+                    } catch {
+                      setRobloxError("Erro ao verificar. Tente novamente.");
+                      setIdStep("username");
+                    } finally {
+                      setRegisterLoading(false);
+                    }
+                  }}
                 >
-                  Sim, sou eu
+                  {registerLoading ? "Verificando..." : "Sim, sou eu"}
                 </button>
               </div>
             </div>
@@ -660,11 +715,8 @@ function App() {
 
             <button
               className="cta cta-red id-continue"
-              disabled={!pais || (statesByCountry[pais] && !estado)}
-              onClick={() => {
-                setCreatorSession({ handle: resolvedHandle, pais, estado });
-                runLoading(() => { setScreen("creator-q"); });
-              }}
+              disabled={!pais || (statesByCountry[pais] && !estado) || registerLoading}
+              onClick={() => registerWithRoblox({ country: pais, state: estado })}
             >
               <span>{t.id.continue}</span>
               <span className="cta-badge">→</span>
