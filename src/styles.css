@@ -23,11 +23,14 @@ body,
   max-width: 100%;
   min-height: 100%;
   overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   background: #0d1117;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
 }
 
 button {
@@ -42,6 +45,7 @@ button {
   max-width: 100%;
   min-height: 100vh;
   overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 .loading-overlay {
@@ -1917,6 +1921,229 @@ button {
   z-index: 1;
 }
 
+.journey-mobile-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.journey-mobile-flow {
+  margin-top: 30px;
+}
+
+.journey-mobile-flow.has-active-step {
+  padding-bottom: 110px;
+}
+
+.journey-mobile-step-shell {
+  border-bottom: 1px solid #dfe3ea;
+  padding-bottom: 10px;
+}
+
+.journey-mobile-step-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 0 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.journey-mobile-step-headgroup {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.journey-mobile-step-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #c6c9d2;
+}
+
+.journey-mobile-step-shell.is-initial .journey-mobile-step-title {
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.journey-mobile-step-shell.open .journey-mobile-step-title {
+  color: #959cab;
+}
+
+.journey-mobile-step-tag {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 10px;
+  border: 1px solid #d8dbe2;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #7f8794;
+  background: #fff;
+}
+
+.journey-mobile-step-shell.is-initial .journey-mobile-step-tag {
+  min-height: 28px;
+  padding: 4px 11px;
+  font-size: 11px;
+}
+
+.journey-mobile-step-shell.step-1 .journey-mobile-step-tag,
+.journey-mobile-step-dock-item.step-1 .journey-mobile-step-dock-tag {
+  border-color: rgba(212, 154, 0, 0.34);
+  color: #a06d00;
+  background: rgba(255, 204, 0, 0.12);
+}
+
+.journey-mobile-step-shell.step-2 .journey-mobile-step-tag,
+.journey-mobile-step-dock-item.step-2 .journey-mobile-step-dock-tag {
+  border-color: rgba(227, 24, 55, 0.28);
+  color: #c71f39;
+  background: rgba(227, 24, 55, 0.10);
+}
+
+.journey-mobile-step-shell.step-3 .journey-mobile-step-tag,
+.journey-mobile-step-dock-item.step-3 .journey-mobile-step-dock-tag {
+  border-color: rgba(84, 92, 235, 0.3);
+  color: #545ceb;
+  background: rgba(84, 92, 235, 0.10);
+}
+
+.journey-mobile-step-chevron {
+  flex: 0 0 auto;
+  font-size: 20px;
+  line-height: 1;
+  color: #b0b6c2;
+}
+
+.journey-mobile-step-shell.is-initial .journey-mobile-step-chevron {
+  font-size: 24px;
+}
+
+.journey-mobile-step-content {
+  padding-top: 6px;
+}
+
+.journey-mobile-step-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 24;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 0 18px;
+  background: linear-gradient(180deg, rgba(248, 248, 250, 0) 0%, rgba(248, 248, 250, 0.86) 22%, rgba(248, 248, 250, 0.97) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.journey-mobile-step-dock-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px 8px;
+  border-radius: 0;
+  border: 0;
+  border-top: 1px solid #dfe3ea;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  text-align: left;
+}
+
+.journey-mobile-step-dock-item.step-1 {
+  background: rgba(245, 197, 24, 0.72);
+  border-top-color: rgba(160, 109, 0, 0.28);
+}
+
+.journey-mobile-step-dock-item.step-2 {
+  background: rgba(227, 24, 55, 0.78);
+  border-top-color: rgba(255, 255, 255, 0.18);
+}
+
+.journey-mobile-step-dock-item.step-3 {
+  background: rgba(84, 92, 235, 0.74);
+  border-top-color: rgba(255, 255, 255, 0.18);
+}
+
+.journey-mobile-step-dock-headgroup {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.journey-mobile-step-dock-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #a3a8b3;
+}
+
+.journey-mobile-step-dock-tag {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 9px;
+  border: 1px solid #d8dbe2;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #7f8794;
+  background: #fff;
+}
+
+.journey-mobile-step-dock-chevron {
+  flex: 0 0 auto;
+  font-size: 18px;
+  line-height: 1;
+  color: #b4bac5;
+}
+
+.journey-mobile-step-dock-item.step-1 .journey-mobile-step-dock-title,
+.journey-mobile-step-dock-item.step-1 .journey-mobile-step-dock-chevron {
+  color: #1a1a1a;
+}
+
+.journey-mobile-step-dock-item.step-2 .journey-mobile-step-dock-title,
+.journey-mobile-step-dock-item.step-2 .journey-mobile-step-dock-chevron,
+.journey-mobile-step-dock-item.step-3 .journey-mobile-step-dock-title,
+.journey-mobile-step-dock-item.step-3 .journey-mobile-step-dock-chevron {
+  color: #ffffff;
+}
+
+.journey-mobile-step-dock-item.step-1 .journey-mobile-step-dock-tag {
+  border-color: rgba(26, 26, 26, 0.14);
+  background: rgba(255, 255, 255, 0.42);
+  color: #7b5600;
+}
+
+.journey-mobile-step-dock-item.step-2 .journey-mobile-step-dock-tag,
+.journey-mobile-step-dock-item.step-3 .journey-mobile-step-dock-tag {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
 .journey-card {
   width: 100%;
   border: 2px solid #ebebeb;
@@ -3264,21 +3491,33 @@ button {
 .mobile-head {
   height: 66px;
   display: grid;
-  grid-template-columns: 36px 1fr 36px;
+  grid-template-columns: 92px 1fr 92px;
+  grid-template-areas: "menu brand actions";
   align-items: center;
   justify-content: stretch;
   gap: 0;
 }
 
 .mobile-brand {
+  grid-area: brand;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding-left: 0;
+  padding: 0 10px;
+}
+
+.mobile-head-actions {
+  grid-area: actions;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
 }
 
 .mobile-lang-cycle,
-.mobile-logout-toggle {
+.mobile-logout-toggle,
+.mobile-speed-dial-toggle.topbar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -3294,11 +3533,32 @@ button {
 }
 
 .mobile-lang-cycle {
-  justify-self: start;
+  justify-self: auto;
 }
 
 .mobile-logout-toggle {
-  justify-self: end;
+  justify-self: auto;
+}
+
+.mobile-speed-dial-toggle.topbar {
+  grid-area: menu;
+  position: relative;
+  justify-self: start;
+  z-index: 42;
+  box-shadow: none;
+  isolation: auto;
+}
+
+.mobile-speed-dial-toggle.topbar::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  z-index: -1;
+  background: radial-gradient(circle, rgba(227, 24, 55, 0.22) 0%, rgba(227, 24, 55, 0.12) 42%, rgba(227, 24, 55, 0) 72%);
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.22s ease, transform 0.22s ease, background 0.22s ease;
 }
 
 .mobile-tag {
@@ -3330,15 +3590,15 @@ button {
 .mobile-speed-dial {
   position: fixed;
   z-index: 40;
-  right: 18px;
-  bottom: 96px;
+  left: 18px;
+  top: 78px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px) scale(0.96);
-  transform-origin: bottom right;
+  transform-origin: top left;
   transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
@@ -3351,16 +3611,16 @@ button {
 .mobile-speed-dial-menu {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 9px;
-  width: min(272px, calc(100vw - 78px));
+  width: min(304px, calc(100vw - 48px));
 }
 
 .mobile-speed-item {
   width: 100%;
   min-height: 52px;
   padding: 9px 11px 9px 14px;
-  border-radius: 18px;
+  border-radius: 24px;
   background: rgba(248, 248, 250, 0.98);
   box-shadow: 0 12px 30px rgba(13, 17, 23, 0.18);
   display: inline-flex;
@@ -3453,6 +3713,14 @@ button {
   transition: opacity 0.22s ease, transform 0.22s ease, background 0.22s ease;
 }
 
+.mobile-speed-dial-toggle.topbar {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  width: 36px;
+  height: 36px;
+}
+
 .mobile-speed-dial-toggle.open {
   background: #e31837;
 }
@@ -3460,6 +3728,7 @@ button {
 .mobile-speed-dial-toggle.open::before {
   background: radial-gradient(circle, rgba(227, 24, 55, 0.28) 0%, rgba(227, 24, 55, 0.16) 44%, rgba(227, 24, 55, 0) 76%);
   transform: scale(1);
+  opacity: 1;
 }
 
 @keyframes mobileSpeedItemIn {
@@ -4357,6 +4626,40 @@ button {
     padding: 20px 18px 18px;
   }
 
+  .device-switch.compact-mobile {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0 0 18px;
+  }
+
+  .device-switch.compact-mobile .device-switch-option {
+    min-height: 0;
+    padding: 12px 12px 11px;
+    border-radius: 16px;
+  }
+
+  .device-switch.compact-mobile .device-switch-option::after {
+    top: 10px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .device-switch.compact-mobile .device-switch-icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+  }
+
+  .device-switch.compact-mobile .device-switch-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .device-switch.compact-mobile .device-switch-copy {
+    gap: 2px;
+  }
+
   .device-switch-copy strong {
     font-size: 21px;
     font-weight: 700;
@@ -4364,6 +4667,16 @@ button {
 
   .device-switch-copy small {
     font-size: 13px;
+  }
+
+  .device-switch.compact-mobile .device-switch-copy strong {
+    font-size: 16px;
+    line-height: 1.05;
+  }
+
+  .device-switch.compact-mobile .device-switch-copy small {
+    font-size: 11px;
+    line-height: 1.2;
   }
 
   .journey-step-label {

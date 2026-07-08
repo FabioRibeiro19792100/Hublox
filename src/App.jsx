@@ -1078,6 +1078,7 @@ function App() {
   const [mobileMenuIntroHighlight, setMobileMenuIntroHighlight] = useState(null);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const activeJourneyDetailRef = useRef(null);
+  const [mobileJourneyStep, setMobileJourneyStep] = useState(null);
   const responsaveisMediaRef = useRef(null);
   const responsaveisCommunityRef = useRef(null);
   const contentShellRef = useRef(null);
@@ -1225,12 +1226,12 @@ function App() {
   }, [isMobile, mobileMenuOpen]);
 
   useEffect(() => {
-    if (tab !== "jornada" || sub === "main" || !activeJourneyDetailRef.current) return;
+    if (isMobile || tab !== "jornada" || sub === "main" || !activeJourneyDetailRef.current) return;
     activeJourneyDetailRef.current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-  }, [sub, tab]);
+  }, [isMobile, sub, tab]);
 
   useEffect(() => {
     if (sub === "mob") setJourneyDevice("mobile");
@@ -1662,24 +1663,34 @@ function App() {
                 <header className="mobile-topbar">
                   <div className="mobile-head">
                     <button
-                      className="mobile-lang-cycle"
-                      type="button"
-                      onClick={cycleLang}
-                      aria-label={`Switch language from ${langLabels[lang]}`}
+                      className={`mobile-speed-dial-toggle topbar ${mobileMenuOpen ? "open" : ""}`}
+                      aria-label={mobileMenuOpen ? t.common.closeMenu : t.common.openMenu}
+                      aria-expanded={mobileMenuOpen}
+                      onClick={() => setMobileMenuOpen((open) => !open)}
                     >
-                      {langLabels[lang]}
+                      {icon(mobileMenuOpen ? "close" : "menu", "#FFFFFF")}
                     </button>
+                    <div className="mobile-head-actions">
+                      <button
+                        className="mobile-lang-cycle"
+                        type="button"
+                        onClick={cycleLang}
+                        aria-label={`Switch language from ${langLabels[lang]}`}
+                      >
+                        {langLabels[lang]}
+                      </button>
+                      <button
+                        className="mobile-logout-toggle"
+                        type="button"
+                        onClick={() => setLogoutConfirmOpen(true)}
+                        aria-label={t.account.logout}
+                      >
+                        {icon("logout", "#FFFFFF")}
+                      </button>
+                    </div>
                     <div className="mobile-brand">
                       <Logo usage="topbar" alt={t.common.logoAlt} />
                     </div>
-                    <button
-                      className="mobile-logout-toggle"
-                      type="button"
-                      onClick={() => setLogoutConfirmOpen(true)}
-                      aria-label={t.account.logout}
-                    >
-                      {icon("logout", "#FFFFFF")}
-                    </button>
                   </div>
                 </header>
 
@@ -1707,14 +1718,6 @@ function App() {
                     ))}
                   </div>
                 </div>
-                <button
-                  className={`mobile-speed-dial-toggle ${mobileMenuOpen ? "open" : ""}`}
-                  aria-label={mobileMenuOpen ? t.common.closeMenu : t.common.openMenu}
-                  aria-expanded={mobileMenuOpen}
-                  onClick={() => setMobileMenuOpen((open) => !open)}
-                >
-                  {icon(mobileMenuOpen ? "close" : "menu", "#FFFFFF")}
-                </button>
               </>
             )}
 
@@ -1733,12 +1736,17 @@ function App() {
                   <h2 className="page-title">{t.journey.pageTitle}</h2>
                   <p className="page-subtitle">{t.journey.pageSubtitle}</p>
 
-                  <div className="device-switch" role="tablist" aria-label={t.journey.deviceAria}>
+                  <div
+                    className={`device-switch ${isMobile && journeyDevice ? "compact-mobile" : ""}`}
+                    role="tablist"
+                    aria-label={t.journey.deviceAria}
+                  >
                     <button
                       className={`device-switch-option ${journeyDevice === "mobile" ? "active yellow" : ""}`}
                       onClick={() => runSectionLoading(() => {
                         setJourneyDevice("mobile");
-                        if (sub === "bilde" || sub === "tut") setSub("main");
+                        setMobileJourneyStep(null);
+                        setSub("main");
                       })}
                     >
                       <span className="device-switch-icon">{icon("mobile", journeyDevice === "mobile" ? palette.yellowText : "#8A8A8A")}</span>
@@ -1751,7 +1759,8 @@ function App() {
                       className={`device-switch-option ${journeyDevice === "computer" ? "active dark" : ""}`}
                       onClick={() => runSectionLoading(() => {
                         setJourneyDevice("computer");
-                        if (sub === "mob") setSub("main");
+                        setMobileJourneyStep(null);
+                        setSub("main");
                       })}
                     >
                       <span className="device-switch-icon">{icon("laptop", journeyDevice === "computer" ? palette.text : "#8A8A8A")}</span>
@@ -1768,7 +1777,140 @@ function App() {
                     </div>
                   )}
 
-                  {journeyDevice && (
+                  {journeyDevice && isMobile && (
+                    <div className={`journey-mobile-flow ${mobileJourneyStep ? "has-active-step" : ""}`}>
+                      {[
+                        { id: "1", tag: t.journey.labelMobile, title: `${t.journey.stepLabel} 1` },
+                        { id: "2", tag: t.publish.kicker, title: `${t.journey.stepLabel} 2` },
+                        { id: "3", tag: t.community.kicker, title: `${t.journey.stepLabel} 3` },
+                      ]
+                        .filter((step) => !mobileJourneyStep || Number(step.id) <= Number(mobileJourneyStep))
+                        .map((step) => (
+                          <div
+                            key={step.id}
+                            className={`journey-mobile-step-shell step-${step.id} ${mobileJourneyStep === step.id ? "open" : ""} ${!mobileJourneyStep ? "is-initial" : ""}`}
+                          >
+                            <button
+                              className="journey-mobile-step-header"
+                              onClick={() => {
+                                setSub("main");
+                                setMobileJourneyStep((prev) => (prev === step.id ? null : step.id));
+                              }}
+                            >
+                              <span className="journey-mobile-step-headgroup">
+                                <span className="journey-mobile-step-title">{step.title}</span>
+                                <span className="journey-mobile-step-tag">{step.tag}</span>
+                              </span>
+                              <span className="journey-mobile-step-chevron" aria-hidden="true">
+                                {mobileJourneyStep === step.id ? "∧" : "∨"}
+                              </span>
+                            </button>
+                            {mobileJourneyStep === step.id && (
+                              <div className="journey-mobile-step-content">
+                                {step.id === "1" && (
+                                  journeyDevice === "mobile" ? (
+                                    <div className="journey-node">
+                                      <JourneyCard
+                                        accent="yellow"
+                                        kicker={t.journey.cardMobile.kicker}
+                                        title={t.journey.cardMobile.title}
+                                        body={t.journey.cardMobile.body}
+                                        note={t.journey.cardMobile.note}
+                                        hideKicker
+                                        open={sub === "mob"}
+                                        onClick={() => setSub(sub === "mob" ? "main" : "mob")}
+                                      />
+                                      {sub === "mob" && (
+                                        <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                                          {renderDetail("mob", { inline: true, onBack: () => runSectionLoading(() => setSub("main")) })}
+                                        </InlineJourneyDetail>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <>
+                                      <div className="journey-node">
+                                        <JourneyCard
+                                          accent="red"
+                                          kicker={t.journey.cardBilde.kicker}
+                                          title={t.journey.cardBilde.title}
+                                          body={t.journey.cardBilde.body}
+                                          note={t.journey.cardBilde.note}
+                                          hideKicker
+                                          open={sub === "bilde"}
+                                          onClick={() => setSub(sub === "bilde" ? "main" : "bilde")}
+                                        />
+                                        {sub === "bilde" && (
+                                          <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                                            {renderDetail("bilde", { inline: true, onBack: () => runSectionLoading(() => setSub("main")) })}
+                                          </InlineJourneyDetail>
+                                        )}
+                                      </div>
+
+                                      <div className="journey-node journey-node-separator">
+                                        <div className="or-separator"><span>{t.journey.or}</span></div>
+                                      </div>
+
+                                      <div className="journey-node">
+                                        <JourneyCard
+                                          accent="blue"
+                                          kicker={t.journey.cardTut.kicker}
+                                          title={t.journey.cardTut.title}
+                                          body={t.journey.cardTut.body}
+                                          note={t.journey.cardTut.note}
+                                          hideKicker
+                                          open={sub === "tut"}
+                                          onClick={() => setSub(sub === "tut" ? "main" : "tut")}
+                                        />
+                                        {sub === "tut" && (
+                                          <InlineJourneyDetail containerRef={activeJourneyDetailRef}>
+                                            {renderDetail("tut", { inline: true, onBack: () => runSectionLoading(() => setSub("main")) })}
+                                          </InlineJourneyDetail>
+                                        )}
+                                      </div>
+                                    </>
+                                  )
+                                )}
+                                {step.id === "2" && (
+                                  <PublishJourneyCard dict={t.publish} hideKicker onClick={() => setModal({ label: "Roblox" })} />
+                                )}
+                                {step.id === "3" && (
+                                  <CommunityJourneyCard dict={t.community} hideKicker onClick={() => setModal({ label: "Comunidade no Discord" })} />
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+
+                      {mobileJourneyStep && (
+                        <div className="journey-mobile-step-dock">
+                          {[
+                            { id: "1", tag: t.journey.labelMobile, title: `${t.journey.stepLabel} 1` },
+                            { id: "2", tag: t.publish.kicker, title: `${t.journey.stepLabel} 2` },
+                            { id: "3", tag: t.community.kicker, title: `${t.journey.stepLabel} 3` },
+                          ]
+                            .filter((step) => Number(step.id) > Number(mobileJourneyStep))
+                            .map((step) => (
+                              <button
+                                key={step.id}
+                                className={`journey-mobile-step-dock-item step-${step.id}`}
+                                onClick={() => {
+                                  setSub("main");
+                                  setMobileJourneyStep(step.id);
+                                }}
+                              >
+                                <span className="journey-mobile-step-dock-headgroup">
+                                  <span className="journey-mobile-step-dock-title">{step.title}</span>
+                                  <span className="journey-mobile-step-dock-tag">{step.tag}</span>
+                                </span>
+                                <span className="journey-mobile-step-dock-chevron" aria-hidden="true">∨</span>
+                              </button>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {journeyDevice && !isMobile && (
                     <div className="journey-stack">
                       {journeyDevice === "mobile" && (
                         <div className="journey-step">
@@ -1793,6 +1935,7 @@ function App() {
                       )}
 
                       {journeyDevice === "computer" && (
+                        <>
                         <div className="journey-step">
                           <div className="journey-step-label">{t.journey.stepLabel} 1</div>
                           <div className="journey-node">
@@ -1811,11 +1954,13 @@ function App() {
                               </InlineJourneyDetail>
                             )}
                           </div>
+                        </div>
 
-                          <div className="journey-node journey-node-separator">
-                            <div className="or-separator"><span>{t.journey.or}</span></div>
-                          </div>
+                        <div className="journey-node journey-node-separator">
+                          <div className="or-separator"><span>{t.journey.or}</span></div>
+                        </div>
 
+                        <div className="journey-step">
                           <div className="journey-step-label">{t.journey.stepLabel} 2</div>
                           <div className="journey-node">
                             <JourneyCard
@@ -1834,11 +1979,12 @@ function App() {
                             )}
                           </div>
                         </div>
+                        </>
                       )}
 
                       <div className="journey-step">
                         <div className="journey-step-label">
-                          Passo {journeyDevice === "computer" ? "3" : "2"}
+                          {t.journey.stepLabel} {journeyDevice === "computer" ? "3" : "2"}
                         </div>
                         <div className="journey-node">
                           <PublishJourneyCard dict={t.publish} onClick={() => setModal({ label: "Roblox" })} />
@@ -1847,7 +1993,7 @@ function App() {
 
                       <div className="journey-step">
                         <div className="journey-step-label">
-                          Passo {journeyDevice === "computer" ? "4" : "3"}
+                          {t.journey.stepLabel} {journeyDevice === "computer" ? "4" : "3"}
                         </div>
                         <div className="journey-node">
                           <CommunityJourneyCard dict={t.community} onClick={() => setModal({ label: "Comunidade no Discord" })} />
@@ -2013,7 +2159,7 @@ function App() {
                     <h2 className="page-title">{t.responsaveis.pageTitle}</h2>
                     <p className="page-subtitle wider">{t.responsaveis.pageSubtitle}</p>
 
-                    <div className="device-switch" role="tablist" aria-label={t.responsaveis.audienceAria}>
+                    <div className={`device-switch ${isMobile && audience ? "compact-mobile" : ""}`} role="tablist" aria-label={t.responsaveis.audienceAria}>
                       <button
                         className={`device-switch-option red ${audience === "responsaveis" ? "active" : ""}`}
                         onClick={() => {
@@ -2278,12 +2424,14 @@ function App() {
             </main>
           </div>
 
-          <footer className="hub-footer">
-            <div className="hub-footer-inner">
-              <strong>{t.common.footerTitle}</strong>
-              <span>{t.common.footerNote}</span>
-            </div>
-          </footer>
+          {!(isMobile && tab === "jornada") && (
+            <footer className="hub-footer">
+              <div className="hub-footer-inner">
+                <strong>{t.common.footerTitle}</strong>
+                <span>{t.common.footerNote}</span>
+              </div>
+            </footer>
+          )}
         </div>
       )}
 
@@ -2560,21 +2708,23 @@ function DetailFact({ title, body }) {
   );
 }
 
-function JourneyCard({ accent, kicker, title, body, note, open = false, onClick }) {
+function JourneyCard({ accent, kicker, title, body, note, open = false, onClick, compact = false, hideKicker = false }) {
   return (
     <button className={`journey-card ${accent} ${open ? "open" : ""}`} onClick={onClick} aria-expanded={open}>
       <div className="journey-head">
         <div className="journey-head-copy">
-          <div className="journey-kicker">{kicker}</div>
+          {!hideKicker && <div className="journey-kicker">{kicker}</div>}
           <div className="journey-title">{title}</div>
           <div className="journey-body">{body}</div>
         </div>
         <span className="journey-head-chevron" aria-hidden="true">{open ? "∧" : "∨"}</span>
       </div>
-      <div className="journey-foot">
-        <p>{note}</p>
-        <span>›</span>
-      </div>
+      {!compact && (
+        <div className="journey-foot">
+          <p>{note}</p>
+          <span>›</span>
+        </div>
+      )}
     </button>
   );
 }
@@ -2591,11 +2741,11 @@ function PromoCard({ theme, kicker, title, body, note, button, onClick, compact 
   );
 }
 
-function CommunityJourneyCard({ dict, onClick }) {
+function CommunityJourneyCard({ dict, onClick, hideKicker = false }) {
   return (
     <div className="community-journey-card">
       <div className="community-orb" />
-      <div className="promo-kicker">{dict.kicker}</div>
+      {!hideKicker && <div className="promo-kicker">{dict.kicker}</div>}
       <div className="promo-title">{dict.title}</div>
       <p className="community-journey-copy">{dict.copy}</p>
       <button className="community-journey-button" onClick={onClick}>
@@ -2605,10 +2755,10 @@ function CommunityJourneyCard({ dict, onClick }) {
   );
 }
 
-function PublishJourneyCard({ dict, onClick }) {
+function PublishJourneyCard({ dict, onClick, hideKicker = false }) {
   return (
     <div className="publish-journey-card">
-      <div className="promo-kicker">{dict.kicker}</div>
+      {!hideKicker && <div className="promo-kicker">{dict.kicker}</div>}
       <div className="promo-title">{dict.title}</div>
       <div className="publish-journey-headline">
         <div>{dict.line1}</div>
