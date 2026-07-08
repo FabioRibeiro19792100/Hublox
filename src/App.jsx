@@ -391,6 +391,7 @@ function App() {
         roblox_username: resolvedHandle.toLowerCase(),
         roblox_id: resolvedId,
         platform: "web",
+        ...(resolvedThumbnail ? { avatar_url: resolvedThumbnail } : {}),
         ...(email ? { email } : {}),
         ...(birthday ? { birthday } : {}),
         ...(country ? { country } : {}),
@@ -644,7 +645,7 @@ function App() {
                     setRobloxHandle(resolvedHandle);
                     setRegisterLoading(true);
                     try {
-                      const res = await fetch(`${API_URL}/api/leads/check-identifier/?roblox_username=${encodeURIComponent(resolvedHandle)}`);
+                      const res = await fetch(`${API_URL}/api/user/check/?roblox_id=${resolvedId}&roblox_username=${encodeURIComponent(resolvedHandle)}`);
                       const data = await res.json();
                       if (data.exists) {
                         setCreatorSession({ handle: resolvedHandle, pais: "", estado: "" });
