@@ -1360,7 +1360,22 @@ function App() {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error("register_failed");
-      setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: resolvedThumbnailUrl, pais: country || "", estado: state || "", birthday: birthday || "" });
+      let displayName = resolvedDisplayName;
+      let avatarUrl = resolvedThumbnailUrl;
+      let sessionBirthday = birthday || "";
+      try {
+        const meRes = await fetch(`${API_URL}/api/user/me/?roblox_id=${resolvedId}`);
+        if (meRes.ok) {
+          const me = await meRes.json();
+          if (me.found) {
+            if (me.display_name) displayName = me.display_name;
+            if (me.avatar_url) avatarUrl = me.avatar_url;
+            if (me.birthday) sessionBirthday = me.birthday;
+            if (me.age != null) setUserAge(me.age);
+          }
+        }
+      } catch { /* non-blocking */ }
+      setCreatorSession({ handle: resolvedHandle, displayName, avatarUrl, birthday: sessionBirthday, pais: country || "", estado: state || "" });
       runLoading(() => setScreen("hub"));
     } catch {
       setRobloxError(t.id.saveError || "Erro ao salvar. Tente novamente.");
