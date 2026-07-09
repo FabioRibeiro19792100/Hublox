@@ -1905,7 +1905,26 @@ function App() {
                       const res = await fetch(`${API_URL}/api/user/check/?roblox_id=${resolvedId}&roblox_username=${encodeURIComponent(resolvedHandle)}`);
                       const data = await res.json();
                       if (data.exists) {
-                        setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: resolvedThumbnailUrl, pais: "", estado: "" });
+                        let displayName = resolvedDisplayName;
+                        let avatarUrl = resolvedThumbnailUrl;
+                        let birthday = "";
+                        let pais = "";
+                        let estado = "";
+                        try {
+                          const meRes = await fetch(`${API_URL}/api/user/me/?roblox_id=${resolvedId}`);
+                          if (meRes.ok) {
+                            const me = await meRes.json();
+                            if (me.found) {
+                              if (me.display_name) displayName = me.display_name;
+                              if (me.avatar_url) avatarUrl = me.avatar_url;
+                              if (me.birthday) birthday = me.birthday;
+                              if (me.country_code) pais = me.country_code;
+                              if (me.state) estado = me.state;
+                              if (me.age != null) setUserAge(me.age);
+                            }
+                          }
+                        } catch { /* non-blocking: proceed with resolved data */ }
+                        setCreatorSession({ handle: resolvedHandle, displayName, avatarUrl, birthday, pais, estado });
                         runLoading(() => setScreen("hub"));
                       } else {
                         setIdStep("details");
