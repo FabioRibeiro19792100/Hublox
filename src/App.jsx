@@ -1068,6 +1068,7 @@ function App() {
   const [resolvedThumbnailUrl, setResolvedThumbnailUrl] = useState("");
   const [robloxValidating, setRobloxValidating] = useState(false);
   const [robloxError, setRobloxError] = useState("");
+  const [userAge, setUserAge] = useState(null);
   const [registerLoading, setRegisterLoading] = useState(false);
   const [regEmail, setRegEmail] = useState("");
   const [regBirthday, setRegBirthday] = useState("");
@@ -1107,6 +1108,16 @@ function App() {
   useEffect(() => {
     if (creatorSession) localStorage.setItem("hublox-creator-session", JSON.stringify(creatorSession));
   }, [creatorSession]);
+
+  useEffect(() => {
+    if (!creatorSession?.birthday) { setUserAge(null); return; }
+    const birth = new Date(creatorSession.birthday);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    setUserAge(age);
+  }, [creatorSession?.birthday]);
 
   useEffect(() => {
     localStorage.setItem("hublox-eco-progress", JSON.stringify(ecoProgress));
@@ -1177,6 +1188,7 @@ function App() {
     setCreatorSession(null);
     setEcoProgress({ viewed: {}, done: {}, pending: {} });
     setAchievements({});
+    setUserAge(null);
     setWelcomeBack(false);
     runLoading(() => setScreen("entry"));
   };
@@ -1331,7 +1343,7 @@ function App() {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error("register_failed");
-      setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: resolvedThumbnailUrl, pais: country || "", estado: state || "" });
+      setCreatorSession({ handle: resolvedHandle, displayName: resolvedDisplayName, avatarUrl: resolvedThumbnailUrl, pais: country || "", estado: state || "", birthday: birthday || "" });
       runLoading(() => setScreen("hub"));
     } catch {
       setRobloxError(t.id.saveError || "Erro ao salvar. Tente novamente.");
@@ -1377,10 +1389,11 @@ function App() {
     setPcTest(null);
   };
 
+  const canSeePais = userAge === null || userAge >= 23;
   const activeNav = [
     { key: "sobre", ...t.nav.sobre },
     { key: "eco", ...t.nav.eco },
-    { key: "pais", ...t.nav.pais },
+    ...(canSeePais ? [{ key: "pais", ...t.nav.pais }] : []),
     { key: "jornada", ...t.nav.jornada },
   ];
 
