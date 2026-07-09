@@ -1181,6 +1181,22 @@ function App() {
     return () => { cancelled = true; clearInterval(id); };
   }, [ecoProgress, creatorSession]);
 
+  const resetIdFlow = () => {
+    setRobloxHandle("");
+    setIdStep("username");
+    setResolvedHandle("");
+    setResolvedDisplayName("");
+    setResolvedId(null);
+    setResolvedThumbnailUrl("");
+    setRobloxError("");
+    setRobloxValidating(false);
+    setRegEmail("");
+    setRegBirthday("");
+    setPais("");
+    setEstado("");
+    setRegisterLoading(false);
+  };
+
   const logout = () => {
     localStorage.removeItem("hublox-creator-session");
     localStorage.removeItem("hublox-eco-progress");
@@ -1190,6 +1206,7 @@ function App() {
     setAchievements({});
     setUserAge(null);
     setWelcomeBack(false);
+    resetIdFlow();
     runLoading(() => setScreen("entry"));
   };
 
@@ -1761,6 +1778,7 @@ function App() {
                   }
                   runLoading(() => {
                     resetCreatorQ();
+                    resetIdFlow();
                     setScreen("creator-id");
                   });
                 }}
