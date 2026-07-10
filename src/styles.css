@@ -2058,8 +2058,8 @@ button {
 
 .journey-mobile-step-title {
   min-width: 102px;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   color: #c6c9d2;
@@ -2075,18 +2075,18 @@ button {
 }
 
 .journey-mobile-step-tag {
-  flex: 0 0 104px;
+  flex: 0 0 112px;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  width: 104px;
-  min-height: 24px;
-  padding: 3px 10px;
+  width: 112px;
+  min-height: 32px;
+  padding: 5px 13px;
   border: 1px solid #d8dbe2;
   border-radius: 999px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #7f8794;
   background: #fff;
@@ -2125,7 +2125,7 @@ button {
 
 .journey-mobile-step-chevron {
   flex: 0 0 auto;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1;
   color: #b0b6c2;
 }

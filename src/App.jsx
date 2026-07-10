@@ -28,7 +28,7 @@ const externalLinks = {
   "Guia para pais e educadores": "https://docs.google.com/document/d/e/2PACX-1vSiAvmcWNoNZUDhSlYMYeFnbKm0W-irUtdpwT0-zs1Jzp2OIA4rNEka9m9hSqD3Eu6w0UxHgIqbrkbq/pub",
 };
 
-const WHATSAPP_URL = "https://wa.me/5511998901551";
+const WHATSAPP_URL = "https://wa.me/5511919522455";
 
 // Rough heuristic for whether the machine can comfortably run Roblox Studio.
 // The browser can't truly test installability, so we combine CPU cores, device
