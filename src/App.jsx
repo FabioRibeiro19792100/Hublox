@@ -24,7 +24,7 @@ const externalLinks = {
   "Studio web": "https://exproblox.studio",
   "Roblox Studio": "https://create.roblox.com/store/asset/125743081126783/Expedio-Roblox",
   "Roblox": "https://create.roblox.com/docs/pt-br/production/publishing/publish-games-and-places#publicar-jogos",
-  "Comunidade no Discord": "https://discord.gg/exproblox",
+  "Comunidade no Discord": "https://discord.gg/Kvh3ccfrM8",
   "Guia para pais e educadores": "https://docs.google.com/document/d/e/2PACX-1vSiAvmcWNoNZUDhSlYMYeFnbKm0W-irUtdpwT0-zs1Jzp2OIA4rNEka9m9hSqD3Eu6w0UxHgIqbrkbq/pub",
 };
 
@@ -1846,7 +1846,7 @@ function App() {
             <button className="back-link" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.back}</button>
 
             <h1 className="id-heading">{t.id.heading}</h1>
-            <p className="entry-text">{t.id.intro}</p>
+            <p className="entry-text id-intro">{t.id.intro}</p>
 
             <div className="id-form">
               <div className="id-field">
@@ -1967,7 +1967,7 @@ function App() {
             <button className="back-link" onClick={() => setIdStep("confirm")}>{t.common.back}</button>
 
             <h1 className="id-heading">{t.id.heading}</h1>
-            <p className="entry-text">{t.id.intro}</p>
+            <p className="entry-text id-intro">{t.id.intro}</p>
 
             <div className="id-roblox-preview">
               <div className="id-roblox-preview-avatar">
@@ -2748,39 +2748,6 @@ function App() {
                       <>
                         <p className="resp-intro">{aud.intro}</p>
 
-                        <div className="resp-group">
-                          <div className="resp-section-head">
-                            <span className="resp-section-icon">
-                              {icon(audience === "responsaveis" ? "compass" : "pathway", audience === "responsaveis" ? palette.red : palette.blue)}
-                            </span>
-                            <h3 className="resp-section-title">{aud.stepsLabel}</h3>
-                          </div>
-                          <div className="resp-steps">
-                            {aud.steps.map((step, i) => (
-                              <div key={i} className="resp-step">
-                                <div className="resp-step-num">{String(i + 1).padStart(2, "0")}</div>
-                                <div className="resp-step-title">{step.title}</div>
-                                <div className="resp-step-body">{step.body}</div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="resp-next-actions">
-                            <button
-                              className="resp-whatsapp-band"
-                              onClick={openWhatsApp}
-                            >
-                              <span className="resp-whatsapp-icon">
-                                <img src="/whatsapp-icon.png" alt="WhatsApp" className="resp-whatsapp-icon-img" />
-                              </span>
-                              <span className="resp-whatsapp-copy">
-                                <small>{t.responsaveis.stepCta.prompt}</small>
-                                <strong>{t.responsaveis.stepCta.talk}</strong>
-                              </span>
-                            </button>
-                            <p className="resp-whatsapp-note">{t.responsaveis.stepCta.note}</p>
-                          </div>
-                        </div>
-
                         <div className="resp-group" ref={responsaveisMediaRef}>
                           <div className="resp-section-head">
                             <span className="resp-section-icon">
@@ -2813,7 +2780,7 @@ function App() {
                             <span className="resp-section-icon">
                               {icon("book-open", palette.blue)}
                             </span>
-                            <h3 className="resp-section-title">{t.responsaveis.docsLabel}</h3>
+                            <h3 className="resp-section-title">{aud.docsLabel}</h3>
                           </div>
                           <div className={`resp-doc-list ${audience}`}>
                             {aud.docs.map((doc, i) => (
@@ -2830,6 +2797,39 @@ function App() {
                                 </span>
                               </button>
                             ))}
+                          </div>
+                        </div>
+
+                        <div className="resp-group">
+                          <div className="resp-section-head">
+                            <span className="resp-section-icon">
+                              {icon(audience === "responsaveis" ? "compass" : "pathway", audience === "responsaveis" ? palette.red : palette.blue)}
+                            </span>
+                            <h3 className="resp-section-title">{aud.stepsLabel}</h3>
+                          </div>
+                          <div className="resp-steps">
+                            {aud.steps.map((step, i) => (
+                              <div key={i} className="resp-step">
+                                <div className="resp-step-num">{String(i + 1).padStart(2, "0")}</div>
+                                <div className="resp-step-title">{step.title}</div>
+                                <div className="resp-step-body">{step.body}</div>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="resp-next-actions">
+                            <button
+                              className="resp-whatsapp-band"
+                              onClick={openWhatsApp}
+                            >
+                              <span className="resp-whatsapp-icon">
+                                <img src="/whatsapp-icon.png" alt="WhatsApp" className="resp-whatsapp-icon-img" />
+                              </span>
+                              <span className="resp-whatsapp-copy">
+                                <small>{t.responsaveis.stepCta.prompt}</small>
+                                <strong>{t.responsaveis.stepCta.talk}</strong>
+                              </span>
+                            </button>
+                            <p className="resp-whatsapp-note">{t.responsaveis.stepCta.note}</p>
                           </div>
                         </div>
 

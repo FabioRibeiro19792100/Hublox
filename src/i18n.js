@@ -23,11 +23,11 @@ const pt = {
     talkToUs: "Fale com a gente",
   },
   entry: {
-    title: ["Quer criar?", "Desce pro", "play."],
-    p1: "Este hub é seu ponto de entrada na Expedição, um projeto onde jovens aprendem a criar jogos e experiências digitais.",
-    p2: "Entenda o programa, escolha sua jornada e participe.",
+    title: ["Quer criar?", "Então desce pro play!"],
+    p1: "Este hub é a porta de entrada na Expedição Roblox, um projeto onde jovens aprendem a criar experiências digitais jogáveis.",
+    p2: "Entenda o projeto, escolha por onde começar e participe!",
     p3: "Um projeto conjunto entre Mastertech e Roblox.",
-    cta: "Bora pro play",
+    cta: "Bora pro play!",
     footnote: "Mastertech · Expedição Roblox",
   },
   anamnese: {
@@ -37,8 +37,8 @@ const pt = {
     parentBody: "Quero entender e acompanhar meu filho.",
   },
   id: {
-    heading: "Antes de começar",
-    intro: "Conta pra gente quem é você na Roblox e de onde está falando.",
+    heading: "Antes de começar…",
+    intro: "conta pra gente quem é você na Roblox e de onde está falando!",
     robloxLabel: "@ do Roblox",
     robloxPlaceholder: "seu_usuario",
     noAccount: "Não tem conta?",
@@ -71,22 +71,22 @@ const pt = {
     optComputer: "No computador",
     optMobile: "No celular",
     empty: "Responda para ver o caminho ↑",
-    directLink: "ou vá direto para a Jornada ›",
+    directLink: "ou vá direto para uma jornada de criação ›",
     testing: {
       title: "Testando seu computador…",
       note: "Vendo se dá pra instalar o Roblox Studio aqui.",
     },
     results: {
       mobile: {
-        kicker: "no celular, seu caminho é",
-        title: "Crie no celular",
-        body: "Studio mobile — app de criação da Mastertech para celular.",
+        kicker: "no celular, seu caminho é o",
+        title: "Studio mobile",
+        body: "App da Mastertech para criar fora do PC.",
         button: "Ir para o Studio mobile →",
       },
       plugin: {
         kicker: "seu computador aguenta",
-        title: "Criar no Roblox Studio",
-        body: "Dá pra instalar o Roblox Studio. Use o plugin da Expedição e crie por lá.",
+        title: "Rodar o Roblox Studio",
+        body: "É possível instalar a ferramenta e usar o plugin da Expedição para criar por lá.",
         button: "Abrir o plugin no Roblox Studio →",
         webHint: "Prefere testar pelo navegador? Studio web",
       },
@@ -413,6 +413,7 @@ const pt = {
       responsaveis: {
         intro: "Entenda o projeto e saiba como apoiar seu filho nessa jornada de aprendizado e criação.",
         stepsLabel: "Como acompanhar",
+        docsLabel: "Guias e materiais de apoio",
         steps: [
           { title: "Entender o projeto", body: "Conheça a Expedição Roblox, como funciona e como acompanhar seu filho." },
           { title: "Participar junto", body: "Viva a jornada de criação em família, presencial ou de casa." },
@@ -434,6 +435,7 @@ const pt = {
       educadores: {
         intro: "Use o Roblox como ferramenta pedagógica e inspire seus alunos a criar e aprender.",
         stepsLabel: "Como participar",
+        docsLabel: "Guias e materiais pedagógicos",
         steps: [
           { title: "Usar na sala de aula", body: "Materiais pedagógicos e como integrar o Roblox ao seu planejamento." },
           { title: "Ampliar repertório e rede", body: "Participe de eventos para educadores e amplie sua rede." },
@@ -544,10 +546,10 @@ const en = {
   },
   entry: {
     title: ["Got an idea?", "Hit play."],
-    p1: "This hub is your entry point into the Expedition, a project where teens learn to create games and digital experiences.",
-    p2: "Understand the program, choose your journey and join in.",
+    p1: "This hub is the gateway into Roblox Expedition, a project where teens learn to create playable digital experiences.",
+    p2: "Understand the project, choose where to start and join in!",
     p3: "A joint project between Mastertech and Roblox.",
-    cta: "Let's play",
+    cta: "Let's play!",
     footnote: "Mastertech · Roblox Expedition",
   },
   anamnese: {
@@ -557,8 +559,8 @@ const en = {
     parentBody: "I want to understand and follow along with my child.",
   },
   id: {
-    heading: "Before you start",
-    intro: "Tell us who you are on Roblox and where you're joining from.",
+    heading: "Before you start…",
+    intro: "tell us who you are on Roblox and where you're joining from!",
     robloxLabel: "Roblox @",
     robloxPlaceholder: "your_username",
     noAccount: "Don't have an account?",
@@ -591,7 +593,7 @@ const en = {
     optComputer: "On the computer",
     optMobile: "On the phone",
     empty: "Answer to see your path ↑",
-    directLink: "or go straight to the Journey ›",
+    directLink: "or go straight to a creation journey ›",
     testing: {
       title: "Testing your computer…",
       note: "Checking whether Roblox Studio can run here.",
@@ -599,14 +601,14 @@ const en = {
     results: {
       mobile: {
         kicker: "on the phone, your path is",
-        title: "Create on Mobile",
-        body: "Studio mobile — Mastertech's creation app for phones.",
+        title: "Studio mobile",
+        body: "Mastertech's app for creating away from the PC.",
         button: "Go to Studio mobile →",
       },
       plugin: {
-        kicker: "your computer can handle it",
-        title: "Create in Roblox Studio",
-        body: "Roblox Studio can be installed. Use the Expedition plugin and create there.",
+        kicker: "your computer can handle",
+        title: "Running Roblox Studio",
+        body: "You can install the tool and use the Expedition plugin to create there.",
         button: "Open the plugin in Roblox Studio →",
         webHint: "Rather test in the browser? web Studio",
       },
@@ -933,6 +935,7 @@ const en = {
       responsaveis: {
         intro: "Understand the project and learn how to support your child on this journey of learning and creating.",
         stepsLabel: "How to follow along",
+        docsLabel: "Guides and support materials",
         steps: [
           { title: "Understand the project", body: "Get to know Roblox Expedition, how it works and how to follow your child." },
           { title: "Take part together", body: "Live the creation journey as a family, in person or from home." },
@@ -954,6 +957,7 @@ const en = {
       educadores: {
         intro: "Use Roblox as a teaching tool and inspire your students to create and learn.",
         stepsLabel: "How to take part",
+        docsLabel: "Guides and teaching materials",
         steps: [
           { title: "Use in the classroom", body: "Teaching materials and how to fit Roblox into your lesson plans." },
           { title: "Expand your toolkit and network", body: "Join events for educators and grow your network." },
@@ -1064,8 +1068,8 @@ const es = {
   },
   entry: {
     title: ["¿Listo para crear?", "Es hora de", "jugar."],
-    p1: "Este hub es tu punto de entrada a la Expedición, un proyecto donde los jóvenes aprenden a crear juegos y experiencias digitales.",
-    p2: "Conoce el programa, elige tu camino y participa.",
+    p1: "Este hub es la puerta de entrada a la Expedición Roblox, un proyecto donde los jóvenes aprenden a crear experiencias digitales jugables.",
+    p2: "¡Conoce el proyecto, elige por dónde empezar y participa!",
     p3: "Un proyecto conjunto entre Mastertech y Roblox.",
     cta: "¡A jugar!",
     footnote: "Mastertech · Expedición Roblox",
@@ -1077,8 +1081,8 @@ const es = {
     parentBody: "Quiero entender y acompañar a mi hijo.",
   },
   id: {
-    heading: "Antes de empezar",
-    intro: "Cuéntanos quién eres en Roblox y desde dónde nos hablas.",
+    heading: "Antes de empezar…",
+    intro: "¡cuéntanos quién eres en Roblox y desde dónde nos hablas!",
     robloxLabel: "@ de Roblox",
     robloxPlaceholder: "tu_usuario",
     noAccount: "¿No tienes cuenta?",
@@ -1111,22 +1115,22 @@ const es = {
     optComputer: "En la computadora",
     optMobile: "En el celular",
     empty: "Responde para ver tu camino ↑",
-    directLink: "o ve directo a la Jornada ›",
+    directLink: "o ve directo a una jornada de creación ›",
     testing: {
       title: "Probando tu computadora…",
       note: "Viendo si se puede instalar Roblox Studio aquí.",
     },
     results: {
       mobile: {
-        kicker: "en el celular, tu camino es",
-        title: "Crear en el Celular",
-        body: "Studio mobile — app de creación de Mastertech para celular.",
+        kicker: "en el celular, tu camino es el",
+        title: "Studio mobile",
+        body: "App de Mastertech para crear fuera de la PC.",
         button: "Ir al Studio mobile →",
       },
       plugin: {
         kicker: "tu computadora aguanta",
-        title: "Crear en Roblox Studio",
-        body: "Se puede instalar Roblox Studio. Usa el plugin de la Expedición y crea ahí.",
+        title: "Ejecutar Roblox Studio",
+        body: "Es posible instalar la herramienta y usar el plugin de la Expedición para crear ahí.",
         button: "Abrir el plugin en Roblox Studio →",
         webHint: "¿Prefieres probar desde el navegador? Studio web",
       },
@@ -1453,6 +1457,7 @@ const es = {
       responsaveis: {
         intro: "Entiende el proyecto y descubre cómo apoyar a tu hijo en esta jornada de aprendizaje y creación.",
         stepsLabel: "Cómo acompañar",
+        docsLabel: "Guías y materiales de apoyo",
         steps: [
           { title: "Entender el proyecto", body: "Conoce la Expedición Roblox, cómo funciona y cómo acompañar a tu hijo." },
           { title: "Participar juntos", body: "Vive la jornada de creación en familia, presencial o desde casa." },
@@ -1474,6 +1479,7 @@ const es = {
       educadores: {
         intro: "Usa Roblox como herramienta pedagógica e inspira a tus alumnos a crear y aprender.",
         stepsLabel: "Cómo participar",
+        docsLabel: "Guías y materiales pedagógicos",
         steps: [
           { title: "Usar en el aula", body: "Materiales pedagógicos y cómo integrar Roblox a tu planificación." },
           { title: "Ampliar repertorio y red", body: "Participa en eventos para educadores y amplía tu red." },
