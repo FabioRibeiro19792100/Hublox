@@ -842,6 +842,9 @@ button {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .sidebar-nav {
@@ -981,10 +984,11 @@ button {
   margin: 0;
   align-self: flex-start;
   background: transparent;
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   padding: 2px;
+  box-shadow: none;
 }
 
 .sidebar-lang-switch .lang-option {

@@ -3615,7 +3615,13 @@ function ContextRailPanel({ icon, content, onAction, onWhatsApp, ui }) {
 
         {content.sections && (
           <div className="rail-editorial-sections">
-            {content.sections.map((section) => (
+            {content.sections
+              .map((section) => ({
+                ...section,
+                items: (section.items || []).filter((item) => !item.placeholder),
+              }))
+              .filter((section) => section.items.length > 0)
+              .map((section) => (
               <section key={section.label} className="rail-editorial-section">
                 <div className="rail-editorial-section-heading">
                   <span className="rail-editorial-section-icon">{icon("target", "#5C6171")}</span>
@@ -3645,7 +3651,7 @@ function ContextRailPanel({ icon, content, onAction, onWhatsApp, ui }) {
         )}
 
         <div className="rail-editorial-list">
-          {content.cards.map((card) => (
+          {content.cards.filter((card) => !card.placeholder).map((card) => (
             <section
               key={card.title}
               className={`rail-editorial-item${card.placeholder ? " is-placeholder" : ""}`}
