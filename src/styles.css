@@ -1891,17 +1891,17 @@ button {
 }
 
 .content-shell {
-  width: 830px;
-  max-width: 830px;
-  flex: 0 0 830px;
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 0;
   padding: 40px 48px 108px;
   overflow-y: auto;
 }
 
 .right-rail {
-  flex: 1 1 0;
-  min-width: 320px;
+  flex: 0 0 420px;
+  width: 420px;
+  max-width: 420px;
   min-height: 0;
   border-left: 1px solid #d8d9e1;
   background: linear-gradient(180deg, #e7e8ee 0%, #e0e2ea 100%);
