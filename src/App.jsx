@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import badgesCorUrl from "../badges-cor.svg";
 import badgesLinhaUrl from "../badges-linha.svg";
-import AnimatedLogo from "./components/AnimatedLogo";
 import { translations, langOrder, langLabels } from "./i18n";
 
 const palette = {
@@ -1776,7 +1775,8 @@ function App() {
         <div className="entry-page dark-shell">
           <section className="entry-shell">
             <div className="entry-card">
-              <Logo usage="entry" alt={t.common.logoAlt} />
+              <EntryLogos />
+              <div className="entry-reach">{t.common.reach}</div>
               <h1 className="entry-title">
                 {t.entry.title.map((line, i) => (
                   <span key={i}>{i > 0 && <br />}{line}</span>
@@ -1815,7 +1815,7 @@ function App() {
       {screen === "anamnese" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" alt={t.common.logoAlt} />
+            <EntryLogos />
             <button className="back-link" onClick={() => setScreen("entry")}>{t.common.back}</button>
             <div className="choice-list">
               <ChoiceCard
@@ -1842,7 +1842,7 @@ function App() {
       {screen === "creator-id" && idStep === "username" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" alt={t.common.logoAlt} />
+            <EntryLogos />
             <button className="back-link" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.back}</button>
 
             <h1 className="id-heading">{t.id.heading}</h1>
@@ -1889,7 +1889,7 @@ function App() {
       {screen === "creator-id" && idStep === "confirm" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" alt={t.common.logoAlt} />
+            <EntryLogos />
             <button className="back-link" onClick={() => { setIdStep("username"); setRobloxError(""); }}>{t.common.back}</button>
 
             <div className="id-confirm-card">
@@ -1963,7 +1963,7 @@ function App() {
       {screen === "creator-id" && idStep === "details" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" alt={t.common.logoAlt} />
+            <EntryLogos />
             <button className="back-link" onClick={() => setIdStep("confirm")}>{t.common.back}</button>
 
             <h1 className="id-heading">{t.id.heading}</h1>
@@ -2057,7 +2057,7 @@ function App() {
       {screen === "creator-q" && (
         <section className="entry-shell dark-shell">
           <div className="entry-card">
-            <Logo usage="entry" alt={t.common.logoAlt} />
+            <EntryLogos />
             <button className="back-link" onClick={() => setScreen("creator-id")}>{t.common.back}</button>
 
             <QuestionCard number="01" title={t.creatorQ.q1Title}>
@@ -2123,7 +2123,7 @@ function App() {
             {!isMobile && (
               <aside className="sidebar">
                 <div className="sidebar-logo">
-                  <Logo usage="sidebar" alt={t.common.logoAlt} />
+                  <EntryLogos />
                   <LangSwitch lang={lang} setLang={setLang} className="sidebar-lang-switch" />
                 </div>
                 <div className="sidebar-nav">
@@ -2207,7 +2207,7 @@ function App() {
                       </button>
                     </div>
                     <div className="mobile-brand">
-                      <Logo usage="topbar" alt={t.common.logoAlt} />
+                      <EntryLogos />
                     </div>
                   </div>
                 </header>
@@ -2262,6 +2262,7 @@ function App() {
                 <section className="journey-page">
                   <div className="journey-page-hero">
                     <div className="journey-page-copy">
+                      <ReachBadge text={t.common.reach} />
                       <h2 className="page-title">{t.journey.pageTitle}</h2>
                       <p className="page-subtitle">{t.journey.pageSubtitle}</p>
                     </div>
@@ -2273,12 +2274,12 @@ function App() {
                           onClick={() => setJourneyDrawerOpen(true)}
                           aria-label={journeyDrawerCopy.button}
                         >
-                          <AnimatedLogo />
+                          <span className="journey-page-mascot-icon"><LogoMark /></span>
                           <span className="journey-page-mascot-note">{t.journey.mascotFollow}</span>
                         </button>
                       ) : (
                         <div className="journey-page-mascot" aria-hidden="true">
-                          <AnimatedLogo />
+                          <span className="journey-page-mascot-icon"><LogoMark /></span>
                           <span className="journey-page-mascot-note">{t.journey.mascotFollow}</span>
                         </div>
                       )
@@ -2555,6 +2556,7 @@ function App() {
 
               {tab === "eco" && (
                 <section>
+                  <ReachBadge text={t.common.reach} />
                   <h2 className="page-title">{t.eco.pageTitle}</h2>
                   <p className="page-subtitle">{t.eco.pageSubtitle}</p>
 
@@ -2673,6 +2675,7 @@ function App() {
 
               {tab === "sobre" && (
                 <section>
+                  <ReachBadge text={t.common.reach} />
                   <h2 className="page-title">{t.sobre.pageTitle}</h2>
                   <VideoPreviewCard
                     src={heroVideo}
@@ -2712,6 +2715,7 @@ function App() {
                 const media = audience ? responsaveisMedia[audience] : null;
                 return (
                   <section>
+                    <ReachBadge text={t.common.reach} />
                     <h2 className="page-title">{t.responsaveis.pageTitle}</h2>
                     <p className="page-subtitle wider">{t.responsaveis.pageSubtitle}</p>
 
@@ -3062,7 +3066,7 @@ function LoadingOverlay({ loading, hub }) {
   return (
     <div className={`loading-overlay ${loading ? "show" : ""} ${hub ? "light" : ""}`}>
       <div className="loading-stack">
-        <Logo usage="loading" />
+        <EntryLogos />
         <div className="loading-icons">
           <div className="load-icon">{<Icon name="target" color={palette.red} />}</div>
           <div className="load-icon">{<Icon name="stair" color={palette.blue} />}</div>
@@ -3078,9 +3082,40 @@ function Logo({ usage = "entry", alt = "Expedição Roblox" }) {
   return (
     <img
       className={`logo-image ${usage}`}
-      src="/uploads/expedicao-roblox-logo.png"
+      src="/uploads/logo-expedicao-brasil.png"
       alt={alt}
     />
+  );
+}
+
+// Co-branded Brasil + México lockup, used across every entry-flow screen.
+function EntryLogos() {
+  return (
+    <div className="entry-logos">
+      <img className="logo-image entry-pair" src="/uploads/logo-expedicao-brasil.png" alt="Expedição Roblox Brasil" />
+      <span className="entry-logos-divider" />
+      <img className="logo-image entry-pair" src="/uploads/logo-expedicao-mexico.svg" alt="Expedición Roblox México" />
+    </div>
+  );
+}
+
+// "Now in Brazil and Mexico" badge shown atop the hub pages.
+function ReachBadge({ text }) {
+  return (
+    <div className="reach-badge">
+      <span className="reach-badge-dot reach-badge-dot-br" />
+      <span className="reach-badge-dot reach-badge-dot-mx" />
+      {text}
+    </div>
+  );
+}
+
+// Icon-only mark (the Expedição "compass" symbol), for tight spots and the journey mascot.
+function LogoMark({ color = "#e31837" }) {
+  return (
+    <svg className="logo-mark" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M1200 1200H317.193L777.666 734.146L392.32 511.667L203.589 1200H0V0H879.242L418.771 465.854L804.115 688.333L992.847 0H1200V1200Z" fill={color} />
+    </svg>
   );
 }
 

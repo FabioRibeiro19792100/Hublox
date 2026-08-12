@@ -12,3 +12,6 @@ dist/
 
 # Reference-only legacy landing project (contains its own .env/secrets and heavy assets)
 /LANDING-OLD/
+
+# Logo source files (.ai/.pdf/originals) — the web build uses public/uploads/logo-expedicao-brasil.png
+/brand-assets/

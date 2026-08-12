@@ -8,6 +8,7 @@ const pt = {
   langName: "Português",
   common: {
     back: "← Voltar",
+    reach: "A Expedição já chegou no Brasil e no México",
     exit: "← Sair",
     creatorTag: "creator",
     logoAlt: "Expedição Roblox",
@@ -530,6 +531,7 @@ const en = {
   langName: "English",
   common: {
     back: "← Back",
+    reach: "The Expedition has arrived in Brazil and Mexico",
     exit: "← Exit",
     creatorTag: "creator",
     logoAlt: "Roblox Expedition",
@@ -1052,6 +1054,7 @@ const es = {
   langName: "Español",
   common: {
     back: "← Volver",
+    reach: "La Expedición ya llegó a Brasil y a México",
     exit: "← Salir",
     creatorTag: "creator",
     logoAlt: "Expedición Roblox",
