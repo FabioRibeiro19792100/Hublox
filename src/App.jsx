@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getStoredUtms } from "./utm";
 import badgesCorUrl from "../badges-cor.svg";
 import badgesLinhaUrl from "../badges-linha.svg";
 import { translations, langOrder, langLabels } from "./i18n";
@@ -1359,6 +1360,13 @@ function App() {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error("register_failed");
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form_submit",
+        form_id: "hublox-cadastro",
+        roblox_username: resolvedHandle.toLowerCase(),
+        ...getStoredUtms(),
+      });
       let displayName = resolvedDisplayName;
       let avatarUrl = resolvedThumbnailUrl;
       let sessionBirthday = birthday || "";
