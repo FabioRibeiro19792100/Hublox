@@ -1353,6 +1353,7 @@ function App() {
         ...(birthday ? { birthday } : {}),
         ...(country ? { country } : {}),
         ...(state ? { state } : {}),
+        ...getStoredUtms(),
       };
       const res = await fetch(`${API_URL}/api/user/register/`, {
         method: "POST",
