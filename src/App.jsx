@@ -3103,7 +3103,7 @@ function EntryLogos() {
     <div className="entry-logos">
       <img className="logo-image entry-pair" src="/uploads/logo-expedicao-brasil.png" alt="Expedição Roblox Brasil" />
       <span className="entry-logos-divider" />
-      <img className="logo-image entry-pair" src="/uploads/logo-expedicao-mexico.svg" alt="Expedición Roblox México" />
+      <img className="logo-image entry-pair" src="/uploads/logo-mexico.png" alt="Expedición Roblox México" />
     </div>
   );
 }
