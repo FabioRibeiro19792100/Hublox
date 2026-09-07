@@ -22,7 +22,7 @@ const palette = {
 const externalLinks = {
   "Studio mobile": "https://exproblox.studio",
   "Studio web": "https://exproblox.studio",
-  "Roblox Studio": "https://create.roblox.com/store/asset/136917294264499",
+  "Roblox Studio": "https://create.roblox.com/store/asset/125743081126783/EXP-ROBLOX",
   "Roblox": "https://create.roblox.com/docs/pt-br/production/publishing/publish-games-and-places#publicar-jogos",
   "Comunidade no Discord": "https://discord.gg/Kvh3ccfrM8",
   "Guia para pais e educadores": "https://docs.google.com/document/d/e/2PACX-1vSiAvmcWNoNZUDhSlYMYeFnbKm0W-irUtdpwT0-zs1Jzp2OIA4rNEka9m9hSqD3Eu6w0UxHgIqbrkbq/pub",
