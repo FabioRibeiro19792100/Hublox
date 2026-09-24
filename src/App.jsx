@@ -1881,7 +1881,7 @@ function App() {
             </section>
           </div>
 
-          <LandingStory content={railContent.expedition} cardsLabel={t.landing.cardsLabel} ui={t.ui} onWhatsApp={openWhatsApp} />
+          <LandingStory content={railContent.expedition} cardsLabel={t.landing.cardsLabel} />
 
           <section className="landing-join dark-shell">
             <div className="landing-join-inner">
@@ -3698,7 +3698,7 @@ function SafetyCard({ label, title, body }) {
 }
 
 // Landing version of the Expedição rail: same content, laid out as full-width page sections.
-function LandingStory({ content, cardsLabel, ui, onWhatsApp }) {
+function LandingStory({ content, cardsLabel }) {
   const visible = (items = []) => items.filter((item) => !item.placeholder);
   const groups = [
     ...(content.sections || []).map((section) => ({ label: section.label, items: visible(section.items) })),
@@ -3759,15 +3759,6 @@ function LandingStory({ content, cardsLabel, ui, onWhatsApp }) {
             </div>
           </div>
         ))}
-
-        <button className="landing-whatsapp" onClick={onWhatsApp}>
-          <img src="/whatsapp-icon.png" alt="" className="landing-whatsapp-icon" />
-          <span className="landing-whatsapp-copy">
-            <small>{ui.askMore}</small>
-            <strong>{ui.talkToUs}</strong>
-          </span>
-          <span aria-hidden="true">→</span>
-        </button>
       </div>
     </section>
   );
