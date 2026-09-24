@@ -31,6 +31,12 @@ const pt = {
     cta: "Bora pro play!",
     footnote: "Mastertech · Expedição Roblox",
   },
+  landing: {
+    entryLink: "Só quer conhecer o projeto? Veja sem fazer login",
+    lead: "Conheça a iniciativa que leva adolescentes de 13 a 18 anos a criar experiências digitais na Roblox, agora no Brasil e no México.",
+    joinTitle: "Quer participar?",
+    joinBody: "Entre no hub para escolher por onde começar e acompanhar a sua jornada.",
+  },
   anamnese: {
     creatorTitle: "Sou creator",
     creatorBody: "Quero criar e publicar um jogo no Roblox.",
@@ -279,6 +285,7 @@ const pt = {
           "A Expedição Roblox é uma iniciativa da Mastertech que leva adolescentes de treze a dezoito anos para dentro do processo de criação de experiências digitais na Roblox.",
           "O participante entra como criador, alguém que projeta, testa e publica o próprio espaço dentro da plataforma.",
           "A Mastertech estrutura o percurso, oferece o acompanhamento e organiza cada etapa para que o jovem saia da expedição com experiências de fato construídas e publicadas.",
+          "A Expedição começou no Brasil, com paradas no Rio de Janeiro, em São Paulo e em Brasília, e agora chega ao México: entre setembro e novembro de 2026, passa pela Cidade do México, Querétaro, Nuevo León, Jalisco e Oaxaca.",
         ],
       },
       {
@@ -302,8 +309,8 @@ const pt = {
         kicker: "A continuidade",
         paragraphs: [
           "A jornada continua depois que a atividade termina.",
-          "A Expedição Roblox se sustenta numa comunidade que prolonga o aprendizado, onde os criadores trocam, mostram o que fizeram, recebem retorno e encontram referências para o próximo passo.",
-          "Esse tecido de convivência dá continuidade ao percurso e permite que cada participante avance no próprio ritmo com apoio dos colegas e dos mediadores.",
+          "Os materiais da Expedição seguem disponíveis depois de cada encontro, para que o criador retome o que começou, teste novas ideias e publique novas versões.",
+          "Camps, materiais para escolas e desafios criativos ampliam o que começou em campo e permitem que cada participante avance no próprio ritmo, com o apoio dos mediadores.",
         ],
       },
     ],
@@ -554,6 +561,12 @@ const en = {
     cta: "Let's play!",
     footnote: "Mastertech · Roblox Expedition",
   },
+  landing: {
+    entryLink: "Just want to learn about the project? Take a look without logging in",
+    lead: "Meet the initiative that brings teens aged 13 to 18 into creating digital experiences on Roblox, now in Brazil and Mexico.",
+    joinTitle: "Want to join?",
+    joinBody: "Enter the hub to choose where to start and follow your journey.",
+  },
   anamnese: {
     creatorTitle: "I'm a creator",
     creatorBody: "I want to create and publish a game on Roblox.",
@@ -802,6 +815,7 @@ const en = {
           "Roblox Expedition is a Mastertech initiative that brings teens aged thirteen to eighteen inside the process of creating digital experiences on Roblox.",
           "Each participant joins as a creator, someone who designs, tests and publishes their own space within the platform.",
           "Mastertech structures the path, provides the support and organizes every stage so that young people leave the expedition with experiences they have actually built and published.",
+          "The Expedition started in Brazil, with stops in Rio de Janeiro, São Paulo and Brasília, and is now coming to Mexico: between September and November 2026 it visits Mexico City, Querétaro, Nuevo León, Jalisco and Oaxaca.",
         ],
       },
       {
@@ -825,8 +839,8 @@ const en = {
         kicker: "The continuity",
         paragraphs: [
           "The journey continues after the activity ends.",
-          "Roblox Expedition is built on a community that extends the learning, where creators exchange ideas, show what they've made, get feedback and find references for their next step.",
-          "This fabric of community keeps the path going and lets each participant move forward at their own pace with the support of peers and mentors.",
+          "The Expedition's materials stay available after each meetup, so creators can pick up where they left off, try new ideas and publish new versions.",
+          "Camps, school materials and creative challenges extend what started in the field and let each participant move forward at their own pace, with the support of mentors.",
         ],
       },
     ],
@@ -1077,6 +1091,12 @@ const es = {
     cta: "¡A jugar!",
     footnote: "Mastertech · Expedición Roblox",
   },
+  landing: {
+    entryLink: "¿Solo quieres conocer el proyecto? Míralo sin iniciar sesión",
+    lead: "Conoce la iniciativa que lleva a adolescentes de 13 a 18 años a crear experiencias digitales en Roblox, ahora en Brasil y México.",
+    joinTitle: "¿Quieres participar?",
+    joinBody: "Entra al hub para elegir por dónde empezar y seguir tu jornada.",
+  },
   anamnese: {
     creatorTitle: "Soy creator",
     creatorBody: "Quiero crear y publicar un juego en Roblox.",
@@ -1325,6 +1345,7 @@ const es = {
           "La Expedición Roblox es una iniciativa de Mastertech que lleva a adolescentes de trece a dieciocho años al proceso de creación de experiencias digitales en Roblox.",
           "El participante entra como creador, alguien que diseña, prueba y publica su propio espacio dentro de la plataforma.",
           "Mastertech estructura el recorrido, ofrece el acompañamiento y organiza cada etapa para que el joven salga de la expedición con experiencias realmente construidas y publicadas.",
+          "La Expedición empezó en Brasil, con paradas en Río de Janeiro, São Paulo y Brasília, y ahora llega a México: entre septiembre y noviembre de 2026 pasa por Ciudad de México, Querétaro, Nuevo León, Jalisco y Oaxaca.",
         ],
       },
       {
@@ -1348,8 +1369,8 @@ const es = {
         kicker: "La continuidad",
         paragraphs: [
           "La jornada continúa después de que la actividad termina.",
-          "La Expedición Roblox se sostiene en una comunidad que prolonga el aprendizaje, donde los creadores intercambian, muestran lo que hicieron, reciben retroalimentación y encuentran referencias para el siguiente paso.",
-          "Ese tejido de convivencia da continuidad al recorrido y permite que cada participante avance a su propio ritmo con el apoyo de sus compañeros y de los mediadores.",
+          "Los materiales de la Expedición siguen disponibles después de cada encuentro, para que el creador retome lo que empezó, pruebe nuevas ideas y publique nuevas versiones.",
+          "Camps, materiales para escuelas y desafíos creativos amplían lo que empezó en campo y permiten que cada participante avance a su propio ritmo, con el apoyo de los mediadores.",
         ],
       },
     ],

@@ -1515,6 +1515,50 @@ button {
   color: #505563;
 }
 
+.rail-route-list {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+}
+
+.rail-route-stop {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 0;
+  border-top: 1px solid rgba(75, 79, 100, 0.12);
+}
+
+.rail-route-stop:first-child {
+  border-top: 0;
+}
+
+.rail-route-date {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #161922;
+}
+
+.rail-route-place {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #505563;
+}
+
+.rail-route-tbc {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #8a8f9c;
+}
+
 .rail-editorial-stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5775,5 +5819,146 @@ button {
 
   .loading-icons {
     gap: 14px;
+  }
+}
+
+/* Public landing: Expedição content without login */
+.entry-landing-link {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.entry-landing-link:hover {
+  color: #fff;
+}
+
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.landing-hero-inner,
+.landing-join-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 24px 48px;
+}
+
+.landing-hero-inner .back-link {
+  display: inline-block;
+  margin-bottom: 28px;
+}
+
+.landing-title {
+  font-family: var(--font-highlight);
+  margin: 0 0 18px;
+  font-size: clamp(44px, 9vw, 72px);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+.landing-lead {
+  max-width: 620px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.landing-body {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+}
+
+.landing-main {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 48px 48px 72px 24px;
+}
+
+.landing-rail {
+  flex: 0 0 420px;
+  width: 420px;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  border-left: 1px solid #d8d9e1;
+  background: linear-gradient(180deg, #e7e8ee 0%, #e0e2ea 100%);
+}
+
+.landing-rail .rail-context {
+  padding-bottom: 48px;
+}
+
+.landing-join-inner {
+  max-width: 560px;
+  text-align: left;
+}
+
+.landing-join-title {
+  font-family: var(--font-highlight);
+  margin: 0 0 12px;
+  font-size: clamp(34px, 7vw, 46px);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.landing-page .entry-footer {
+  margin-top: 0;
+}
+
+@media (max-width: 879px) {
+  .landing-body {
+    flex-direction: column;
+  }
+
+  .landing-main {
+    padding: 32px 20px 48px;
+  }
+
+  .landing-hero-inner,
+  .landing-join-inner {
+    padding: 64px 20px 40px;
+  }
+
+  .landing-rail {
+    flex: none;
+    width: 100%;
+    border-left: 0;
+    border-top: 1px solid #d8d9e1;
+  }
+
+  .landing-rail .rail-context {
+    padding: 36px 20px 40px;
+  }
+
+  .landing-rail .rail-editorial-end {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }

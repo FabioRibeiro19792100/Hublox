@@ -205,12 +205,26 @@ const ACHIEVEMENT_CLUSTERS = [
   },
 ];
 
+// Public landing (no login) is reachable from the entry screen and shareable via this hash.
+const LANDING_HASH = "#projeto";
+
 const CONTEXT_RAIL = {
   expedition: {
     variant: "editorial",
     eyebrow: "Expedição",
     title: "O que está acontecendo?",
     intro: "A Expedição ganha forma em encontros, ativações, creators convidados, famílias presentes e caminhos que continuam depois de cada parada.",
+    route: {
+      label: "Por onde a Expedição passa no México",
+      tbcLabel: "a confirmar",
+      stops: [
+        { date: "29 set", place: "Cidade do México · Santa Fe" },
+        { date: "1 out", place: "Querétaro · San Juan del Río" },
+        { date: "8 out", place: "Nuevo León · Don Benjamín Salinas Westrup" },
+        { date: "9 nov", place: "Jalisco · Zapopan Santa Margarita", tbc: true },
+        { date: "12 nov", place: "Oaxaca · N.01 Oaxaca", tbc: true },
+      ],
+    },
     highlight: {
       kicker: "São Paulo · Rio · Brasília · gamescom",
       title: "Uma mesma metodologia, territórios bem diferentes",
@@ -324,8 +338,6 @@ const CONTEXT_RAIL = {
           alt: "Participantes da Expedição Roblox em continuidade de criação",
           position: "center 42%",
         },
-        actionLabel: "Entrar na comunidade",
-        modalLabel: "Comunidade no Discord",
       },
     ],
   },
@@ -543,6 +555,17 @@ const CONTEXT_RAIL_I18N = {
       eyebrow: "Expedition",
       title: "What's happening?",
       intro: "The Expedition takes shape through meetups, activations, invited creators, families on site and paths that continue after each stop.",
+      route: {
+        label: "Where the Expedition goes in Mexico",
+        tbcLabel: "tbc",
+        stops: [
+          { date: "Sep 29", place: "Mexico City · Santa Fe" },
+          { date: "Oct 1", place: "Querétaro · San Juan del Río" },
+          { date: "Oct 8", place: "Nuevo León · Don Benjamín Salinas Westrup" },
+          { date: "Nov 9", place: "Jalisco · Zapopan Santa Margarita", tbc: true },
+          { date: "Nov 12", place: "Oaxaca · N.01 Oaxaca", tbc: true },
+        ],
+      },
       highlight: {
         kicker: "São Paulo · Rio · Brasília · gamescom",
         title: "One method, very different territories",
@@ -620,8 +643,6 @@ const CONTEXT_RAIL_I18N = {
           title: "Camps, materials and challenges already appear as next steps",
           body: "Camps, school materials, remote programming and AI sessions, and ongoing creative challenges are already showing up as natural extensions of what started in the field.",
           image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Participants continuing to create", position: "center 42%" },
-          actionLabel: "Join the community",
-          modalLabel: "Comunidade no Discord",
         },
       ],
     },
@@ -789,6 +810,17 @@ const CONTEXT_RAIL_I18N = {
       eyebrow: "Expedición",
       title: "¿Qué está pasando?",
       intro: "La Expedición toma forma en encuentros, activaciones, creators invitados, familias presentes y caminos que continúan después de cada parada.",
+      route: {
+        label: "Por dónde pasa la Expedición en México",
+        tbcLabel: "por confirmar",
+        stops: [
+          { date: "29 sep", place: "Ciudad de México · Santa Fe" },
+          { date: "1 oct", place: "Querétaro · San Juan del Río" },
+          { date: "8 oct", place: "Nuevo León · Don Benjamín Salinas Westrup" },
+          { date: "9 nov", place: "Jalisco · Zapopan Santa Margarita", tbc: true },
+          { date: "12 nov", place: "Oaxaca · N.01 Oaxaca", tbc: true },
+        ],
+      },
       highlight: {
         kicker: "São Paulo · Rio · Brasília · gamescom",
         title: "Una misma metodología, territorios muy distintos",
@@ -866,8 +898,6 @@ const CONTEXT_RAIL_I18N = {
           title: "Camps, materiales y desafíos ya aparecen como próximos pasos",
           body: "Camps, materiales para escuelas, sesiones remotas de programación e IA y desafíos creativos continuos ya aparecen como extensiones naturales de lo que empezó en campo.",
           image: { src: "/context-rail/sao-paulo-atividade.jpg", alt: "Participantes continuando la creación", position: "center 42%" },
-          actionLabel: "Entrar en la comunidad",
-          modalLabel: "Comunidade no Discord",
         },
       ],
     },
@@ -1058,7 +1088,10 @@ function App() {
     try { return JSON.parse(localStorage.getItem("hublox-achievements")) || {}; }
     catch { return {}; }
   });
-  const [screen, setScreen] = useState(() => (creatorSession ? "hub" : "entry"));
+  const [screen, setScreen] = useState(() => {
+    if (window.location.hash === LANDING_HASH) return "landing";
+    return creatorSession ? "hub" : "entry";
+  });
   const [welcomeBack, setWelcomeBack] = useState(() => !!creatorSession);
   const [robloxHandle, setRobloxHandle] = useState("");
   const [idStep, setIdStep] = useState("username"); // "username" | "confirm" | "details"
@@ -1528,16 +1561,6 @@ function App() {
         targetTab: "eco",
         theme: "yellow",
       },
-      3: {
-        button: "Ir para Comunidade",
-        kicker: "Saindo do hub",
-        title: "Quer ir para a comunidade no Discord?",
-        body: "Esse botão redireciona você para a comunidade da Expedição no Discord, fora deste site. Você pode seguir agora ou continuar na Expedição.",
-        confirm: "Abrir comunidade",
-        stay: "Continuar na Expedição",
-        label: "Comunidade no Discord",
-        theme: "purple",
-      },
     },
     en: {
       1: {
@@ -1560,16 +1583,6 @@ function App() {
         targetTab: "eco",
         theme: "yellow",
       },
-      3: {
-        button: "Go to Community",
-        kicker: "Leaving the hub",
-        title: "Do you want to go to the Discord community?",
-        body: "This will redirect you to the Expedition community on Discord, outside this site. You can continue now or stay in Expedition.",
-        confirm: "Open community",
-        stay: "Stay in Expedition",
-        label: "Comunidade no Discord",
-        theme: "purple",
-      },
     },
     es: {
       1: {
@@ -1591,16 +1604,6 @@ function App() {
         stay: "Seguir en Expedición",
         targetTab: "eco",
         theme: "yellow",
-      },
-      3: {
-        button: "Ir a Comunidad",
-        kicker: "Saliendo del hub",
-        title: "¿Quieres ir a la comunidad en Discord?",
-        body: "Esto te redirige a la comunidad de la Expedición en Discord, fuera de este sitio. Puedes seguir ahora o continuar en Expedición.",
-        confirm: "Abrir comunidad",
-        stay: "Seguir en Expedición",
-        label: "Comunidade no Discord",
-        theme: "purple",
       },
     },
   }[lang];
@@ -1638,6 +1641,27 @@ function App() {
       tut: { accent: palette.blue, dict: t.detail.tut, actionTheme: "", modalLabel: "Roblox Studio", loopVideo: "/uploads/plugin-loop.mp4" },
     };
     return map[kind];
+  };
+
+  useEffect(() => {
+    const url = window.location.pathname + window.location.search;
+    if (screen === "landing") {
+      if (window.location.hash !== LANDING_HASH) window.history.replaceState(null, "", url + LANDING_HASH);
+    } else if (window.location.hash === LANDING_HASH) {
+      window.history.replaceState(null, "", url);
+    }
+  }, [screen]);
+
+  const startCreatorFlow = () => {
+    if (creatorSession) {
+      toHub("sobre");
+      return;
+    }
+    runLoading(() => {
+      resetCreatorQ();
+      resetIdFlow();
+      setScreen("creator-id");
+    });
   };
 
   const openExpeditionSectionModal = (config) => {
@@ -1793,26 +1817,80 @@ function App() {
               </h1>
               <p className="entry-text">{t.entry.p1}</p>
               <p className="entry-text strong">{t.entry.p2}</p>
+              <button className="cta cta-red" onClick={startCreatorFlow}>
+                <span>{t.entry.cta}</span>
+                <span className="cta-badge">→</span>
+              </button>
               <button
-                className="cta cta-red"
-                onClick={() => {
-                  if (creatorSession) {
-                    toHub("sobre");
-                    return;
-                  }
-                  runLoading(() => {
-                    resetCreatorQ();
-                    resetIdFlow();
-                    setScreen("creator-id");
-                  });
-                }}
+                className="entry-landing-link"
+                type="button"
+                onClick={() => runLoading(() => { window.scrollTo(0, 0); setScreen("landing"); })}
               >
+                <span>{t.landing.entryLink}</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </section>
+          <footer className="entry-footer">
+            <div className="entry-footer-inner">
+              <strong>{t.entry.p3}</strong>
+              <span>{t.entry.footnote}</span>
+            </div>
+          </footer>
+        </div>
+      )}
+
+      {screen === "landing" && (
+        <div className="landing-page">
+          <header className="landing-hero dark-shell">
+            <div className="landing-hero-inner">
+              <button className="back-link" onClick={() => runLoading(() => setScreen("entry"))}>{t.common.back}</button>
+              <EntryLogos />
+              <div className="entry-reach">{t.common.reach}</div>
+              <h1 className="landing-title">{t.sobre.pageTitle}</h1>
+              <p className="landing-lead">{t.landing.lead}</p>
+            </div>
+          </header>
+
+          <div className="landing-body">
+            <section className="landing-main">
+              <VideoPreviewCard
+                src={heroVideo}
+                title={t.sobre.pageTitle}
+                frameAt={32}
+                onClick={() => openVideoModal({ kind: "file", src: heroVideo, title: t.sobre.pageTitle, orientation: isMobile ? "portrait" : "landscape" })}
+              />
+              <div className="sobre-list">
+                {t.sobre.sections.map((section, index) => (
+                  <div key={index} className="sobre-item">
+                    <div className="sobre-icon">{icon(sobreMeta[index].icon, sobreMeta[index].color)}</div>
+                    <div className="sobre-copy">
+                      <div className="sobre-kicker" style={{ color: sobreMeta[index].color }}>{section.kicker}</div>
+                      {section.paragraphs.map((p, i) => (
+                        <p key={`${index}-${i}`} className={`sobre-paragraph ${i === 0 ? "lead" : ""}`}>{p}</p>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <aside className="landing-rail">
+              <ContextRailPanel icon={icon} content={railContent.expedition} ui={t.ui} onWhatsApp={openWhatsApp} />
+            </aside>
+          </div>
+
+          <section className="landing-join dark-shell">
+            <div className="landing-join-inner">
+              <h2 className="landing-join-title">{t.landing.joinTitle}</h2>
+              <p className="entry-text">{t.landing.joinBody}</p>
+              <button className="cta cta-red" onClick={startCreatorFlow}>
                 <span>{t.entry.cta}</span>
                 <span className="cta-badge">→</span>
               </button>
             </div>
           </section>
-          <footer className="entry-footer">
+
+          <footer className="entry-footer dark-shell">
             <div className="entry-footer-inner">
               <strong>{t.entry.p3}</strong>
               <span>{t.entry.footnote}</span>
@@ -3648,6 +3726,23 @@ function ContextRailPanel({ icon, content, onAction, onWhatsApp, ui }) {
           <h3 className="rail-context-title">{content.title}</h3>
           {content.intro && <p className="rail-context-intro">{content.intro}</p>}
         </div>
+
+        {content.route && (
+          <section className="rail-editorial-feature rail-route">
+            <span className="rail-feature-kicker">{content.route.label}</span>
+            <ol className="rail-route-list">
+              {content.route.stops.map((stop) => (
+                <li key={stop.place} className="rail-route-stop">
+                  <span className="rail-route-date">{stop.date}</span>
+                  <span className="rail-route-place">
+                    {stop.place}
+                    {stop.tbc && <small className="rail-route-tbc">{content.route.tbcLabel}</small>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
 
         {content.highlight && (
           <section className="rail-editorial-feature">
