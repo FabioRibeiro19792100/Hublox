@@ -6051,6 +6051,20 @@ button {
   gap: 20px 24px;
 }
 
+.landing-stats:has(> .landing-stat:only-child) {
+  grid-template-columns: 1fr;
+}
+
+.landing-stat:only-child strong {
+  font-size: clamp(48px, 7vw, 72px);
+  line-height: 1;
+}
+
+.landing-stat:only-child small {
+  margin-top: 8px;
+  font-size: 16px;
+}
+
 .landing-stat {
   padding-top: 12px;
   border-top: 2px solid #e31837;

@@ -230,10 +230,7 @@ const CONTEXT_RAIL = {
       title: "Uma mesma metodologia, territórios bem diferentes",
       body: "Em formatos bem diferentes, a Expedição manteve a mesma espinha: mobilização local, criação guiada, referências concretas e continuidade possível depois da experiência presencial.",
       stats: [
-        { value: "2.000", label: "pessoas na gamescom" },
-        { value: "135", label: "jovens em São Paulo" },
-        { value: "45", label: "jovens no Rio" },
-        { value: "30", label: "participantes em Brasília" },
+        { value: "~3.000", label: "pessoas já impactadas pela Expedição" },
       ],
     },
     sections: [
@@ -571,10 +568,7 @@ const CONTEXT_RAIL_I18N = {
         title: "One method, very different territories",
         body: "Across very different formats, the Expedition kept the same backbone: local mobilization, guided creation, concrete references and possible continuity after the in-person experience.",
         stats: [
-          { value: "2,000", label: "people at gamescom" },
-          { value: "135", label: "young people in São Paulo" },
-          { value: "45", label: "young people in Rio" },
-          { value: "30", label: "participants in Brasília" },
+          { value: "~3,000", label: "people already reached by the Expedition" },
         ],
       },
       sections: [
@@ -826,10 +820,7 @@ const CONTEXT_RAIL_I18N = {
         title: "Una misma metodología, territorios muy distintos",
         body: "En formatos muy diferentes, la Expedición mantuvo la misma columna vertebral: movilización local, creación guiada, referencias concretas y continuidad posible después de la experiencia presencial.",
         stats: [
-          { value: "2.000", label: "personas en gamescom" },
-          { value: "135", label: "jóvenes en São Paulo" },
-          { value: "45", label: "jóvenes en Río" },
-          { value: "30", label: "participantes en Brasília" },
+          { value: "~3.000", label: "personas ya impactadas por la Expedición" },
         ],
       },
       sections: [
