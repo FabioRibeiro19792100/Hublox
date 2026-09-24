@@ -36,6 +36,7 @@ const pt = {
     lead: "Conheça a iniciativa que leva adolescentes de 13 a 18 anos a criar experiências digitais na Roblox, agora no Brasil e no México.",
     joinTitle: "Quer participar?",
     joinBody: "Entre no hub para escolher por onde começar e acompanhar a sua jornada.",
+    cardsLabel: "Como funciona na prática",
   },
   anamnese: {
     creatorTitle: "Sou creator",
@@ -566,6 +567,7 @@ const en = {
     lead: "Meet the initiative that brings teens aged 13 to 18 into creating digital experiences on Roblox, now in Brazil and Mexico.",
     joinTitle: "Want to join?",
     joinBody: "Enter the hub to choose where to start and follow your journey.",
+    cardsLabel: "How it works in practice",
   },
   anamnese: {
     creatorTitle: "I'm a creator",
@@ -1096,6 +1098,7 @@ const es = {
     lead: "Conoce la iniciativa que lleva a adolescentes de 13 a 18 años a crear experiencias digitales en Roblox, ahora en Brasil y México.",
     joinTitle: "¿Quieres participar?",
     joinBody: "Entra al hub para elegir por dónde empezar y seguir tu jornada.",
+    cardsLabel: "Cómo funciona en la práctica",
   },
   anamnese: {
     creatorTitle: "Soy creator",

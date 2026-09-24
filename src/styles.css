@@ -5887,28 +5887,289 @@ button {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  align-items: flex-start;
 }
 
 .landing-main {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 48px 48px 72px 24px;
+  padding: 48px 24px 72px;
 }
 
-.landing-rail {
-  flex: 0 0 420px;
-  width: 420px;
-  align-self: stretch;
+.landing-main .sobre-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px 56px;
+}
+
+.landing-main .sobre-item,
+.landing-main .sobre-item:last-child {
+  margin: 0;
+  padding: 0 0 40px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.landing-main .sobre-item:nth-last-child(-n + 2) {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.landing-route {
+  margin-top: 36px;
+}
+
+.landing-route-label {
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.landing-route-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.landing-route-stop {
   display: flex;
-  justify-content: center;
-  border-left: 1px solid #d8d9e1;
-  background: linear-gradient(180deg, #e7e8ee 0%, #e0e2ea 100%);
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.landing-rail .rail-context {
-  padding-bottom: 48px;
+.landing-route-date {
+  font-family: var(--font-title);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.landing-route-place {
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.landing-route-tbc {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f5b82e;
+}
+
+.landing-story {
+  background: linear-gradient(180deg, #e7e8ee 0%, #e0e2ea 100%);
+  border-top: 1px solid #d8d9e1;
+}
+
+.landing-story-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 24px 72px;
+}
+
+.landing-story-head {
+  max-width: 640px;
+  margin-bottom: 36px;
+}
+
+.landing-story-eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5c6171;
+}
+
+.landing-story-title {
+  font-family: var(--font-highlight);
+  margin: 0 0 12px;
+  font-size: clamp(32px, 5vw, 44px);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  color: #161922;
+}
+
+.landing-story-intro {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #505563;
+}
+
+.landing-highlight {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 32px 48px;
+  align-items: center;
+  padding: 32px;
+  margin-bottom: 56px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(75, 79, 100, 0.12);
+}
+
+.landing-highlight-kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #5c6171;
+}
+
+.landing-highlight-title {
+  font-family: var(--font-title);
+  margin: 10px 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #161922;
+}
+
+.landing-highlight-body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #505563;
+}
+
+.landing-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+}
+
+.landing-stat {
+  padding-top: 12px;
+  border-top: 2px solid #e31837;
+}
+
+.landing-stat strong {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #161922;
+}
+
+.landing-stat small {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #6f7483;
+}
+
+.landing-group {
+  margin-bottom: 56px;
+}
+
+.landing-group-label {
+  margin: 0 0 18px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #2f3443;
+}
+
+.landing-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.landing-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(75, 79, 100, 0.12);
+}
+
+.landing-card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.landing-card-copy {
+  padding: 18px 20px 22px;
+}
+
+.landing-card-kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5c6171;
+}
+
+.landing-card-title {
+  font-family: var(--font-title);
+  margin: 8px 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #161922;
+}
+
+.landing-card-body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #505563;
+}
+
+.landing-whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 360px;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: #14ae5c;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.landing-whatsapp-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.landing-whatsapp-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-whatsapp-copy small {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.landing-whatsapp-copy strong {
+  font-size: 16px;
 }
 
 .landing-join-inner {
@@ -5931,10 +6192,6 @@ button {
 }
 
 @media (max-width: 879px) {
-  .landing-body {
-    flex-direction: column;
-  }
-
   .landing-main {
     padding: 32px 20px 48px;
   }
@@ -5944,21 +6201,30 @@ button {
     padding: 64px 20px 40px;
   }
 
-  .landing-rail {
-    flex: none;
-    width: 100%;
-    border-left: 0;
-    border-top: 1px solid #d8d9e1;
+  .landing-route-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .landing-rail .rail-context {
-    padding: 36px 20px 40px;
+  .landing-main .sobre-list {
+    grid-template-columns: 1fr;
+    gap: 36px;
   }
 
-  .landing-rail .rail-editorial-end {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+  .landing-main .sobre-item:nth-last-child(2) {
+    padding-bottom: 36px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .landing-story-inner {
+    padding: 48px 20px 56px;
+  }
+
+  .landing-highlight {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+
+  .landing-card-grid {
+    grid-template-columns: 1fr;
   }
 }

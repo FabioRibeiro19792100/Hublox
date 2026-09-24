@@ -1849,6 +1849,20 @@ function App() {
               <div className="entry-reach">{t.common.reach}</div>
               <h1 className="landing-title">{t.sobre.pageTitle}</h1>
               <p className="landing-lead">{t.landing.lead}</p>
+              {railContent.expedition.route && (
+                <div className="landing-route">
+                  <div className="landing-route-label">{railContent.expedition.route.label}</div>
+                  <ol className="landing-route-list">
+                    {railContent.expedition.route.stops.map((stop) => (
+                      <li key={stop.place} className="landing-route-stop">
+                        <span className="landing-route-date">{stop.date}</span>
+                        <span className="landing-route-place">{stop.place}</span>
+                        {stop.tbc && <small className="landing-route-tbc">{railContent.expedition.route.tbcLabel}</small>}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
             </div>
           </header>
 
@@ -1874,10 +1888,9 @@ function App() {
                 ))}
               </div>
             </section>
-            <aside className="landing-rail">
-              <ContextRailPanel icon={icon} content={railContent.expedition} ui={t.ui} onWhatsApp={openWhatsApp} />
-            </aside>
           </div>
+
+          <LandingStory content={railContent.expedition} cardsLabel={t.landing.cardsLabel} ui={t.ui} onWhatsApp={openWhatsApp} />
 
           <section className="landing-join dark-shell">
             <div className="landing-join-inner">
@@ -3690,6 +3703,82 @@ function SafetyCard({ label, title, body }) {
       <div className="safety-title">{title}</div>
       <p>{body}</p>
     </div>
+  );
+}
+
+// Landing version of the Expedição rail: same content, laid out as full-width page sections.
+function LandingStory({ content, cardsLabel, ui, onWhatsApp }) {
+  const visible = (items = []) => items.filter((item) => !item.placeholder);
+  const groups = [
+    ...(content.sections || []).map((section) => ({ label: section.label, items: visible(section.items) })),
+    { label: cardsLabel, items: visible(content.cards) },
+  ].filter((group) => group.items.length > 0);
+
+  return (
+    <section className="landing-story">
+      <div className="landing-story-inner">
+        <div className="landing-story-head">
+          <span className="landing-story-eyebrow">{content.eyebrow}</span>
+          <h2 className="landing-story-title">{content.title}</h2>
+          {content.intro && <p className="landing-story-intro">{content.intro}</p>}
+        </div>
+
+        {content.highlight && (
+          <div className="landing-highlight">
+            <div className="landing-highlight-copy">
+              <span className="landing-highlight-kicker">{content.highlight.kicker}</span>
+              <h3 className="landing-highlight-title">{content.highlight.title}</h3>
+              <p className="landing-highlight-body">{content.highlight.body}</p>
+            </div>
+            {content.highlight.stats && (
+              <div className="landing-stats">
+                {content.highlight.stats.map((stat) => (
+                  <div key={stat.label} className="landing-stat">
+                    <strong>{stat.value}</strong>
+                    <small>{stat.label}</small>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {groups.map((group) => (
+          <div key={group.label} className="landing-group">
+            <h3 className="landing-group-label">{group.label}</h3>
+            <div className="landing-card-grid">
+              {group.items.map((item) => (
+                <article key={item.title} className="landing-card">
+                  {item.image && (
+                    <img
+                      className="landing-card-image"
+                      src={item.image.src}
+                      alt={item.image.alt}
+                      loading="lazy"
+                      style={item.image.position ? { objectPosition: item.image.position } : undefined}
+                    />
+                  )}
+                  <div className="landing-card-copy">
+                    <span className="landing-card-kicker">{item.kicker}</span>
+                    <h4 className="landing-card-title">{item.title}</h4>
+                    <p className="landing-card-body">{item.body}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <button className="landing-whatsapp" onClick={onWhatsApp}>
+          <img src="/whatsapp-icon.png" alt="" className="landing-whatsapp-icon" />
+          <span className="landing-whatsapp-copy">
+            <small>{ui.askMore}</small>
+            <strong>{ui.talkToUs}</strong>
+          </span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </section>
   );
 }
 
