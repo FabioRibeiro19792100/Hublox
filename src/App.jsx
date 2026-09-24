@@ -1694,10 +1694,13 @@ function App() {
 
   const modalName = modal ? t.modal.names[modal.label] || modal.label : "";
 
-  // Manifesto hero: horizontal on desktop, vertical (per language) on mobile.
-  const heroVideo = isMobile
-    ? (lang === "en" ? "/uploads/manifesto-eng.mp4" : "/uploads/manifesto-ptbr.mp4")
-    : "/uploads/manifesto-horiz.mp4";
+  // Manifesto hero. PT: horizontal on desktop, vertical on mobile.
+  // EN/ES: the international manifesto (horizontal only) on every device.
+  const heroIsGlobal = lang === "en" || lang === "es";
+  const heroVideo = heroIsGlobal
+    ? "/uploads/manifesto-global.mp4"
+    : isMobile ? "/uploads/manifesto-ptbr.mp4" : "/uploads/manifesto-horiz.mp4";
+  const heroOrientation = isMobile && !heroIsGlobal ? "portrait" : "landscape";
 
   const ecoExplored = ECO_KEYS.filter(
     (k) => ecoProgress.viewed[k] || ecoProgress.done[k] || ecoProgress.pending[k],
@@ -1863,7 +1866,7 @@ function App() {
                 src={heroVideo}
                 title={t.sobre.pageTitle}
                 frameAt={32}
-                onClick={() => openVideoModal({ kind: "file", src: heroVideo, title: t.sobre.pageTitle, orientation: isMobile ? "portrait" : "landscape" })}
+                onClick={() => openVideoModal({ kind: "file", src: heroVideo, title: t.sobre.pageTitle, orientation: heroOrientation })}
               />
               <div className="sobre-list">
                 {t.sobre.sections.map((section, index) => (
@@ -2772,7 +2775,7 @@ function App() {
                     src={heroVideo}
                     title={t.sobre.pageTitle}
                     frameAt={32}
-                    onClick={() => openVideoModal({ kind: "file", src: heroVideo, title: t.sobre.pageTitle, orientation: isMobile ? "portrait" : "landscape" })}
+                    onClick={() => openVideoModal({ kind: "file", src: heroVideo, title: t.sobre.pageTitle, orientation: heroOrientation })}
                   />
                   <div className="sobre-list">
                     {t.sobre.sections.map((section, index) => (

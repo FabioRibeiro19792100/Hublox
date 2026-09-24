@@ -15,3 +15,6 @@ dist/
 
 # Logo source files (.ai/.pdf/originals) — the web build uses public/uploads/logo-expedicao-brasil.png
 /brand-assets/
+
+# Raw manifesto upload (HEVC) — web copy lives in public/uploads/manifesto-global.mp4
+/public/manifestoexproblox.MOV
