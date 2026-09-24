@@ -1559,6 +1559,13 @@ button {
   color: #8a8f9c;
 }
 
+.rail-route-partner {
+  margin: 12px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2f3443;
+}
+
 .rail-editorial-stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5964,6 +5971,13 @@ button {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #f5b82e;
+}
+
+.landing-route-partner {
+  margin: 14px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .landing-story {

@@ -217,6 +217,7 @@ const CONTEXT_RAIL = {
     route: {
       label: "Por onde a Expedição passa no México",
       tbcLabel: "a confirmar",
+      partner: "Parceiro local: Aurora",
       stops: [
         { date: "29 set", place: "Cidade do México · Santa Fe" },
         { date: "1 out", place: "Querétaro · San Juan del Río" },
@@ -555,6 +556,7 @@ const CONTEXT_RAIL_I18N = {
       route: {
         label: "Where the Expedition goes in Mexico",
         tbcLabel: "tbc",
+        partner: "Local partner: Aurora",
         stops: [
           { date: "Sep 29", place: "Mexico City · Santa Fe" },
           { date: "Oct 1", place: "Querétaro · San Juan del Río" },
@@ -807,6 +809,7 @@ const CONTEXT_RAIL_I18N = {
       route: {
         label: "Por dónde pasa la Expedición en México",
         tbcLabel: "por confirmar",
+        partner: "Aliado local: Aurora",
         stops: [
           { date: "29 sep", place: "Ciudad de México · Santa Fe" },
           { date: "1 oct", place: "Querétaro · San Juan del Río" },
@@ -1855,6 +1858,9 @@ function App() {
                       </li>
                     ))}
                   </ol>
+                  {railContent.expedition.route.partner && (
+                    <p className="landing-route-partner">{railContent.expedition.route.partner}</p>
+                  )}
                 </div>
               )}
             </div>
@@ -3815,6 +3821,7 @@ function ContextRailPanel({ icon, content, onAction, onWhatsApp, ui }) {
                 </li>
               ))}
             </ol>
+            {content.route.partner && <p className="rail-route-partner">{content.route.partner}</p>}
           </section>
         )}
 

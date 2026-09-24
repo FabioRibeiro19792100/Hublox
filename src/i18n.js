@@ -287,6 +287,7 @@ const pt = {
           "O participante entra como criador, alguém que projeta, testa e publica o próprio espaço dentro da plataforma.",
           "A Mastertech estrutura o percurso, oferece o acompanhamento e organiza cada etapa para que o jovem saia da expedição com experiências de fato construídas e publicadas.",
           "A Expedição começou no Brasil, com paradas no Rio de Janeiro, em São Paulo e em Brasília, e agora chega ao México: entre setembro e novembro de 2026, passa pela Cidade do México, Querétaro, Nuevo León, Jalisco e Oaxaca.",
+          "No México, a Expedição conta com a parceria local da Aurora, empresa mexicana que atua na interseção entre políticas públicas, tecnologia e impacto social, ajudando organizações a transformar desafios complexos em programas que desenvolvem capacidades, criam parcerias e geram oportunidades reais de aprendizagem.",
         ],
       },
       {
@@ -818,6 +819,7 @@ const en = {
           "Each participant joins as a creator, someone who designs, tests and publishes their own space within the platform.",
           "Mastertech structures the path, provides the support and organizes every stage so that young people leave the expedition with experiences they have actually built and published.",
           "The Expedition started in Brazil, with stops in Rio de Janeiro, São Paulo and Brasília, and is now coming to Mexico: between September and November 2026 it visits Mexico City, Querétaro, Nuevo León, Jalisco and Oaxaca.",
+          "In Mexico, the Expedition works with local partner Aurora, a Mexico-based firm working at the intersection of public policy, technology and social impact, helping organizations turn complex challenges into programs that build capabilities, foster partnerships and create meaningful learning opportunities.",
         ],
       },
       {
@@ -1349,6 +1351,7 @@ const es = {
           "El participante entra como creador, alguien que diseña, prueba y publica su propio espacio dentro de la plataforma.",
           "Mastertech estructura el recorrido, ofrece el acompañamiento y organiza cada etapa para que el joven salga de la expedición con experiencias realmente construidas y publicadas.",
           "La Expedición empezó en Brasil, con paradas en Río de Janeiro, São Paulo y Brasília, y ahora llega a México: entre septiembre y noviembre de 2026 pasa por Ciudad de México, Querétaro, Nuevo León, Jalisco y Oaxaca.",
+          "En México, la Expedición cuenta con la alianza local de Aurora, firma mexicana que trabaja en la intersección entre políticas públicas, tecnología e impacto social, ayudando a organizaciones a convertir desafíos complejos en programas que desarrollan capacidades, fomentan alianzas y crean oportunidades de aprendizaje significativas.",
         ],
       },
       {
