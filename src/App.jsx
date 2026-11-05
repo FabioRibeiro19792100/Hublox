@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getStoredUtms } from "./utm";
 import { finishRobloxSignIn, isRobloxSignInEnabled, startRobloxSignIn } from "./robloxSignIn";
 
-const ROBLOX_SIGN_IN_ENABLED = isRobloxSignInEnabled(import.meta.env);
+const ROBLOX_SIGN_IN_ENABLED = isRobloxSignInEnabled(import.meta.env, window.location.search);
 import badgesCorUrl from "../badges-cor.svg";
 import badgesLinhaUrl from "../badges-linha.svg";
 import { translations, langOrder, langLabels } from "./i18n";

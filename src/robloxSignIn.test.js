@@ -113,7 +113,13 @@ test("finish gives up after a few pending answers", async () => {
 });
 
 test("sign-in with Roblox is shown only when the build turns it on", () => {
-  assert.equal(isRobloxSignInEnabled({ VITE_ROBLOX_SIGN_IN: "true" }), true);
-  assert.equal(isRobloxSignInEnabled({ VITE_ROBLOX_SIGN_IN: "false" }), false);
-  assert.equal(isRobloxSignInEnabled({}), false);
+  assert.equal(isRobloxSignInEnabled({ VITE_ROBLOX_SIGN_IN: "true" }, ""), true);
+  assert.equal(isRobloxSignInEnabled({ VITE_ROBLOX_SIGN_IN: "false" }, ""), false);
+  assert.equal(isRobloxSignInEnabled({}, ""), false);
+});
+
+test("the review link turns sign-in with Roblox on without the build flag", () => {
+  assert.equal(isRobloxSignInEnabled({}, "?login=roblox"), true);
+  assert.equal(isRobloxSignInEnabled({}, "?utm_source=ig&login=roblox"), true);
+  assert.equal(isRobloxSignInEnabled({}, "?login=email"), false);
 });
