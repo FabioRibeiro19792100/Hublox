@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { finishRobloxSignIn, startRobloxSignIn } from "./robloxSignIn.js";
+import { finishRobloxSignIn, isRobloxSignInEnabled, startRobloxSignIn } from "./robloxSignIn.js";
 
 const API_URL = "http://localhost:8000";
 
@@ -110,4 +110,10 @@ test("finish gives up after a few pending answers", async () => {
 
   assert.deepEqual(result, { status: "failed" });
   assert.equal(calls.length, 3);
+});
+
+test("sign-in with Roblox is shown only when the build turns it on", () => {
+  assert.equal(isRobloxSignInEnabled({ VITE_ROBLOX_SIGN_IN: "true" }), true);
+  assert.equal(isRobloxSignInEnabled({ VITE_ROBLOX_SIGN_IN: "false" }), false);
+  assert.equal(isRobloxSignInEnabled({}), false);
 });

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { getStoredUtms } from "./utm";
-import { finishRobloxSignIn, startRobloxSignIn } from "./robloxSignIn";
+import { finishRobloxSignIn, isRobloxSignInEnabled, startRobloxSignIn } from "./robloxSignIn";
+
+const ROBLOX_SIGN_IN_ENABLED = isRobloxSignInEnabled(import.meta.env);
 import badgesCorUrl from "../badges-cor.svg";
 import badgesLinhaUrl from "../badges-linha.svg";
 import { translations, langOrder, langLabels } from "./i18n";
@@ -2027,15 +2029,19 @@ function App() {
             <h1 className="id-heading">{t.id.heading}</h1>
             <p className="entry-text id-intro">{t.id.intro}</p>
 
-            <button
-              className="cta cta-red id-roblox-signin"
-              disabled={robloxValidating || registerLoading}
-              onClick={signInWithRoblox}
-            >
-              <span>{robloxValidating || registerLoading ? t.id.verifying : t.id.robloxSignIn}</span>
-              <span className="cta-badge">→</span>
-            </button>
-            <div className="id-divider"><span>{t.id.orTypeHandle}</span></div>
+            {ROBLOX_SIGN_IN_ENABLED && (
+              <>
+                <button
+                  className="cta cta-red id-roblox-signin"
+                  disabled={robloxValidating || registerLoading}
+                  onClick={signInWithRoblox}
+                >
+                  <span>{robloxValidating || registerLoading ? t.id.verifying : t.id.robloxSignIn}</span>
+                  <span className="cta-badge">→</span>
+                </button>
+                <div className="id-divider"><span>{t.id.orTypeHandle}</span></div>
+              </>
+            )}
 
             <div className="id-form">
               <div className="id-field">
