@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getStoredUtms } from "./utm";
+import { finishRobloxSignIn, startRobloxSignIn } from "./robloxSignIn";
 import badgesCorUrl from "../badges-cor.svg";
 import badgesLinhaUrl from "../badges-linha.svg";
 import { translations, langOrder, langLabels } from "./i18n";
@@ -1368,6 +1369,84 @@ function App() {
     }
   }
 
+  async function enterWithAccount({ id, handle, displayName: resolvedName, avatarUrl: resolvedAvatar, token }) {
+    setRobloxHandle(handle);
+    setRegisterLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/user/check/?roblox_id=${id}&roblox_username=${encodeURIComponent(handle)}`);
+      const data = await res.json();
+      if (data.exists) {
+        let displayName = resolvedName;
+        let avatarUrl = resolvedAvatar;
+        let birthday = "";
+        let pais = "";
+        let estado = "";
+        try {
+          const meRes = await fetch(`${API_URL}/api/user/me/?roblox_id=${id}`);
+          if (meRes.ok) {
+            const me = await meRes.json();
+            if (me.found) {
+              if (me.display_name) displayName = me.display_name;
+              if (me.avatar_url) avatarUrl = me.avatar_url;
+              if (me.birthday) birthday = me.birthday;
+              if (me.country_code) pais = me.country_code;
+              if (me.state) estado = me.state;
+              if (me.age != null) setUserAge(me.age);
+            }
+          }
+        } catch { /* non-blocking: proceed with resolved data */ }
+        setCreatorSession({ handle, displayName, avatarUrl, birthday, pais, estado, ...(token ? { token } : {}) });
+        runLoading(() => setScreen("hub"));
+      } else {
+        setIdStep("details");
+      }
+    } catch {
+      setRobloxError(t.id.noConnection || "Erro ao verificar. Tente novamente.");
+      setIdStep("username");
+    } finally {
+      setRegisterLoading(false);
+    }
+  }
+
+  async function signInWithRoblox() {
+    setRobloxValidating(true);
+    setRobloxError("");
+    try {
+      const returnTo = `${window.location.origin}${window.location.pathname}`;
+      window.location.assign(await startRobloxSignIn({ apiUrl: API_URL, fetch, storage: sessionStorage, returnTo }));
+    } catch {
+      setRobloxError(t.id.noConnection);
+      setRobloxValidating(false);
+    }
+  }
+
+  const robloxReturnHandled = useRef(false);
+  useEffect(() => {
+    if (robloxReturnHandled.current) return;
+    robloxReturnHandled.current = true;
+    (async () => {
+      const result = await finishRobloxSignIn({ apiUrl: API_URL, fetch, storage: sessionStorage }).catch(() => ({ status: "failed" }));
+      if (result === null) return;
+      setScreen("creator-id");
+      setIdStep("username");
+      if (result.status !== "ok") {
+        setRobloxError(t.id.robloxSignInFailed);
+        return;
+      }
+      const { roblox_numeric_id: id, roblox_username: handle, display_name: displayName } = result.profile;
+      let avatarUrl = "";
+      try {
+        const res = await fetch(`${API_URL}/api/roblox/user/?username=${encodeURIComponent(handle)}`);
+        if (res.ok) avatarUrl = (await res.json()).thumbnailUrl || "";
+      } catch { /* avatar is optional */ }
+      setResolvedHandle(handle);
+      setResolvedDisplayName(displayName || handle);
+      setResolvedId(id);
+      setResolvedThumbnailUrl(avatarUrl);
+      await enterWithAccount({ id, handle, displayName: displayName || handle, avatarUrl, token: result.token });
+    })();
+  }, []);
+
   async function registerWithRoblox({ country, state, email, birthday } = {}) {
     setRegisterLoading(true);
     try {
@@ -1948,6 +2027,16 @@ function App() {
             <h1 className="id-heading">{t.id.heading}</h1>
             <p className="entry-text id-intro">{t.id.intro}</p>
 
+            <button
+              className="cta cta-red id-roblox-signin"
+              disabled={robloxValidating || registerLoading}
+              onClick={signInWithRoblox}
+            >
+              <span>{robloxValidating || registerLoading ? t.id.verifying : t.id.robloxSignIn}</span>
+              <span className="cta-badge">→</span>
+            </button>
+            <div className="id-divider"><span>{t.id.orTypeHandle}</span></div>
+
             <div className="id-form">
               <div className="id-field">
                 <label className="id-label" htmlFor="id-roblox">{t.id.robloxLabel}</label>
@@ -2013,44 +2102,12 @@ function App() {
                 <button
                   className="id-confirm-yes cta cta-red"
                   disabled={registerLoading}
-                  onClick={async () => {
-                    setRobloxHandle(resolvedHandle);
-                    setRegisterLoading(true);
-                    try {
-                      const res = await fetch(`${API_URL}/api/user/check/?roblox_id=${resolvedId}&roblox_username=${encodeURIComponent(resolvedHandle)}`);
-                      const data = await res.json();
-                      if (data.exists) {
-                        let displayName = resolvedDisplayName;
-                        let avatarUrl = resolvedThumbnailUrl;
-                        let birthday = "";
-                        let pais = "";
-                        let estado = "";
-                        try {
-                          const meRes = await fetch(`${API_URL}/api/user/me/?roblox_id=${resolvedId}`);
-                          if (meRes.ok) {
-                            const me = await meRes.json();
-                            if (me.found) {
-                              if (me.display_name) displayName = me.display_name;
-                              if (me.avatar_url) avatarUrl = me.avatar_url;
-                              if (me.birthday) birthday = me.birthday;
-                              if (me.country_code) pais = me.country_code;
-                              if (me.state) estado = me.state;
-                              if (me.age != null) setUserAge(me.age);
-                            }
-                          }
-                        } catch { /* non-blocking: proceed with resolved data */ }
-                        setCreatorSession({ handle: resolvedHandle, displayName, avatarUrl, birthday, pais, estado });
-                        runLoading(() => setScreen("hub"));
-                      } else {
-                        setIdStep("details");
-                      }
-                    } catch {
-                      setRobloxError(t.id.noConnection || "Erro ao verificar. Tente novamente.");
-                      setIdStep("username");
-                    } finally {
-                      setRegisterLoading(false);
-                    }
-                  }}
+                  onClick={() => enterWithAccount({
+                    id: resolvedId,
+                    handle: resolvedHandle,
+                    displayName: resolvedDisplayName,
+                    avatarUrl: resolvedThumbnailUrl,
+                  })}
                 >
                   {registerLoading ? t.id.verifying : t.id.yesMe}
                 </button>
