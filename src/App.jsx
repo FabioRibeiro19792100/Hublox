@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getStoredUtms } from "./utm";
 import { finishRobloxSignIn, isRobloxSignInEnabled, startRobloxSignIn } from "./robloxSignIn";
+import { isWebImageUrl } from "./avatar";
 
 const ROBLOX_SIGN_IN_ENABLED = isRobloxSignInEnabled(import.meta.env, window.location.search);
 import badgesCorUrl from "../badges-cor.svg";
@@ -1389,7 +1390,7 @@ function App() {
             const me = await meRes.json();
             if (me.found) {
               if (me.display_name) displayName = me.display_name;
-              if (me.avatar_url) avatarUrl = me.avatar_url;
+              if (isWebImageUrl(me.avatar_url)) avatarUrl = me.avatar_url;
               if (me.birthday) birthday = me.birthday;
               if (me.country_code) pais = me.country_code;
               if (me.state) estado = me.state;
@@ -1485,7 +1486,7 @@ function App() {
           const me = await meRes.json();
           if (me.found) {
             if (me.display_name) displayName = me.display_name;
-            if (me.avatar_url) avatarUrl = me.avatar_url;
+            if (isWebImageUrl(me.avatar_url)) avatarUrl = me.avatar_url;
             if (me.birthday) sessionBirthday = me.birthday;
             if (me.age != null) setUserAge(me.age);
           }
@@ -2310,7 +2311,7 @@ function App() {
                   {creatorSession && (
                     <div className="sidebar-user">
                       <div className="sidebar-user-avatar">
-                        {creatorSession.avatarUrl
+                        {isWebImageUrl(creatorSession.avatarUrl)
                           ? <img src={creatorSession.avatarUrl} alt={creatorSession.displayName || creatorSession.handle} onError={(e) => { e.target.style.display = "none"; }} />
                           : (creatorSession.displayName || creatorSession.handle || "?").charAt(0).toUpperCase()
                         }
