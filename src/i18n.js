@@ -47,6 +47,9 @@ const pt = {
   id: {
     heading: "Antes de começar…",
     intro: "conta pra gente quem é você na Roblox e de onde está falando!",
+    robloxSignIn: "Entrar com Roblox",
+    orTypeHandle: "ou digite seu @",
+    robloxSignInFailed: "Não conseguimos confirmar sua conta no Roblox. Tente de novo.",
     robloxLabel: "@ do Roblox",
     robloxPlaceholder: "seu_usuario",
     noAccount: "Não tem conta?",
@@ -579,6 +582,9 @@ const en = {
   id: {
     heading: "Before you start…",
     intro: "tell us who you are on Roblox and where you're joining from!",
+    robloxSignIn: "Sign in with Roblox",
+    orTypeHandle: "or type your @",
+    robloxSignInFailed: "We couldn't confirm your Roblox account. Please try again.",
     robloxLabel: "Roblox @",
     robloxPlaceholder: "your_username",
     noAccount: "Don't have an account?",
@@ -1111,6 +1117,9 @@ const es = {
   id: {
     heading: "Antes de empezar…",
     intro: "¡cuéntanos quién eres en Roblox y desde dónde nos hablas!",
+    robloxSignIn: "Entrar con Roblox",
+    orTypeHandle: "o escribe tu @",
+    robloxSignInFailed: "No pudimos confirmar tu cuenta de Roblox. Inténtalo de nuevo.",
     robloxLabel: "@ de Roblox",
     robloxPlaceholder: "tu_usuario",
     noAccount: "¿No tienes cuenta?",

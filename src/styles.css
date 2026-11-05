@@ -652,6 +652,36 @@ button {
   cursor: not-allowed;
 }
 
+.id-roblox-signin {
+  margin-top: 28px;
+}
+
+.id-roblox-signin:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.id-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.id-divider::before,
+.id-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.id-divider + .id-form {
+  margin-top: 16px;
+}
+
 .id-continue:disabled:hover {
   background: #e31837;
 }
