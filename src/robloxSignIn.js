@@ -37,6 +37,6 @@ export async function finishRobloxSignIn({
   return { status: "failed" };
 }
 
-export function isRobloxSignInEnabled(env) {
-  return env.VITE_ROBLOX_SIGN_IN === "true";
+export function isRobloxSignInEnabled(env, search) {
+  return env.VITE_ROBLOX_SIGN_IN === "true" || new URLSearchParams(search).get("login") === "roblox";
 }
