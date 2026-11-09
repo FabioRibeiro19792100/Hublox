@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="en" class="access-locked">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Teaching with Roblox Studio Handbook</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1054,10 +1059,46 @@ section.sec .wrap{max-width:960px}
 .cv-tx{gap:4px}
 .cv-tx small{font-size:13px;line-height:1.35}
 .cv-ic{margin-top:2px}
+
+/* Password gate: the content stays blurred and inert until this visit is unlocked. */
+html.access-locked, .access-locked body{overflow:hidden}
+.access-locked #app{filter:blur(14px);pointer-events:none;user-select:none}
+.access-gate{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:24px;background:rgba(12,18,40,.48);overflow-y:auto;overscroll-behavior:contain}
+.access-gate[hidden]{display:none}
+.access-card{width:100%;max-width:440px;margin:auto;padding:clamp(24px,5vw,40px);background:var(--paper);color:var(--fg);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.access-label{color:var(--accent);font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.access-card h2{font-size:36px;line-height:1.1;margin:14px 0 12px}
+.access-description{color:var(--muted);font-size:16px;line-height:1.5}
+.access-form{display:grid;gap:12px;margin-top:24px}
+.access-form label{font-size:14px;font-weight:600}
+.access-form input{width:100%;min-width:0;padding:13px 15px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;font-size:16px}
+.access-form input:focus-visible,.access-form button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.access-form input[aria-invalid="true"]{border-color:#c53030}
+.access-form button{padding:14px 20px;border:0;border-radius:8px;background:var(--accent);color:var(--band-fg);font:inherit;font-weight:600;cursor:pointer}
+.access-form button:hover{filter:brightness(.92)}
+.access-error{min-height:1.5em;font-size:14px;color:var(--fg)}
+@media print{.access-locked #app{display:none!important}.access-gate{position:static;background:none;box-shadow:none}}
 </style>
+</head>
+<body>
+<div class="access-gate" id="access-gate" role="dialog" aria-modal="true" aria-labelledby="access-title" aria-describedby="access-description">
+  <div class="access-card">
+    <p class="access-label">Exproblox · India</p>
+    <h2 id="access-title">Welcome to the handbook</h2>
+    <p class="access-description" id="access-description">Enter your password to explore the handbook and teacher’s guide.</p>
+    <form class="access-form" id="access-form">
+      <label for="access-password">Password</label>
+      <input id="access-password" name="password" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false" aria-describedby="access-error" required autofocus>
+      <p class="access-error" id="access-error" role="status" aria-live="polite"></p>
+      <button type="submit">Unlock content</button>
+    </form>
+    <noscript><p>Enable JavaScript to enter your password and view this page.</p></noscript>
+  </div>
+</div>
+
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-book" viewBox="0 0 24 24"><path d="M3 5.5c3-1.3 6-1.3 9 .5 3-1.8 6-1.8 9-.5V19c-3-1.3-6-1.3-9 .5-3-1.8-6-1.8-9-.5z"/><path d="M12 6v13.5"/></symbol><symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 2.5 8 12 13l9.5-5z"/><path d="m2.5 12.5 9.5 5 9.5-5"/><path d="m2.5 16.5 9.5 5 9.5-5"/></symbol><symbol id="i-teacher" viewBox="0 0 24 24"><rect x="9" y="3" width="12" height="9"/><circle cx="5.5" cy="9" r="2.3"/><path d="M2 21v-4.5a3.5 3.5 0 0 1 7 0V21"/><path d="M8 14.5 12 11"/></symbol><symbol id="i-bars" viewBox="0 0 24 24"><path d="M3 21h18"/><rect x="5" y="9" width="3.5" height="12"/><rect x="10.25" y="13" width="3.5" height="8"/><rect x="15.5" y="15.5" width="3.5" height="5.5"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5"/><path d="m16 7 5 5-5 5"/><path d="m14 4-4 16"/></symbol><symbol id="i-blocks" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/><path d="M13 3h8v8"/><path d="M3 13v8h8"/></symbol><symbol id="i-cycle" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14.3 4.9"/><path d="M4 12A8 8 0 0 1 18.3 7.1"/><path d="M18.5 3v4.3h-4.3"/><path d="M5.5 21v-4.3h4.3"/></symbol><symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3c.6 4.2 2.8 6.4 7 7-4.2.6-6.4 2.8-7 7-.6-4.2-2.8-6.4-7-7 4.2-.6 6.4-2.8 7-7z"/><path d="M19 16.5c.25 1.4.85 2 2.25 2.25-1.4.25-2 .85-2.25 2.25-.25-1.4-.85-2-2.25-2.25 1.4-.25 2-.85 2.25-2.25z"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol><symbol id="i-stairs" viewBox="0 0 24 24"><path d="M3 20h5v-5h5v-5h5V5h3"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol><symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></symbol><symbol id="i-steps" viewBox="0 0 24 24"><circle cx="4" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="20" cy="12" r="2"/><path d="M6 12h4M14 12h4"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4z"/><path d="M12 7.5c.3 1.6 1 2.2 2.5 2.5-1.5.3-2.2.9-2.5 2.5-.3-1.6-1-2.2-2.5-2.5 1.5-.3 2.2-.9 2.5-2.5z"/></symbol><symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-2.5 4L17 12H5"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-3-3"/><path d="M20 16H6l3 3"/></symbol><symbol id="i-question" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5v.7"/><path d="M12 17h.01"/></symbol><symbol id="i-equals" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18"/><path d="M7.5 9.5h4M9.5 7.5v4M13.5 9.5h3M13.5 15.5h3M13.5 13.5h3M7.5 14.5l3 3M10.5 14.5l-3 3"/></symbol><symbol id="i-range" viewBox="0 0 24 24"><path d="M6 4H3v16h3"/><path d="M18 4h3v16h-3"/><path d="M8 12h8"/><path d="m13 9 3 3-3 3"/></symbol><symbol id="i-record" viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.5"/><path d="M11 7h10M11 12h10M11 17h10"/><path d="M4 12h4M4 17h4"/></symbol><symbol id="i-chain" viewBox="0 0 24 24"><rect x="2.5" y="9" width="6" height="6"/><rect x="15.5" y="9" width="6" height="6"/><path d="M8.5 12h7"/><path d="m13 9.5 2.5 2.5-2.5 2.5"/></symbol><symbol id="i-check2" viewBox="0 0 24 24"><path d="m3 12.5 4 4 8-9"/><path d="m11 16.5 1 1 9-10"/></symbol><symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14"/><path d="m5 7-3 7h6zM19 7l-3 7h6z"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><path d="M12 14.5v3"/></symbol><symbol id="i-align" viewBox="0 0 24 24"><path d="M4 4v16"/><path d="M8 7h12M8 12h8M8 17h11"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M7 14h2M11 14h2M15 14h2M7 17.5h2M11 17.5h2"/></symbol><symbol id="i-school" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/><circle cx="12" cy="11" r="1.6"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></symbol><symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="12.5"/><path d="M9 20.5h6M12 16.5v4"/></symbol><symbol id="i-install" viewBox="0 0 24 24"><path d="M12 3v11"/><path d="m7.5 9.5 4.5 4.5 4.5-4.5"/><path d="M4 15v5h16v-5"/></symbol><symbol id="i-layout" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16"/><path d="M8.5 4v16M8.5 16.5h13"/><rect x="15" y="6.5" width="4.5" height="4"/></symbol><symbol id="i-move" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><path d="m9 6 3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></symbol><symbol id="i-projector" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="11"/><path d="M12 14v3"/><path d="m8 21 4-4 4 4"/></symbol><symbol id="i-toggle" viewBox="0 0 24 24"><rect x="2.5" y="6.5" width="19" height="11" rx="5.5"/><circle cx="16" cy="12" r="3"/></symbol><symbol id="i-door" viewBox="0 0 24 24"><path d="M5 21V3h11v18"/><path d="M3 21h18"/><path d="M16 5l3 1v15"/><circle cx="13" cy="12" r=".9"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol><symbol id="i-people" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20v-1.5A5.5 5.5 0 0 1 13.5 18.5V20"/><path d="M14 14.6a4.5 4.5 0 0 1 7.5 3.4V20"/></symbol><symbol id="i-notebook" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18"/><path d="M5 7H3M5 12H3M5 17H3"/><path d="M9 8h6M9 12h6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5h.01"/></symbol></svg>
-<div id="app" data-view="home">
+<div id="app" data-view="home" inert aria-hidden="true" tabindex="-1">
 <div class="view" id="v-home">
   <div class="wrap home-wrap">
     <div class="org">MASTERTECH · SÃO PAULO</div>
@@ -2345,3 +2386,43 @@ document.querySelectorAll('.table-wrap table').forEach(function(t){
   }catch(e){}
 })();
 </script>
+
+<script>
+(function(){
+  var gate=document.getElementById('access-gate');
+  var form=document.getElementById('access-form');
+  var password=document.getElementById('access-password');
+  var error=document.getElementById('access-error');
+  var app=document.getElementById('app');
+  var button=form.querySelector('button');
+  form.addEventListener('submit',function(event){
+    event.preventDefault();
+    if(password.value!=='Neymar'){
+      error.textContent='Incorrect password. Please try again.';
+      password.setAttribute('aria-invalid','true');
+      password.focus();
+      password.select();
+      return;
+    }
+    password.value='';
+    gate.hidden=true;
+    app.removeAttribute('inert');
+    app.removeAttribute('aria-hidden');
+    document.documentElement.classList.remove('access-locked');
+    app.focus({preventScroll:true});
+  });
+  password.addEventListener('input',function(){
+    password.removeAttribute('aria-invalid');
+    error.textContent='';
+  });
+  gate.addEventListener('keydown',function(event){
+    if(event.key==='Escape'){event.preventDefault();}
+    if(event.key!=='Tab')return;
+    if(event.shiftKey&&document.activeElement===password){event.preventDefault();button.focus();}
+    else if(!event.shiftKey&&document.activeElement===button){event.preventDefault();password.focus();}
+  });
+  password.focus({preventScroll:true});
+})();
+</script>
+</body>
+</html>
