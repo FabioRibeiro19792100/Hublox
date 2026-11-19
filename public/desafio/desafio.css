@@ -542,6 +542,26 @@ section[id] { scroll-margin-top: 16px; }
 }
 .site-footer strong { color: #d6d8de; }
 .site-footer .sep { opacity: 0.5; }
+.partners {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--ink-line);
+}
+.partners-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.partners { flex-wrap: wrap; }
+.partners-logos { display: flex; align-items: center; gap: 20px; }
+.partners img { display: block; height: 36px; width: auto; opacity: 0.75; }
+.partners img[src*="lala"] { height: 40px; }
 
 a:focus-visible,
 summary:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
