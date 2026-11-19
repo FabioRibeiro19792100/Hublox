@@ -477,6 +477,28 @@ section[id] { scroll-margin-top: 16px; }
   color: var(--text-muted);
 }
 .community-card h3 { margin: 6px 0 8px; color: var(--text); font-size: 28px; line-height: 1.1; letter-spacing: -0.02em; }
+.plugin-card { margin-top: 36px; background: var(--red); color: rgba(255, 255, 255, 0.88); }
+.plugin-card .kicker { color: var(--yellow); }
+.plugin-card h3 { color: var(--on-ink); }
+.btn-soon {
+  flex: none;
+  display: inline-flex;
+  margin-left: auto;
+  padding: 18px 22px;
+  border-radius: 12px;
+  background: var(--on-ink);
+  color: var(--red);
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.btn-soon[aria-disabled="true"] {
+  border: 1px dashed rgba(255, 255, 255, 0.7);
+  background: transparent;
+  color: var(--on-ink);
+  cursor: default;
+}
+.tip-card { margin-top: 28px; }
 .btn-green {
   flex: none;
   display: inline-flex;
@@ -728,6 +750,7 @@ a:hover > span[aria-hidden],
   .note-card,
   .community-card { flex-direction: column; align-items: flex-start; gap: 18px; padding: 24px 20px; }
   .text-link,
+  .btn-soon,
   .btn-green { margin-left: 0; }
   .part { grid-template-columns: 1fr; gap: 16px; padding: 28px 0; }
   .steps li { padding: 16px 16px 18px 60px; }
