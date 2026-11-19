@@ -596,7 +596,7 @@ section[id] { scroll-margin-top: 16px; }
 .partners { flex-wrap: wrap; }
 .partners-logos { display: flex; align-items: center; gap: 20px; }
 .partners img { display: block; height: 36px; width: auto; opacity: 0.75; }
-.partners img[src*="lala"] { height: 40px; }
+.partners img[src*="lala"] { height: 32px; }
 
 a:focus-visible,
 summary:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
